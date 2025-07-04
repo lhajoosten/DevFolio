@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Portfolio.Domain.Entities;
 using System.Text.Json;
 
@@ -28,12 +29,15 @@ public class ProjectConfiguration : IEntityTypeConfiguration<Project>
             .IsRequired()
             .HasMaxLength(500);
 
+        // Fix for CS9175: Use a ValueConverter instead of inline lambda expressions
+        var techStackConverter = new ValueConverter<string[], string>(
+            v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
+            v => JsonSerializer.Deserialize<string[]>(v, (JsonSerializerOptions?)null) ?? Array.Empty<string>()
+        );
+
         builder.Property(p => p.TechStack)
             .IsRequired()
-            .HasConversion(
-                v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
-                v => JsonSerializer.Deserialize<string[]>(v, (JsonSerializerOptions?)null)!
-            )
+            .HasConversion(techStackConverter)
             .HasMaxLength(2000);
 
         builder.Property(p => p.ImageUrl)
@@ -49,10 +53,10 @@ public class ProjectConfiguration : IEntityTypeConfiguration<Project>
         builder.Ignore(p => p.IsActive);
         builder.Ignore(p => p.Duration);
         builder.Ignore(p => p.DurationInDays);
-        builder.Ignore(p => p.Status);
+        builder.Ignore(p => p.Status); // ProjectStatus is computed, not stored
 
         // Add index for better query performance
         builder.HasIndex(p => p.Title);
         builder.HasIndex(p => p.StartDate);
     }
-}   
+}

@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Portfolio.Application.Base;
+namespace Portfolio.Application.Common;
 
 /// <summary>
 /// Represents the result of an operation that can either succeed or fail

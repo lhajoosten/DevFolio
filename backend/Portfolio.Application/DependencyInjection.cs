@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Portfolio.Application.Common.Behaviors;
+using Portfolio.Application.Common.Services;
 using System.Reflection;
 
 namespace Portfolio.Application;
@@ -18,6 +19,9 @@ public static class DependencyInjection
 
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+        services.AddScoped<IAuthenticationService, AuthenticationService>();
+        services.AddScoped<IPasswordHashingService, PasswordHashingService>();
 
         return services;
     }

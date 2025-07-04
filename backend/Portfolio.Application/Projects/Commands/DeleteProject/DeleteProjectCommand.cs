@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Portfolio.Application.Base;
+using Portfolio.Application.Common;
 using Portfolio.Domain.Base.Interfaces;
 using Portfolio.Domain.Entities;
 

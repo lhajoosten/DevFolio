@@ -10,8 +10,5 @@ public class ProjectStatus : Enumeration
     public static ProjectStatus Completed => new(4, "Completed");
     public static ProjectStatus OnHold => new(5, "On Hold");
 
-    private ProjectStatus(int id, string name) : base(id, name)
-    {
-    }
+    private ProjectStatus(int id, string name) : base(id, name) { }
 }
-
