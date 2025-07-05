@@ -1,0 +1,110 @@
+<div class="portfolio-container">
+  <app-page-header
+    title="Portfolio"
+    subtitle="My Projects & Achievements"
+    icon="work"
+    [breadcrumbs]="[{ label: 'Home' }, { label: 'Portfolio' }]"
+  >
+  </app-page-header>
+
+  <div class="portfolio-content" *ngIf="!loading; else loadingTemplate">
+    <div class="filters-section">
+      <mat-form-field appearance="outline" class="filter-field">
+        <mat-label>Filter by Technology</mat-label>
+        <mat-select
+          [(value)]="selectedCategory"
+          (selectionChange)="filterByCategory(selectedCategory)"
+        >
+          <mat-option *ngFor="let category of categories" [value]="category">
+            {{ category | titlecase }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div
+      class="projects-grid"
+      *ngIf="filteredProjects.length > 0; else noProjectsTemplate"
+    >
+      <mat-card *ngFor="let project of filteredProjects" class="project-card">
+        <div class="card-header" *ngIf="project.imageUrl">
+          <img
+            mat-card-image
+            [src]="project.imageUrl"
+            [alt]="project.title"
+            class="project-image"
+          />
+        </div>
+
+        <mat-card-header>
+          <mat-card-title>{{ project.title }}</mat-card-title>
+          <mat-card-subtitle>
+            <span class="duration">{{ project.durationInDays }} days</span>
+            <span class="date-range">
+              {{ project.startDate | date:'mediumDate' }}
+              <span *ngIf="project.endDate"> - {{ project.endDate | date:'mediumDate' }}</span>
+              <span *ngIf="!project.endDate"> - Present</span>
+            </span>
+          </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <p class="project-description">{{ project.description }}</p>
+
+          <div class="tech-stack" *ngIf="project.techStack && project.techStack.length > 0">
+            <mat-chip-set>
+              <mat-chip
+                *ngFor="let tech of project.techStack"
+                class="tech-chip"
+              >
+                {{ tech }}
+              </mat-chip>
+            </mat-chip-set>
+          </div>
+        </mat-card-content>
+
+        <mat-card-actions>
+          <button mat-button color="primary" (click)="openProject(project)">
+            <mat-icon>visibility</mat-icon>
+            View Project
+          </button>
+          <button
+            mat-button
+            *ngIf="project.repoUrl"
+            (click)="openSource(project)"
+          >
+            <mat-icon>code</mat-icon>
+            View Code
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+    <ng-template #noProjectsTemplate>
+      <div class="no-projects">
+        <mat-icon class="no-projects-icon">work_off</mat-icon>
+        <h3>No Projects Found</h3>
+        <p>
+          {{
+            selectedCategory !== 'all'
+              ? "No projects match your selected category."
+              : "No projects available at the moment."
+          }}
+        </p>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="filterByCategory('all')"
+          *ngIf="selectedCategory !== 'all'"
+        >
+          Show All Projects
+        </button>
+      </div>
+    </ng-template>
+  </div>
+
+  <ng-template #loadingTemplate>
+    <app-loading-spinner message="Loading projects..." [size]="60">
+    </app-loading-spinner>
+  </ng-template>
+</div>

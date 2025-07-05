@@ -1,0 +1,161 @@
+<div class="admin-dashboard">
+  <app-page-header
+    title="Admin Dashboard"
+    subtitle="Manage your portfolio platform"
+    icon="admin_panel_settings"
+    [breadcrumbs]="[{ label: 'Home' }, { label: 'Admin' }]"
+  >
+  </app-page-header>
+
+  <div class="dashboard-content" *ngIf="!loading; else loadingTemplate">
+    <div class="stats-grid">
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-content">
+            <div class="stat-icon">
+              <mat-icon>work</mat-icon>
+            </div>
+            <div class="stat-info">
+              <h3>{{ dashboardStats.total }}</h3>
+              <p>Total Projects</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-content">
+            <div class="stat-icon completed">
+              <mat-icon>check_circle</mat-icon>
+            </div>
+            <div class="stat-info">
+              <h3>{{ dashboardStats.completed }}</h3>
+              <p>Completed</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-content">
+            <div class="stat-icon in-progress">
+              <mat-icon>update</mat-icon>
+            </div>
+            <div class="stat-info">
+              <h3>{{ dashboardStats.inProgress }}</h3>
+              <p>In Progress</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-content">
+            <div class="stat-icon on-hold">
+              <mat-icon>pause_circle</mat-icon>
+            </div>
+            <div class="stat-info">
+              <h3>{{ dashboardStats.onHold }}</h3>
+              <p>On Hold</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="actions-grid">
+      <mat-card class="action-card" routerLink="/app/admin/projects">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>folder</mat-icon>
+            Manage Projects
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Create, edit, and manage your portfolio projects.</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="primary">
+            Go to Projects
+            <mat-icon>arrow_forward</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="action-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>analytics</mat-icon>
+            View Analytics
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Monitor portfolio performance and visitor statistics.</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="primary" disabled>
+            Coming Soon
+          </button>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="action-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>settings</mat-icon>
+            Platform Settings
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Configure platform settings and preferences.</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="primary" disabled>
+            Coming Soon
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+    <div class="recent-activity" *ngIf="projects.length > 0">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Recent Projects</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="projects-list">
+            <div class="project-item" *ngFor="let project of projects">
+              <div class="project-info">
+                <h4>{{ project.title }}</h4>
+                <p>{{ project.description | slice:0:100 }}{{ project.description.length > 100 ? '...' : '' }}</p>
+                <mat-chip [class]="getStatusColor(project.status)">
+                  {{ getStatusText(project.status) }}
+                </mat-chip>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <ng-template #loadingTemplate>
+    <app-loading-spinner message="Loading dashboard..." [size]="60"></app-loading-spinner>
+  </ng-template>
+
+  <div *ngIf="error" class="error-message">
+    <mat-card color="warn">
+      <mat-card-content>
+        <mat-icon>error</mat-icon>
+        <p>{{ error }}</p>
+        <button mat-raised-button color="primary" (click)="refreshData()">
+          <mat-icon>refresh</mat-icon>
+          Retry
+        </button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

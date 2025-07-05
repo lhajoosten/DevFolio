@@ -1,1 +1,599 @@
 /* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+@use './themes/avans-theme' as avans;
+
+// Include the common styles for Angular Material
+@include mat.core();
+
+// Apply the Avans light theme
+@include mat.all-component-themes(avans.$avans-light-theme);
+
+// Import custom fonts
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Global Styles with Avans branding */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', 'Roboto', 'Helvetica Neue', sans-serif;
+  background: linear-gradient(135deg,
+    #f8fafc 0%,
+    #e2e8f0 25%,
+    #dbeafe 50%,
+    #fef3c7 75%,
+    #fed7d7 100%);
+  background-attachment: fixed;
+  color: #1f2937;
+  line-height: 1.6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Modern Avans-inspired gradients */
+.avans-gradient-primary {
+  background: linear-gradient(135deg, var(--avans-navy) 0%, var(--avans-purple) 100%);
+}
+
+.avans-gradient-warm {
+  background: linear-gradient(135deg, var(--avans-red) 0%, var(--avans-orange) 100%);
+}
+
+.avans-gradient-cool {
+  background: linear-gradient(135deg, var(--avans-teal) 0%, var(--avans-navy) 100%);
+}
+
+.avans-gradient-sunset {
+  background: linear-gradient(135deg, var(--avans-orange) 0%, var(--avans-red) 50%, var(--avans-purple) 100%);
+}
+
+.avans-gradient-ocean {
+  background: linear-gradient(135deg, var(--avans-teal) 0%, var(--avans-navy) 100%);
+}
+
+/* Glass morphism effects inspired by modern design */
+.glass-card {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px 0 rgba(30, 58, 138, 0.37);
+}
+
+/* Modern button styles matching Avans */
+.avans-btn-primary {
+  background: linear-gradient(135deg, var(--avans-navy) 0%, var(--avans-purple) 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(30, 58, 138, 0.4);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(30, 58, 138, 0.6);
+  }
+}
+
+.avans-btn-accent {
+  background: linear-gradient(135deg, var(--avans-orange) 0%, var(--avans-red) 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(249, 115, 22, 0.6);
+  }
+}
+
+/* Avans-inspired color variables - matching the actual Avans branding */
+:root {
+  /* Primary Avans colors from the website */
+  --avans-navy: #1e3a8a;        /* Deep navy blue from Avans */
+  --avans-red: #dc2626;         /* Avans red accent */
+  --avans-teal: #0891b2;        /* Avans teal/cyan */
+  --avans-orange: #f97316;      /* Bright orange accent */
+  --avans-purple: #7c3aed;      /* Purple accent */
+  --avans-yellow: #eab308;      /* Golden yellow */
+
+  /* Extended color palette */
+  --avans-primary: var(--avans-navy);
+  --avans-primary-light: #3b82f6;
+  --avans-primary-dark: #1e40af;
+  --avans-accent: var(--avans-orange);
+  --avans-accent-light: #fed7aa;
+  --avans-accent-dark: #ea580c;
+  --avans-secondary: var(--avans-red);
+  --avans-tertiary: var(--avans-teal);
+  --avans-success: #10b981;
+  --avans-warning: var(--avans-yellow);
+  --avans-error: var(--avans-red);
+  --avans-info: var(--avans-teal);
+
+  /* Background colors */
+  --avans-bg-primary: #ffffff;
+  --avans-bg-secondary: #f8fafc;
+  --avans-bg-tertiary: #e2e8f0;
+
+  /* Text colors */
+  --avans-text-primary: #1e293b;
+  --avans-text-secondary: #64748b;
+  --avans-text-muted: #94a3b8;
+
+  /* Border colors */
+  --avans-border-light: #e2e8f0;
+  --avans-border-medium: #cbd5e1;
+
+  /* Shadow colors */
+  --avans-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --avans-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --avans-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --avans-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Custom Snackbar Styles with Avans colors */
+.success-snackbar {
+  background-color: var(--avans-success) !important;
+  color: white !important;
+}
+
+.error-snackbar {
+  background-color: var(--avans-error) !important;
+  color: white !important;
+}
+
+.warning-snackbar {
+  background-color: var(--avans-warning) !important;
+  color: white !important;
+}
+
+.info-snackbar {
+  background-color: var(--avans-info) !important;
+  color: white !important;
+}
+
+/* Status utility classes with Avans branding */
+.status-active {
+  color: var(--avans-success) !important;
+  background-color: rgba(76, 175, 80, 0.1) !important;
+  border-radius: 16px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-pending {
+  color: var(--avans-warning) !important;
+  background-color: rgba(255, 152, 0, 0.1) !important;
+  border-radius: 16px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-warning {
+  color: var(--avans-error) !important;
+  background-color: rgba(244, 67, 54, 0.1) !important;
+  border-radius: 16px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-inactive {
+  color: var(--avans-text-muted) !important;
+  background-color: rgba(148, 163, 184, 0.1) !important;
+  border-radius: 16px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-info {
+  color: var(--avans-info) !important;
+  background-color: rgba(33, 150, 243, 0.1) !important;
+  border-radius: 16px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Avans-inspired utility classes */
+.avans-card {
+  background: var(--avans-bg-primary);
+  border-radius: 12px;
+  box-shadow: var(--avans-shadow-md);
+  border: 1px solid var(--avans-border-light);
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: var(--avans-shadow-lg);
+    transform: translateY(-2px);
+  }
+}
+
+.avans-gradient-bg {
+  background: linear-gradient(135deg, var(--avans-primary) 0%, var(--avans-purple) 100%);
+}
+
+.avans-accent-gradient {
+  background: linear-gradient(135deg, var(--avans-accent) 0%, #ffcc80 100%);
+}
+
+.avans-text-gradient {
+  background: linear-gradient(135deg, var(--avans-primary) 0%, var(--avans-purple) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 600;
+}
+
+/* Utility Classes */
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.half-width {
+  width: 50%;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.gap-4 {
+  gap: 4px;
+}
+
+.gap-8 {
+  gap: 8px;
+}
+
+.gap-12 {
+  gap: 12px;
+}
+
+.gap-16 {
+  gap: 16px;
+}
+
+.gap-24 {
+  gap: 24px;
+}
+
+/* Spacing utilities */
+.p-8 { padding: 8px; }
+.p-16 { padding: 16px; }
+.p-24 { padding: 24px; }
+.p-32 { padding: 32px; }
+
+.px-8 { padding-left: 8px; padding-right: 8px; }
+.px-16 { padding-left: 16px; padding-right: 16px; }
+.py-8 { padding-top: 8px; padding-bottom: 8px; }
+.py-16 { padding-top: 16px; padding-bottom: 16px; }
+
+.m-8 { margin: 8px; }
+.m-16 { margin: 16px; }
+.m-24 { margin: 24px; }
+.m-32 { margin: 32px; }
+
+.mx-8 { margin-left: 8px; margin-right: 8px; }
+.mx-16 { margin-left: 16px; margin-right: 16px; }
+.my-8 { margin-top: 8px; margin-bottom: 8px; }
+.my-16 { margin-top: 16px; margin-bottom: 16px; }
+
+.gap-24 {
+  gap: 24px;
+}
+
+.mt-8 {
+  margin-top: 8px;
+}
+
+.mt-16 {
+  margin-top: 16px;
+}
+
+.mt-24 {
+  margin-top: 24px;
+}
+
+.mb-8 {
+  margin-bottom: 8px;
+}
+
+.mb-16 {
+  margin-bottom: 16px;
+}
+
+.mb-24 {
+  margin-bottom: 24px;
+}
+
+.p-8 {
+  padding: 8px;
+}
+
+.p-16 {
+  padding: 16px;
+}
+
+.p-24 {
+  padding: 24px;
+}
+
+/* Container Styles */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.container-fluid {
+  width: 100%;
+  padding: 0 16px;
+}
+
+/* Form Styles */
+.form-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.form-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+/* Card Styles */
+.card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 24px;
+  margin-bottom: 16px;
+}
+
+.card-header {
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.card-content {
+  padding: 0;
+}
+
+.card-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  padding-top: 16px;
+  border-top: 1px solid #e0e0e0;
+}
+
+/* Navigation Styles */
+.nav-spacer {
+  flex: 1 1 auto;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.nav-link:hover {
+  background-color: rgba(0,0,0,0.04);
+}
+
+.nav-link.active {
+  background-color: rgba(63, 81, 181, 0.1);
+  color: #3f51b5;
+}
+
+/* Table Styles */
+.table-container {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.table-header {
+  background-color: #f5f5f5;
+  font-weight: 500;
+}
+
+.table-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Status Styles */
+.status-active {
+  color: #4caf50;
+  font-weight: 500;
+}
+
+.status-inactive {
+  color: #f44336;
+  font-weight: 500;
+}
+
+.status-pending {
+  color: #ff9800;
+  font-weight: 500;
+}
+
+/* Loading Styles */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 48px;
+}
+
+.loading-spinner {
+  margin: 0 auto;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Loading Animation */
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+/* Card Hover Effects */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 8px;
+  }
+
+  .form-container {
+    margin: 16px;
+    padding: 16px;
+  }
+
+  .card {
+    margin: 8px;
+    padding: 16px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .table-container {
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-link {
+    padding: 12px;
+    justify-content: center;
+  }
+
+  .card-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
+}

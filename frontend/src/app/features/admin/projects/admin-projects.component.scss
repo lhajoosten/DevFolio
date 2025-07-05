@@ -1,0 +1,102 @@
+.admin-projects {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.projects-content {
+  margin-top: 24px;
+}
+
+.projects-table-container {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.projects-table {
+  width: 100%;
+}
+
+.project-title {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.project-description {
+  font-size: 12px;
+  color: #666;
+}
+
+.status-chip-0 {
+  background-color: #fff3e0;
+  color: #e65100;
+} /* Planning */
+.status-chip-1 {
+  background-color: #e3f2fd;
+  color: #0277bd;
+} /* In Progress */
+.status-chip-2 {
+  background-color: #e8f5e8;
+  color: #2e7d32;
+} /* Completed */
+.status-chip-3 {
+  background-color: #ffebee;
+  color: #c62828;
+} /* On Hold */
+
+.tech-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+}
+
+.tech-stack mat-chip {
+  font-size: 11px;
+  height: 24px;
+}
+
+.more-tech {
+  font-size: 12px;
+  color: #666;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 4px;
+}
+
+.no-data {
+  text-align: center;
+  padding: 64px 24px;
+  color: #666;
+}
+
+.no-data mat-icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.no-data h3 {
+  margin: 16px 0 8px 0;
+  color: #333;
+}
+
+.no-data p {
+  margin-bottom: 24px;
+}
+
+@media (max-width: 768px) {
+  .projects-table {
+    font-size: 12px;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+}
