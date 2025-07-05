@@ -25,7 +25,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 
-// Shared Components (now standalone)
+// Shared Components
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { PageHeaderComponent } from './components/page-header/page-header.component';
@@ -56,7 +56,7 @@ const MATERIAL_MODULES = [
 const SHARED_COMPONENTS = [
   LoadingSpinnerComponent,
   ConfirmDialogComponent,
-  PageHeaderComponent
+  PageHeaderComponent,
 ];
 
 @NgModule({
