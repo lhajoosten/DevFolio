@@ -21,6 +21,7 @@ export class LayoutComponent extends BaseComponent implements OnInit {
 
   currentUser: User | null = null;
   isMobile = false;
+  isScrolled = false;
   private readonly MOBILE_BREAKPOINT = 768;
 
   constructor(private authService: AuthService, private router: Router) {
@@ -31,6 +32,7 @@ export class LayoutComponent extends BaseComponent implements OnInit {
   ngOnInit(): void {
     this.subscribeToAuthState();
     this.subscribeToWindowResize();
+    this.subscribeToScroll();
   }
 
   private subscribeToAuthState(): void {
@@ -49,6 +51,14 @@ export class LayoutComponent extends BaseComponent implements OnInit {
 
   private checkScreenSize(): void {
     this.isMobile = window.innerWidth < this.MOBILE_BREAKPOINT;
+  }
+
+  private subscribeToScroll(): void {
+    fromEvent(window, 'scroll')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.isScrolled = window.scrollY > 50;
+      });
   }
 
   toggleSidenav(): void {

@@ -1,16 +1,21 @@
+@use '../../../themes/devfolio-theme' as devfolio;
+@use '@angular/material' as mat;
+@use 'sass:map';
+
 .landing-page {
   min-height: 100vh;
+  font-family: map.get(devfolio.$devfolio-typography, 'font-family');
 }
 
 .hero-section {
   background: linear-gradient(135deg,
-    #1e3a8a 0%,
-    #7c3aed 25%,
-    #dc2626 50%,
-    #f97316 75%,
-    #eab308 100%);
+    #{mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 900)} 0%,
+    #{mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 700)} 25%,
+    #{mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 500)} 50%,
+    #{mat.m2-get-color-from-palette(devfolio.$devfolio-accent-palette, 500)} 75%,
+    #{mat.m2-get-color-from-palette(devfolio.$devfolio-accent-palette, 400)} 100%);
   color: white;
-  padding: 120px 24px 80px;
+  padding: 120px map.get(devfolio.$spacing-tokens, 'xxl') 80px;
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -27,7 +32,7 @@
     background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" fill="rgba(255,255,255,0.1)"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1047.93,5.17,1100,0V120H0Z"/></svg>') repeat-x;
     background-size: 1200px 120px;
     animation: wave 20s linear infinite;
-    opacity: 0.3;
+    opacity: 0.2;
   }
 
   &::after {
@@ -37,9 +42,14 @@
     right: 10%;
     width: 300px;
     height: 300px;
-    background: radial-gradient(circle, rgba(249, 115, 22, 0.3) 0%, transparent 70%);
-    border-radius: 50%;
+    background: radial-gradient(circle, #{mat.m2-get-color-from-palette(devfolio.$devfolio-accent-palette, 400)} 0%, transparent 70%);
+    border-radius: map.get(devfolio.$border-radius-tokens, 'full');
     animation: float 6s ease-in-out infinite;
+    opacity: 0.3;
+  }
+
+  @include devfolio.respond-to('mobile') {
+    padding: 100px map.get(devfolio.$spacing-tokens, 'lg') 60px;
   }
 }
 
@@ -48,26 +58,40 @@
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 64px;
+  gap: map.get(devfolio.$spacing-tokens, 'xxxl');
   align-items: center;
   position: relative;
   z-index: 1;
+
+  @include devfolio.respond-to('tablet') {
+    grid-template-columns: 1fr;
+    gap: map.get(devfolio.$spacing-tokens, 'xxl');
+    text-align: center;
+  }
+
+  @include devfolio.respond-to('mobile') {
+    grid-template-columns: 1fr;
+    gap: map.get(devfolio.$spacing-tokens, 'xl');
+    text-align: center;
+  }
 }
 
 .hero-title {
-  font-size: 4rem;
+  font-size: clamp(2.5rem, 5vw, 4rem);
   font-weight: 800;
-  margin: 0 0 24px 0;
+  margin: 0 0 map.get(devfolio.$spacing-tokens, 'lg') 0;
   line-height: 1.1;
   background: linear-gradient(135deg, #ffffff 0%, #fed7aa 50%, #fbbf24 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  text-shadow: map.get(devfolio.$shadow-tokens, 'md');
 }
 
 .brand-highlight {
-  background: linear-gradient(135deg, #f97316, #dc2626);
+  background: linear-gradient(135deg,
+    #{mat.m2-get-color-from-palette(devfolio.$devfolio-accent-palette, 500)},
+    #{mat.m2-get-color-from-palette(devfolio.$devfolio-warn-palette, 500)});
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -75,35 +99,43 @@
 }
 
 .hero-subtitle {
-  font-size: 1.5rem;
+  font-size: clamp(1.125rem, 2.5vw, 1.5rem);
   line-height: 1.6;
-  margin: 0 0 40px 0;
+  margin: 0 0 map.get(devfolio.$spacing-tokens, 'xxl') 0;
   opacity: 0.95;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  text-shadow: map.get(devfolio.$shadow-tokens, 'sm');
 }
 
 .hero-actions {
   display: flex;
-  gap: 20px;
+  gap: map.get(devfolio.$spacing-tokens, 'lg');
   flex-wrap: wrap;
+
+  @include devfolio.respond-to('mobile') {
+    justify-content: center;
+  }
 }
 
 .hero-actions button {
   height: 56px;
   font-size: 18px;
   font-weight: 600;
-  padding: 0 40px;
-  border-radius: 16px;
+  padding: 0 map.get(devfolio.$spacing-tokens, 'xxl');
+  border-radius: map.get(devfolio.$border-radius-tokens, 'xl');
   transition: all 0.3s ease;
+  text-transform: none;
+  letter-spacing: 0.5px;
 
   &.mat-raised-button {
-    background: linear-gradient(135deg, #f97316, #dc2626);
+    background: linear-gradient(135deg,
+      #{mat.m2-get-color-from-palette(devfolio.$devfolio-accent-palette, 500)},
+      #{mat.m2-get-color-from-palette(devfolio.$devfolio-accent-palette, 600)});
     color: white;
-    box-shadow: 0 8px 25px rgba(249, 115, 22, 0.4);
+    box-shadow: map.get(devfolio.$shadow-tokens, 'lg');
 
     &:hover {
       transform: translateY(-3px);
-      box-shadow: 0 12px 35px rgba(249, 115, 22, 0.6);
+      box-shadow: map.get(devfolio.$shadow-tokens, 'xl');
     }
   }
 
@@ -132,12 +164,26 @@
   width: 200px;
   height: 200px;
   opacity: 0.8;
+  animation: float 6s ease-in-out infinite;
+
+  @include devfolio.respond-to('mobile') {
+    font-size: 150px;
+    width: 150px;
+    height: 150px;
+  }
 }
 
 .features-section {
-  padding: 100px 24px;
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #dbeafe 100%);
+  padding: 100px map.get(devfolio.$spacing-tokens, 'xxl');
+  background: linear-gradient(135deg,
+    #{map.get(devfolio.$devfolio-neutral-palette, 50)} 0%,
+    #{map.get(devfolio.$devfolio-neutral-palette, 100)} 50%,
+    #{mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 50)} 100%);
   position: relative;
+
+  @include devfolio.respond-to('mobile') {
+    padding: 80px map.get(devfolio.$spacing-tokens, 'lg');
+  }
 
   &::before {
     content: '';
@@ -146,9 +192,10 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at 20% 80%, rgba(30, 58, 138, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(249, 115, 22, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(124, 58, 237, 0.1) 0%, transparent 50%);
+    background: radial-gradient(circle at 20% 80%, #{mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 100)} 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, #{mat.m2-get-color-from-palette(devfolio.$devfolio-accent-palette, 100)} 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, #{mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 100)} 0%, transparent 50%);
+    opacity: 0.6;
   }
 }
 
@@ -161,10 +208,12 @@
 
 .section-title {
   text-align: center;
-  font-size: 3rem;
+  font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 700;
-  margin: 0 0 64px 0;
-  background: linear-gradient(135deg, #1e3a8a, #7c3aed, #dc2626);
+  margin: 0 0 map.get(devfolio.$spacing-tokens, 'xxxl') 0;
+  background: linear-gradient(135deg,
+    #{mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 800)},
+    #{mat.m2-get-color-from-palette(devfolio.$devfolio-accent-palette, 600)});
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -173,88 +222,122 @@
 .features-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 32px;
+  gap: map.get(devfolio.$spacing-tokens, 'xl');
+
+  @include devfolio.respond-to('mobile') {
+    grid-template-columns: 1fr;
+    gap: map.get(devfolio.$spacing-tokens, 'lg');
+  }
 }
 
 .feature-card {
   background: white;
-  padding: 32px 24px;
-  border-radius: 12px;
+  padding: map.get(devfolio.$spacing-tokens, 'xl') map.get(devfolio.$spacing-tokens, 'lg');
+  border-radius: map.get(devfolio.$border-radius-tokens, 'lg');
   text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
-}
+  box-shadow: map.get(devfolio.$shadow-tokens, 'sm');
+  border: 1px solid map.get(devfolio.$devfolio-neutral-palette, 200);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 
-.feature-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(135deg,
+      #{mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 500)},
+      #{mat.m2-get-color-from-palette(devfolio.$devfolio-accent-palette, 500)});
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: map.get(devfolio.$shadow-tokens, 'lg');
+  }
 }
 
 .feature-icon {
   font-size: 48px;
   width: 48px;
   height: 48px;
-  color: #1976d2;
-  margin-bottom: 16px;
+  color: mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 600);
+  margin-bottom: map.get(devfolio.$spacing-tokens, 'md');
 }
 
 .feature-card h3 {
   font-size: 1.25rem;
   font-weight: 600;
-  margin: 0 0 16px 0;
-  color: #333;
+  margin: 0 0 map.get(devfolio.$spacing-tokens, 'md') 0;
+  color: map.get(devfolio.$devfolio-neutral-palette, 900);
 }
 
 .feature-card p {
   color: #666;
   line-height: 1.6;
   margin: 0;
+.feature-card p {
+  color: map.get(devfolio.$devfolio-neutral-palette, 600);
+  line-height: 1.6;
+  margin: 0;
 }
 
 .cta-section {
-  background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+  background: linear-gradient(135deg,
+    #{mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 700)} 0%,
+    #{mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 800)} 100%);
   color: white;
-  padding: 80px 24px;
+  padding: 80px map.get(devfolio.$spacing-tokens, 'xxl');
   text-align: center;
+
+  @include devfolio.respond-to('mobile') {
+    padding: 60px map.get(devfolio.$spacing-tokens, 'lg');
+  }
 }
 
 .cta-content h2 {
-  font-size: 2.5rem;
+  font-size: clamp(2rem, 4vw, 2.5rem);
   font-weight: 600;
-  margin: 0 0 16px 0;
+  margin: 0 0 map.get(devfolio.$spacing-tokens, 'md') 0;
 }
 
 .cta-content p {
   font-size: 1.125rem;
-  margin: 0 0 32px 0;
+  margin: 0 0 map.get(devfolio.$spacing-tokens, 'xl') 0;
   opacity: 0.9;
 }
 
 .cta-content button {
   height: 48px;
   font-size: 16px;
-  padding: 0 32px;
+  font-weight: 600;
+  padding: 0 map.get(devfolio.$spacing-tokens, 'xl');
+  border-radius: map.get(devfolio.$border-radius-tokens, 'md');
+  background: linear-gradient(135deg,
+    #{mat.m2-get-color-from-palette(devfolio.$devfolio-accent-palette, 500)},
+    #{mat.m2-get-color-from-palette(devfolio.$devfolio-accent-palette, 600)});
+  text-transform: none;
+  letter-spacing: 0.5px;
+  box-shadow: map.get(devfolio.$shadow-tokens, 'lg');
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: map.get(devfolio.$shadow-tokens, 'xl');
+  }
 }
 
 // Animations
 @keyframes wave {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-1200px);
-  }
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-1200px); }
 }
 
 @keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
 }
 
 @keyframes fadeInUp {
@@ -309,4 +392,6 @@
   .cta-content h2 {
     font-size: 2rem;
   }
+}
+
 }

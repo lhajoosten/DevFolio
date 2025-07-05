@@ -43,6 +43,9 @@ export class AdminProjectsComponent implements OnInit {
   loading = true;
   error: string | null = null;
 
+  // Make enum available in template
+  ProjectStatus = ProjectStatus;
+
   displayedColumns: string[] = ['title', 'description', 'status', 'createdAt', 'actions'];
 
   constructor(
@@ -115,7 +118,22 @@ export class AdminProjectsComponent implements OnInit {
     });
   }
 
-  deleteProject(id: string): void {
+  openEditProjectDialog(project: Project): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Edit Project',
+        message: 'Are you sure you want to edit this project?'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        // User confirmed, proceed with project editing
+      }
+    });
+  }
+
+  deleteProject(id: number): void {
     if (confirm('Are you sure you want to delete this project?')) {
       this.projectService.deleteProject(id).subscribe({
         next: () => {
@@ -133,16 +151,43 @@ export class AdminProjectsComponent implements OnInit {
     this.loadProjects();
   }
 
-  getStatusColor(status: string): string {
-    switch (status?.toLowerCase()) {
-      case 'published':
-        return 'status-active';
-      case 'draft':
-        return 'status-pending';
-      case 'archived':
-        return 'status-inactive';
+  getStatusCount(status: ProjectStatus): number {
+    return this.projects.filter(p => p.status === status).length;
+  }
+
+  getStatusIcon(status: ProjectStatus): string {
+    switch (status) {
+      case ProjectStatus.Completed:
+        return 'check_circle';
+      case ProjectStatus.InProgress:
+        return 'update';
+      case ProjectStatus.OnHold:
+        return 'pause_circle';
       default:
-        return '';
+        return 'help';
     }
+  }
+
+  getStatusColor(status: ProjectStatus): string {
+    switch (status) {
+      case ProjectStatus.Completed:
+        return 'completed';
+      case ProjectStatus.InProgress:
+        return 'in-progress';
+      case ProjectStatus.OnHold:
+        return 'on-hold';
+      default:
+        return 'default';
+    }
+  }
+
+  viewProject(project: Project): void {
+    // Implementation for viewing project details
+    console.log('View project:', project);
+  }
+
+  duplicateProject(project: Project): void {
+    // Implementation for duplicating project
+    console.log('Duplicate project:', project);
   }
 }

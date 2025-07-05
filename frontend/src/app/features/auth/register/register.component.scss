@@ -1,45 +1,83 @@
+@use '../../../../themes/devfolio-theme' as devfolio;
+@use '@angular/material' as mat;
+@use 'sass:map';
+
 .auth-container {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 20px;
+  background: linear-gradient(135deg,
+    #{mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 900)} 0%,
+    #{mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 700)} 25%,
+    #{mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 500)} 75%,
+    #{mat.m2-get-color-from-palette(devfolio.$devfolio-accent-palette, 500)} 100%);
+  padding: map.get(devfolio.$spacing-tokens, 'lg');
+  font-family: map.get(devfolio.$devfolio-typography, 'font-family');
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" fill="rgba(255,255,255,0.1)"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1047.93,5.17,1100,0V120H0Z"/></svg>') repeat-x;
+    background-size: 1200px 120px;
+    animation: wave 20s linear infinite;
+    opacity: 0.2;
+  }
+
+  @include devfolio.respond-to('mobile') {
+    padding: map.get(devfolio.$spacing-tokens, 'md');
+  }
 }
 
 .auth-card {
   width: 100%;
   max-width: 500px;
+  position: relative;
+  z-index: 1;
 }
 
 .auth-header {
   display: flex;
   align-items: center;
-  gap: 12px;
-}
+  gap: map.get(devfolio.$spacing-tokens, 'md');
+  margin-bottom: map.get(devfolio.$spacing-tokens, 'lg');
 
-.auth-icon {
-  font-size: 32px;
-  width: 32px;
-  height: 32px;
-  color: #1976d2;
-}
+  .auth-icon {
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+    color: mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 600);
+  }
 
-.auth-header h2 {
-  margin: 0;
-  color: #333;
+  h2 {
+    margin: 0;
+    color: map.get(devfolio.$devfolio-neutral-palette, 900);
+    font-weight: 600;
+    font-size: 1.75rem;
+  }
 }
 
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-top: 20px;
+  gap: map.get(devfolio.$spacing-tokens, 'lg');
+  margin-top: map.get(devfolio.$spacing-tokens, 'lg');
 }
 
 .name-fields {
   display: flex;
-  gap: 16px;
+  gap: map.get(devfolio.$spacing-tokens, 'md');
+
+  @include devfolio.respond-to('mobile') {
+    flex-direction: column;
+    gap: map.get(devfolio.$spacing-tokens, 'lg');
+  }
 }
 
 .full-width {
@@ -48,37 +86,65 @@
 
 .half-width {
   flex: 1;
+
+  @include devfolio.respond-to('mobile') {
+    width: 100%;
+  }
 }
 
 .submit-button {
   height: 48px;
   font-size: 16px;
-  margin-top: 16px;
+  font-weight: 600;
+  margin-top: map.get(devfolio.$spacing-tokens, 'lg');
+  background: linear-gradient(135deg,
+    #{mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 600)} 0%,
+    #{mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 700)} 100%);
+  border-radius: map.get(devfolio.$border-radius-tokens, 'md');
+  text-transform: none;
+  letter-spacing: 0.5px;
+  box-shadow: map.get(devfolio.$shadow-tokens, 'md');
+  transition: all 0.3s ease;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: map.get(devfolio.$shadow-tokens, 'lg');
+  }
 }
 
 .auth-links {
   text-align: center;
-  margin-top: 20px;
-}
+  margin-top: map.get(devfolio.$spacing-tokens, 'xl');
 
-.auth-links p {
-  margin: 0;
-  color: #666;
-  font-size: 14px;
+  p {
+    margin: 0;
+    color: map.get(devfolio.$devfolio-neutral-palette, 600);
+    font-size: 14px;
+  }
 }
 
 .auth-link {
-  color: #1976d2;
+  color: mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 600);
   text-decoration: none;
-  font-weight: 500;
-}
+  font-weight: 600;
+  transition: all 0.2s ease;
 
-.auth-link:hover {
-  text-decoration: underline;
+  &:hover {
+    color: mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 700);
+    text-decoration: underline;
+  }
 }
 
 mat-card {
-  padding: 24px;
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  padding: map.get(devfolio.$spacing-tokens, 'xxl');
+  border-radius: map.get(devfolio.$border-radius-tokens, 'xl');
+  box-shadow: map.get(devfolio.$shadow-tokens, 'xl');
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+@keyframes wave {
+  0% { transform: translateX(0px); }
+  100% { transform: translateX(-1200px); }
 }

@@ -55,7 +55,7 @@ builder.Services.AddSwaggerGen(options =>
     options.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",
-        Title = "DevFolio API",
+        Title = "devfolio API",
         Description = "A comprehensive Portfolio Management API built with Clean Architecture",
         Contact = new OpenApiContact
         {

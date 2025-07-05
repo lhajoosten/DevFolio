@@ -1,574 +1,726 @@
-// Portfolio Component - Avans Theme
+@use '../../../themes/devfolio-theme' as devfolio;
+@use '@angular/material' as mat;
+@use 'sass:map';
+
 .portfolio-container {
-  min-height: 80vh;
-  padding: 0;
-}
+  font-family: map.get(devfolio.$devfolio-typography, 'font-family');
 
-.portfolio-content {
-  animation: fadeInUp 0.6s ease-out;
-}
-
-.portfolio-header {
-  background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 50%, #7c3aed 100%);
-  color: white;
-  padding: 60px 0;
-  margin: -24px -24px 32px -24px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="rgba(255,255,255,0.1)"><path d="M0,0v46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1047.93,5.17,1100,0v100H0Z"/></svg>') repeat-x;
-    background-size: 1000px 100px;
-    animation: wave 20s linear infinite;
-  }
-
-  .container {
+  // Hero Section - Using devfolio Design System
+  .hero-section {
     position: relative;
-    z-index: 1;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 24px;
-  }
-
-  h1 {
-    font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: 16px;
-    background: linear-gradient(135deg, #ffffff, #fed7aa);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-
-    @media (max-width: 768px) {
-      font-size: 2.5rem;
-    }
-
-    @media (max-width: 480px) {
-      font-size: 2rem;
-    }
-  }
-
-  p {
-    font-size: 1.25rem;
-    opacity: 0.9;
-    max-width: 600px;
-    margin: 0 auto;
-
-    @media (max-width: 768px) {
-      font-size: 1.1rem;
-    }
-  }
-}
-
-.portfolio-filters {
-  margin-bottom: 32px;
-  text-align: center;
-
-  .filter-chips {
+    min-height: 100vh;
     display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    justify-content: center;
-    margin-top: 16px;
-
-    .mat-mdc-chip {
-      border-radius: 20px;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      cursor: pointer;
-      border: 2px solid transparent;
-
-      &:not(.selected) {
-        background: white;
-        color: #6b7280;
-        border-color: #e5e7eb;
-
-        &:hover {
-          background: #f3f4f6;
-          border-color: #d1d5db;
-          transform: translateY(-2px);
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-      }
-
-      &.selected {
-        background: linear-gradient(135deg, #1e3a8a, #3730a3);
-        color: white;
-        border-color: #f97316;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
-
-        &:hover {
-          transform: translateY(-3px);
-          box-shadow: 0 6px 16px rgba(30, 58, 138, 0.4);
-        }
-      }
-    }
-  }
-}
-
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 24px;
-  margin-bottom: 40px;
-
-  @media (max-width: 768px) {
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-  }
-
-  @media (max-width: 480px) {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-}
-
-.project-card {
-  background: white;
-  border-radius: 16px;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  position: relative;
-
-  &:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(30, 58, 138, 0.15);
-    border-color: #bfdbfe;
-
-    .project-image {
-      transform: scale(1.05);
-    }
-
-    .project-overlay {
-      opacity: 1;
-    }
-  }
-
-  .project-image-container {
-    position: relative;
-    height: 200px;
+    align-items: center;
     overflow: hidden;
-    background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+    padding: map.get(devfolio.$spacing-tokens, 'xxxl') 0;
 
-    .project-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.3s ease;
-    }
-
-    .project-placeholder {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      background: linear-gradient(135deg, #1e3a8a, #3730a3);
-      color: white;
-
-      mat-icon {
-        font-size: 48px;
-        width: 48px;
-        height: 48px;
-        opacity: 0.7;
-      }
-    }
-
-    .project-overlay {
+    .hero-background {
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background: linear-gradient(135deg, rgba(30, 58, 138, 0.8), rgba(55, 48, 163, 0.8));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
+      z-index: 0;
 
-      button {
-        background: rgba(255, 255, 255, 0.9);
-        color: #1e3a8a;
-        border-radius: 50%;
-        width: 48px;
-        height: 48px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s ease;
-
-        &:hover {
-          background: white;
-          transform: scale(1.1);
-        }
-
-        mat-icon {
-          font-size: 20px;
-          width: 20px;
-          height: 20px;
-        }
-      }
-    }
-
-    .status-badge {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      backdrop-filter: blur(10px);
-
-      &.completed {
-        background: rgba(34, 197, 94, 0.9);
-        color: white;
+      .hero-gradient {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg,
+          #{mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 900)} 0%,
+          #{mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 700)} 25%,
+          #{mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 500)} 50%,
+          #{mat.m2-get-color-from-palette(devfolio.$devfolio-accent-palette, 500)} 75%,
+          #{mat.m2-get-color-from-palette(devfolio.$devfolio-accent-palette, 400)} 100%);
       }
 
-      &.in-progress {
-        background: rgba(249, 115, 22, 0.9);
-        color: white;
-      }
-    }
-  }
+      .floating-shapes {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
 
-  .mat-mdc-card-content {
-    padding: 24px;
+        .shape {
+          position: absolute;
+          border-radius: map.get(devfolio.$border-radius-tokens, 'full');
+          background: rgba(255, 255, 255, 0.1);
+          animation: float 6s ease-in-out infinite;
 
-    .project-title {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: #1f2937;
-      margin-bottom: 8px;
-      line-height: 1.4;
-    }
+          &.shape-1 {
+            width: 200px;
+            height: 200px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+          }
 
-    .project-description {
-      color: #6b7280;
-      line-height: 1.5;
-      margin-bottom: 16px;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
+          &.shape-2 {
+            width: 150px;
+            height: 150px;
+            top: 60%;
+            right: 20%;
+            animation-delay: 2s;
+          }
 
-    .tech-stack {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 16px;
-
-      .tech-chip {
-        background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
-        color: #374151;
-        padding: 4px 10px;
-        border-radius: 12px;
-        font-size: 0.75rem;
-        font-weight: 500;
-        border: 1px solid #d1d5db;
-        transition: all 0.3s ease;
-
-        &:hover {
-          background: linear-gradient(135deg, #dbeafe, #bfdbfe);
-          color: #1e3a8a;
-          border-color: #3b82f6;
-          transform: translateY(-1px);
+          &.shape-3 {
+            width: 100px;
+            height: 100px;
+            bottom: 20%;
+            left: 70%;
+            animation-delay: 4s;
+          }
         }
       }
     }
 
-    .project-meta {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      font-size: 0.875rem;
-      color: #6b7280;
-      border-top: 1px solid #f3f4f6;
-      padding-top: 16px;
-      margin-top: 16px;
-
-      .meta-item {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-
-        mat-icon {
-          font-size: 16px;
-          width: 16px;
-          height: 16px;
-          color: #9ca3af;
-        }
-      }
-    }
-  }
-
-  .mat-mdc-card-actions {
-    padding: 16px 24px;
-    border-top: 1px solid #f3f4f6;
-    background: #fafafa;
-
-    .action-buttons {
-      display: flex;
-      gap: 8px;
+    .hero-content {
+      position: relative;
+      z-index: 1;
       width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 map.get(devfolio.$spacing-tokens, 'lg');
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: map.get(devfolio.$spacing-tokens, 'xxxl');
+      align-items: center;
 
-      button {
-        flex: 1;
-        border-radius: 8px;
-        font-weight: 500;
-        transition: all 0.3s ease;
+      @include devfolio.respond-to('mobile') {
+        grid-template-columns: 1fr;
+        gap: map.get(devfolio.$spacing-tokens, 'xl');
+        text-align: center;
+      }
 
-        &.primary {
-          background: linear-gradient(135deg, #1e3a8a, #3730a3);
-          color: white;
+      @include devfolio.respond-to('tablet') {
+        grid-template-columns: 1fr;
+        gap: map.get(devfolio.$spacing-tokens, 'xl');
+        text-align: center;
+      }
 
-          &:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+      .hero-text {
+        color: white;
+
+        .hero-title {
+          font-size: clamp(2.5rem, 5vw, 4rem);
+          font-weight: 700;
+          margin: 0 0 map.get(devfolio.$spacing-tokens, 'md') 0;
+          line-height: 1.2;
+          letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+          font-size: clamp(1.25rem, 3vw, 1.75rem);
+          font-weight: 500;
+          margin: 0 0 map.get(devfolio.$spacing-tokens, 'lg') 0;
+          opacity: 0.9;
+        }
+
+        .hero-description {
+          font-size: 1.125rem;
+          line-height: 1.6;
+          margin: 0 0 map.get(devfolio.$spacing-tokens, 'xl') 0;
+          opacity: 0.8;
+        }
+
+        .hero-actions {
+          display: flex;
+          gap: map.get(devfolio.$spacing-tokens, 'md');
+          margin-bottom: map.get(devfolio.$spacing-tokens, 'xxl');
+
+          @include devfolio.respond-to('mobile') {
+            flex-direction: column;
+            align-items: center;
+          }
+
+          .cta-button {
+            background: linear-gradient(135deg,
+              #{mat.m2-get-color-from-palette(devfolio.$devfolio-accent-palette, 500)},
+              #{mat.m2-get-color-from-palette(devfolio.$devfolio-accent-palette, 600)});
+            border-radius: map.get(devfolio.$border-radius-tokens, 'lg');
+            padding: map.get(devfolio.$spacing-tokens, 'md') map.get(devfolio.$spacing-tokens, 'xl');
+            font-weight: 600;
+            font-size: 1rem;
+            box-shadow: map.get(devfolio.$shadow-tokens, 'lg');
+            transition: all 0.3s ease;
+
+            &:hover {
+              transform: translateY(-2px);
+              box-shadow: map.get(devfolio.$shadow-tokens, 'xl');
+            }
+          }
+
+          .contact-button {
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            border-radius: map.get(devfolio.$border-radius-tokens, 'lg');
+            padding: map.get(devfolio.$spacing-tokens, 'md') map.get(devfolio.$spacing-tokens, 'xl');
+            font-weight: 600;
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+
+            &:hover {
+              background: rgba(255, 255, 255, 0.2);
+              border-color: rgba(255, 255, 255, 0.5);
+            }
           }
         }
 
-        &.secondary {
-          background: white;
-          color: #1e3a8a;
-          border: 1px solid #d1d5db;
+        .hero-stats {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: map.get(devfolio.$spacing-tokens, 'xl');
 
-          &:hover {
-            background: #f9fafb;
-            border-color: #3b82f6;
+          @include devfolio.respond-to('mobile') {
+            gap: map.get(devfolio.$spacing-tokens, 'lg');
+          }
+
+          .stat {
+            text-align: center;
+
+            .stat-number {
+              display: block;
+              font-size: 2rem;
+              font-weight: 700;
+              color: mat.m2-get-color-from-palette(devfolio.$devfolio-accent-palette, 300);
+              margin-bottom: map.get(devfolio.$spacing-tokens, 'xs');
+            }
+
+            .stat-label {
+              display: block;
+              font-size: 0.875rem;
+              opacity: 0.8;
+              text-transform: uppercase;
+              letter-spacing: 0.1em;
+            }
+          }
+        }
+      }
+
+      .hero-visual {
+        @include devfolio.respond-to('mobile') {
+          order: -1;
+        }
+
+        .profile-card {
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: map.get(devfolio.$border-radius-tokens, 'xl');
+          padding: map.get(devfolio.$spacing-tokens, 'xl');
+          text-align: center;
+          box-shadow: map.get(devfolio.$shadow-tokens, 'xl');
+
+          .profile-avatar {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto map.get(devfolio.$spacing-tokens, 'lg');
+            background: linear-gradient(135deg,
+              #{mat.m2-get-color-from-palette(devfolio.$devfolio-accent-palette, 400)},
+              #{mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 400)});
+            border-radius: map.get(devfolio.$border-radius-tokens, 'full');
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: map.get(devfolio.$shadow-tokens, 'lg');
+
+            .avatar-icon {
+              font-size: 80px;
+              color: white;
+            }
+          }
+
+          .profile-info {
+            h3 {
+              color: white;
+              font-weight: 600;
+              margin-bottom: map.get(devfolio.$spacing-tokens, 'xs');
+            }
+
+            p {
+              color: rgba(255, 255, 255, 0.8);
+              margin-bottom: map.get(devfolio.$spacing-tokens, 'md');
+            }
+
+            .profile-skills {
+              display: flex;
+              flex-wrap: wrap;
+              gap: map.get(devfolio.$spacing-tokens, 'xs');
+              justify-content: center;
+
+              .skill-chip {
+                background: rgba(255, 255, 255, 0.2);
+                color: white;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                font-size: 0.75rem;
+                font-weight: 500;
+              }
+            }
           }
         }
       }
     }
   }
-}
 
-.project-image {
-  height: 200px;
-  object-fit: cover;
-  width: 100%;
-}
+  // Skills Section - Using devfolio Design System
+  .skills-section {
+    padding: map.get(devfolio.$spacing-tokens, 'xxxl') 0;
+    background: white;
 
-.status-badge {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  padding: 4px 12px;
-  border-radius: 16px;
-  font-size: 12px;
-  font-weight: 500;
-  color: white;
-  text-transform: uppercase;
-}
+    .section-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 map.get(devfolio.$spacing-tokens, 'lg');
+    }
 
-.status-0 {
-  background-color: #ff9800;
-} /* Planning */
-.status-1 {
-  background-color: #2196f3;
-} /* In Progress */
-.status-2 {
-  background-color: #4caf50;
-} /* Completed */
-.status-3 {
-  background-color: #ff5722;
-} /* On Hold */
+    .section-header {
+      text-align: center;
+      margin-bottom: map.get(devfolio.$spacing-tokens, 'xxxl');
 
-.project-description {
-  color: #666;
-  line-height: 1.5;
-  margin-bottom: 16px;
-}
+      .section-title {
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 700;
+        color: map.get(devfolio.$devfolio-neutral-palette, 900);
+        margin-bottom: map.get(devfolio.$spacing-tokens, 'md');
+        background: linear-gradient(135deg,
+          #{mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 600)},
+          #{mat.m2-get-color-from-palette(devfolio.$devfolio-accent-palette, 600)});
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
 
-.duration {
-  color: #1976d2;
-  font-weight: 500;
-}
+      .section-subtitle {
+        font-size: 1.125rem;
+        color: map.get(devfolio.$devfolio-neutral-palette, 600);
+        max-width: 600px;
+        margin: 0 auto;
+      }
+    }
 
-.date-range {
-  color: #666;
-  font-size: 12px;
-  display: block;
-  margin-top: 4px;
-}
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: map.get(devfolio.$spacing-tokens, 'xl');
 
-.tech-stack {
-  margin-top: 16px;
-}
+      .skill-category {
+        background: white;
+        border: 1px solid map.get(devfolio.$devfolio-neutral-palette, 200);
+        border-radius: map.get(devfolio.$border-radius-tokens, 'lg');
+        padding: map.get(devfolio.$spacing-tokens, 'xl');
+        text-align: center;
+        box-shadow: map.get(devfolio.$shadow-tokens, 'sm');
+        transition: all 0.3s ease;
 
-.tech-chip {
-  background-color: #e3f2fd;
-  color: #1976d2;
-}
+        &:hover {
+          transform: translateY(-4px);
+          box-shadow: map.get(devfolio.$shadow-tokens, 'lg');
+        }
 
-.no-projects {
-  text-align: center;
-  padding: 80px 20px;
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e5e7eb;
+        .category-title {
+          font-size: 1.25rem;
+          font-weight: 600;
+          color: mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 600);
+          margin-bottom: map.get(devfolio.$spacing-tokens, 'lg');
+        }
 
-  .no-projects-icon {
-    font-size: 64px;
-    width: 64px;
-    height: 64px;
-    color: #9ca3af;
-    margin-bottom: 16px;
-  }
+        .skills-list {
+          display: flex;
+          flex-wrap: wrap;
+          gap: map.get(devfolio.$spacing-tokens, 'sm');
+          justify-content: center;
 
-  h3 {
-    color: #374151;
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 8px;
-  }
+          .tech-chip {
+            background: mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 50);
+            color: mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 700);
+            border: 1px solid mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 200);
+            font-weight: 500;
+            transition: all 0.2s ease;
 
-  p {
-    color: #6b7280;
-    margin-bottom: 24px;
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  button {
-    background: linear-gradient(135deg, #1e3a8a, #3730a3);
-    color: white;
-    border-radius: 8px;
-    font-weight: 500;
-    padding: 12px 24px;
-
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+            &:hover {
+              background: mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 100);
+              transform: translateY(-1px);
+            }
+          }
+        }
+      }
     }
   }
-}
 
-// Fix webkit line clamp
-.project-description {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  // Projects Section - Using devfolio Design System
+  .projects-section {
+    padding: map.get(devfolio.$spacing-tokens, 'xxxl') 0;
+    background: map.get(devfolio.$devfolio-neutral-palette, 50);
+
+    .section-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 map.get(devfolio.$spacing-tokens, 'lg');
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: map.get(devfolio.$spacing-tokens, 'xxl');
+
+      .section-title {
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 700;
+        color: map.get(devfolio.$devfolio-neutral-palette, 900);
+        margin-bottom: map.get(devfolio.$spacing-tokens, 'md');
+      }
+
+      .section-subtitle {
+        font-size: 1.125rem;
+        color: map.get(devfolio.$devfolio-neutral-palette, 600);
+      }
+    }
+
+    .filters-section {
+      margin-bottom: map.get(devfolio.$spacing-tokens, 'xl');
+
+      .projects-tabs {
+        .mat-mdc-tab-group {
+          background: white;
+          border-radius: map.get(devfolio.$border-radius-tokens, 'lg');
+          box-shadow: map.get(devfolio.$shadow-tokens, 'sm');
+        }
+
+        .mat-mdc-tab {
+          min-width: 120px;
+          font-weight: 500;
+        }
+      }
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: map.get(devfolio.$spacing-tokens, 'xl');
+
+      @include devfolio.respond-to('mobile') {
+        grid-template-columns: 1fr;
+        gap: map.get(devfolio.$spacing-tokens, 'lg');
+      }
+
+      .project-card {
+        background: white;
+        border-radius: map.get(devfolio.$border-radius-tokens, 'lg');
+        overflow: hidden;
+        box-shadow: map.get(devfolio.$shadow-tokens, 'sm');
+        transition: all 0.3s ease;
+
+        &:hover {
+          transform: translateY(-4px);
+          box-shadow: map.get(devfolio.$shadow-tokens, 'lg');
+        }
+
+        &.featured {
+          border: 2px solid mat.m2-get-color-from-palette(devfolio.$devfolio-accent-palette, 200);
+        }
+
+        .card-image {
+          position: relative;
+          height: 200px;
+          overflow: hidden;
+
+          .project-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+          }
+
+          .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+
+            button {
+              background: mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 500);
+              color: white;
+            }
+          }
+
+          &:hover {
+            .project-image {
+              transform: scale(1.05);
+            }
+
+            .image-overlay {
+              opacity: 1;
+            }
+          }
+        }
+
+        .card-content {
+          padding: map.get(devfolio.$spacing-tokens, 'lg');
+
+          .project-header {
+            margin-bottom: map.get(devfolio.$spacing-tokens, 'md');
+
+            .mat-mdc-card-title {
+              font-size: 1.25rem;
+              font-weight: 600;
+              color: map.get(devfolio.$devfolio-neutral-palette, 900);
+            }
+
+            .project-meta {
+              display: flex;
+              gap: map.get(devfolio.$spacing-tokens, 'md');
+              margin-top: map.get(devfolio.$spacing-tokens, 'xs');
+
+              .duration, .status {
+                display: flex;
+                align-items: center;
+                gap: map.get(devfolio.$spacing-tokens, 'xs');
+                font-size: 0.875rem;
+                color: map.get(devfolio.$devfolio-neutral-palette, 600);
+
+                mat-icon {
+                  font-size: 16px;
+                }
+              }
+
+              .status {
+                &.completed {
+                  color: mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 600);
+                }
+
+                &.in-progress {
+                  color: mat.m2-get-color-from-palette(devfolio.$devfolio-accent-palette, 600);
+                }
+
+                &.on-hold {
+                  color: mat.m2-get-color-from-palette(devfolio.$devfolio-warn-palette, 600);
+                }
+              }
+            }
+          }
+
+          .project-description {
+            color: map.get(devfolio.$devfolio-neutral-palette, 700);
+            line-height: 1.6;
+            margin-bottom: map.get(devfolio.$spacing-tokens, 'md');
+          }
+
+          .project-details {
+            margin-bottom: map.get(devfolio.$spacing-tokens, 'md');
+
+            .date-range {
+              display: flex;
+              align-items: center;
+              gap: map.get(devfolio.$spacing-tokens, 'xs');
+              font-size: 0.875rem;
+              color: map.get(devfolio.$devfolio-neutral-palette, 600);
+
+              mat-icon {
+                font-size: 16px;
+              }
+            }
+          }
+
+          .tech-stack {
+            .tech-header {
+              display: flex;
+              align-items: center;
+              gap: map.get(devfolio.$spacing-tokens, 'xs');
+              font-size: 0.875rem;
+              font-weight: 500;
+              color: map.get(devfolio.$devfolio-neutral-palette, 700);
+              margin-bottom: map.get(devfolio.$spacing-tokens, 'sm');
+
+              mat-icon {
+                font-size: 16px;
+              }
+            }
+
+            .tech-chips {
+              display: flex;
+              flex-wrap: wrap;
+              gap: map.get(devfolio.$spacing-tokens, 'xs');
+
+              .tech-chip {
+                background: mat.m2-get-color-from-palette(devfolio.$devfolio-neutral-palette, 100);
+                color: map.get(devfolio.$devfolio-neutral-palette, 700);
+                font-size: 0.75rem;
+                font-weight: 500;
+              }
+            }
+          }
+        }
+
+        .card-actions {
+          padding: 0 map.get(devfolio.$spacing-tokens, 'lg') map.get(devfolio.$spacing-tokens, 'lg');
+          display: flex;
+          gap: map.get(devfolio.$spacing-tokens, 'sm');
+          align-items: center;
+
+          .mat-mdc-raised-button {
+            border-radius: map.get(devfolio.$border-radius-tokens, 'md');
+            font-weight: 500;
+          }
+
+          .mat-mdc-stroked-button {
+            border-radius: map.get(devfolio.$border-radius-tokens, 'md');
+            font-weight: 500;
+          }
+        }
+      }
+    }
+  }
+
+  // Contact Section - Using devfolio Design System
+  .contact-section {
+    padding: map.get(devfolio.$spacing-tokens, 'xxxl') 0;
+    background: linear-gradient(135deg,
+      #{mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 600)},
+      #{mat.m2-get-color-from-palette(devfolio.$devfolio-accent-palette, 600)});
+    color: white;
+
+    .section-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 map.get(devfolio.$spacing-tokens, 'lg');
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: map.get(devfolio.$spacing-tokens, 'xxxl');
+
+      @include devfolio.respond-to('mobile') {
+        grid-template-columns: 1fr;
+        gap: map.get(devfolio.$spacing-tokens, 'xl');
+      }
+    }
+
+    .contact-info {
+      .section-title {
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 700;
+        margin-bottom: map.get(devfolio.$spacing-tokens, 'lg');
+      }
+
+      .section-subtitle {
+        font-size: 1.125rem;
+        opacity: 0.9;
+        margin-bottom: map.get(devfolio.$spacing-tokens, 'xl');
+      }
+
+      .contact-details {
+        margin-bottom: map.get(devfolio.$spacing-tokens, 'xl');
+
+        .detail {
+          display: flex;
+          align-items: center;
+          gap: map.get(devfolio.$spacing-tokens, 'md');
+          margin-bottom: map.get(devfolio.$spacing-tokens, 'lg');
+
+          mat-icon {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: map.get(devfolio.$border-radius-tokens, 'md');
+            padding: map.get(devfolio.$spacing-tokens, 'sm');
+          }
+        }
+      }
+
+      .social-links {
+        display: flex;
+        gap: map.get(devfolio.$spacing-tokens, 'md');
+
+        .mat-mdc-fab {
+          background: rgba(255, 255, 255, 0.2);
+          color: white;
+          border: 1px solid rgba(255, 255, 255, 0.3);
+
+          &:hover {
+            background: rgba(255, 255, 255, 0.3);
+          }
+        }
+      }
+    }
+
+    .contact-form {
+      .mat-mdc-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: white;
+      }
+    }
+  }
+
+  // Loading and Error States
+  .loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: map.get(devfolio.$spacing-tokens, 'xxxl');
+  }
+
+  .no-projects {
+    text-align: center;
+    padding: map.get(devfolio.$spacing-tokens, 'xxxl');
+    color: map.get(devfolio.$devfolio-neutral-palette, 600);
+
+    .no-projects-icon {
+      font-size: 4rem;
+      margin-bottom: map.get(devfolio.$spacing-tokens, 'lg');
+      opacity: 0.5;
+    }
+
+    h3 {
+      margin-bottom: map.get(devfolio.$spacing-tokens, 'md');
+    }
+  }
+
+  .error-message {
+    padding: map.get(devfolio.$spacing-tokens, 'xl');
+    text-align: center;
+
+    .mat-mdc-card {
+      display: inline-block;
+      padding: map.get(devfolio.$spacing-tokens, 'xl');
+    }
+  }
 }
 
 // Animations
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
+@keyframes float {
+  0%, 100% {
     transform: translateY(0);
   }
-}
-
-@keyframes wave {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-1000px);
+  50% {
+    transform: translateY(-20px);
   }
 }
 
-// Loading state
-.portfolio-skeleton {
-  .skeleton-card {
-    background: white;
-    border-radius: 16px;
-    overflow: hidden;
-    border: 1px solid #e5e7eb;
-
-    .skeleton-image {
-      height: 200px;
-      background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
-      background-size: 200% 100%;
-      animation: shimmer 2s infinite;
+// Enhanced tab styling
+::ng-deep .projects-tabs {
+  .mat-mdc-tab-group {
+    .mat-mdc-tab-header {
+      border-bottom: 1px solid map.get(devfolio.$devfolio-neutral-palette, 200);
     }
 
-    .skeleton-content {
-      padding: 24px;
+    .mat-mdc-tab {
+      color: map.get(devfolio.$devfolio-neutral-palette, 600);
+      font-weight: 500;
 
-      .skeleton-line {
-        height: 16px;
-        background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
-        background-size: 200% 100%;
-        animation: shimmer 2s infinite;
-        border-radius: 4px;
-        margin-bottom: 12px;
-
-        &.title {
-          height: 20px;
-          width: 70%;
-        }
-
-        &.description {
-          width: 100%;
-        }
-
-        &.short {
-          width: 40%;
-        }
+      &.mdc-tab--active {
+        color: mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 600);
       }
     }
-  }
-}
 
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-// Responsive adjustments
-@media (max-width: 768px) {
-  .portfolio-header {
-    padding: 40px 0;
-    margin: -16px -16px 24px -16px;
-
-    h1 {
-      font-size: 2rem;
-    }
-
-    p {
-      font-size: 1rem;
-    }
-  }
-
-  .projects-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  .project-card {
-    .mat-mdc-card-content {
-      padding: 20px;
-    }
-
-    .mat-mdc-card-actions {
-      padding: 12px 20px;
+    .mat-mdc-tab-ink-bar {
+      background-color: mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette, 500);
     }
   }
 }

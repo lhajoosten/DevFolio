@@ -1,106 +1,137 @@
-    <div class="layout-container">
-      <mat-toolbar color="primary" class="app-toolbar">
-        <div class="toolbar-content">
-          <div class="brand-section">
-            <button mat-icon-button (click)="toggleSidenav()" class="menu-button">
-              <mat-icon>menu</mat-icon>
-            </button>
-            <a routerLink="/app/portfolio" class="brand-link">
-              <mat-icon class="brand-icon">code</mat-icon>
-              <span class="brand-text">DevFolio</span>
-            </a>
+<div class="modern-layout">
+  <!-- Clean Top Navigation -->
+  <header class="top-navbar" [class.scrolled]="isScrolled">
+    <div class="navbar-container">
+      <div class="brand-section">
+        <button
+          mat-icon-button
+          (click)="toggleSidenav()"
+          class="mobile-menu-btn"
+          [class.hidden]="!isMobile"
+        >
+          <mat-icon>menu</mat-icon>
+        </button>
+        <a routerLink="/app/portfolio" class="brand-logo">
+          <div class="logo-icon">
+            <mat-icon>developer_mode</mat-icon>
           </div>
+          <span class="brand-text">devfolio</span>
+        </a>
+      </div>
 
-          <div class="nav-section" *ngIf="!isMobile">
-            <a routerLink="/app/portfolio" routerLinkActive="active" class="nav-link">
-              <mat-icon>work</mat-icon>
-              Portfolio
-            </a>
-            <a routerLink="/app/admin" routerLinkActive="active" class="nav-link" *ngIf="currentUser?.role === 'Admin'">
-              <mat-icon>admin_panel_settings</mat-icon>
-              Admin
-            </a>
-          </div>
+      <nav class="main-navigation" [class.hidden]="isMobile">
+        <a
+          routerLink="/app/portfolio"
+          routerLinkActive="active"
+          class="nav-link"
+        >
+          <mat-icon>home</mat-icon>
+          <span>Portfolio</span>
+        </a>
+        <a
+          routerLink="/app/admin"
+          routerLinkActive="active"
+          class="nav-link"
+          *ngIf="currentUser?.role === 'Admin'"
+        >
+          <mat-icon>dashboard</mat-icon>
+          <span>Admin</span>
+        </a>
+      </nav>
 
-          <div class="user-section">
-            <div *ngIf="currentUser; else loginSection" class="user-menu">
-              <button mat-button [matMenuTriggerFor]="userMenu" class="user-button">
-                <div class="user-avatar">
-                  <mat-icon *ngIf="!currentUser.profile?.profilePictureUrl">person</mat-icon>
-                  <img *ngIf="currentUser.profile?.profilePictureUrl"
-                       [src]="currentUser.profile?.profilePictureUrl"
-                       [alt]="currentUser.profile?.fullName || currentUser.username"
-                       class="avatar-image">
-                </div>
-                <span class="user-name">{{ currentUser.profile?.fullName || currentUser.username }}</span>
-                <mat-icon>expand_more</mat-icon>
-              </button>
-
-              <mat-menu #userMenu="matMenu">
-                <button mat-menu-item (click)="goToProfile()">
-                  <mat-icon>person</mat-icon>
-                  <span>Profile</span>
-                </button>
-                <button mat-menu-item (click)="goToSettings()">
-                  <mat-icon>settings</mat-icon>
-                  <span>Settings</span>
-                </button>
-                <mat-divider></mat-divider>
-                <button mat-menu-item (click)="logout()">
-                  <mat-icon>logout</mat-icon>
-                  <span>Logout</span>
-                </button>
-              </mat-menu>
+      <div class="user-section">
+        <div *ngIf="currentUser; else authSection" class="user-menu">
+          <button
+            mat-button
+            [matMenuTriggerFor]="userMenu"
+            class="user-profile-btn"
+          >
+            <div class="user-avatar">
+              <mat-icon>person</mat-icon>
             </div>
+            <div class="user-info">
+              <span class="user-name">{{ currentUser.profile?.fullName || currentUser.username }}</span>
+              <span class="user-role">{{ currentUser.role }}</span>
+            </div>
+            <mat-icon class="dropdown-icon">expand_more</mat-icon>
+          </button>
+          <mat-menu #userMenu="matMenu" class="user-dropdown">
+            <button mat-menu-item (click)="goToProfile()">
+              <mat-icon>person</mat-icon>
+              <span>Profile</span>
+            </button>
+            <button mat-menu-item (click)="logout()">
+              <mat-icon>logout</mat-icon>
+              <span>Logout</span>
+            </button>
+          </mat-menu>
+        </div>
+        <ng-template #authSection>
+          <div class="auth-buttons">
+            <button mat-stroked-button routerLink="/auth/login" class="login-btn">
+              Login
+            </button>
+            <button mat-raised-button color="primary" routerLink="/auth/register" class="signup-btn">
+              Sign Up
+            </button>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </header>
 
-            <ng-template #loginSection>
-              <div class="auth-buttons">
-                <button mat-button routerLink="/auth/login">Login</button>
-                <button mat-raised-button color="accent" routerLink="/auth/register">Sign Up</button>
-              </div>
-            </ng-template>
+  <!-- Mobile Sidebar -->
+  <mat-sidenav-container class="layout-container">
+    <mat-sidenav
+      #sidenav
+      mode="over"
+      class="mobile-sidebar"
+      [class.hidden]="!isMobile"
+    >
+      <div class="sidebar-content">
+        <div class="sidebar-header">
+          <div class="brand-logo">
+            <mat-icon>developer_mode</mat-icon>
+            <span>devfolio</span>
           </div>
         </div>
-      </mat-toolbar>
-
-      <mat-sidenav-container class="sidenav-container">
-        <mat-sidenav
-          #sidenav
-          mode="side"
-          [opened]="!isMobile"
-          [fixedInViewport]="isMobile"
-          [fixedTopGap]="64"
-          class="app-sidenav">
-
-          <mat-nav-list>
-            <a mat-list-item routerLink="/app/portfolio" routerLinkActive="active">
-              <mat-icon matListItemIcon>work</mat-icon>
-              <span matListItemTitle>Portfolio</span>
-            </a>
-
-            <a mat-list-item routerLink="/app/admin" routerLinkActive="active" *ngIf="currentUser?.role === 'Admin'">
-              <mat-icon matListItemIcon>admin_panel_settings</mat-icon>
-              <span matListItemTitle>Admin Dashboard</span>
-            </a>
-
-            <mat-divider *ngIf="currentUser?.role === 'Admin'"></mat-divider>
-
-            <a mat-list-item routerLink="/app/admin/projects" routerLinkActive="active" *ngIf="currentUser?.role === 'Admin'">
-              <mat-icon matListItemIcon>folder</mat-icon>
-              <span matListItemTitle>Manage Projects</span>
-            </a>
-
-            <a mat-list-item routerLink="/app/admin/users" routerLinkActive="active" *ngIf="currentUser?.role === 'Admin'">
-              <mat-icon matListItemIcon>people</mat-icon>
-              <span matListItemTitle>Manage Users</span>
-            </a>
-          </mat-nav-list>
-        </mat-sidenav>
-
-        <mat-sidenav-content class="main-content">
-          <div class="content-wrapper">
-            <router-outlet></router-outlet>
+        <nav class="sidebar-navigation">
+          <a
+            routerLink="/app/portfolio"
+            routerLinkActive="active"
+            class="sidebar-link"
+            (click)="sidenav.close()"
+          >
+            <mat-icon>home</mat-icon>
+            <span>Portfolio</span>
+          </a>
+          <a
+            routerLink="/app/admin"
+            routerLinkActive="active"
+            class="sidebar-link"
+            *ngIf="currentUser?.role === 'Admin'"
+            (click)="sidenav.close()"
+          >
+            <mat-icon>dashboard</mat-icon>
+            <span>Admin</span>
+          </a>
+        </nav>
+        <div class="sidebar-footer" *ngIf="currentUser">
+          <div class="user-info">
+            <mat-icon>person</mat-icon>
+            <span>{{ currentUser.profile?.fullName || currentUser.username }}</span>
           </div>
-        </mat-sidenav-content>
-      </mat-sidenav-container>
-    </div>
+          <button mat-button (click)="logout()" class="logout-btn">
+            <mat-icon>logout</mat-icon>
+            <span>Logout</span>
+          </button>
+        </div>
+      </div>
+    </mat-sidenav>
+
+    <!-- Main Content -->
+    <mat-sidenav-content class="main-content">
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

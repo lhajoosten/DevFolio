@@ -100,7 +100,7 @@ export class ProjectService {
     );
   }
 
-  updateProject(id: string, project: Partial<Project>): Observable<Project> {
+  updateProject(id: number, project: Partial<Project>): Observable<Project> {
     const loadingKey = `project-update-${id}`;
     this.loadingService.start(loadingKey);
 
@@ -110,7 +110,7 @@ export class ProjectService {
     );
   }
 
-  deleteProject(id: string): Observable<void> {
+  deleteProject(id: number): Observable<void> {
     const loadingKey = `project-delete-${id}`;
     this.loadingService.start(loadingKey);
 

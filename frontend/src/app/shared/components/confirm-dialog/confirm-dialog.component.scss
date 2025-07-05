@@ -1,0 +1,159 @@
+@use '../../../../themes/devfolio-theme' as devfolio;
+@use '@angular/material' as mat;
+@use 'sass:map';
+
+.confirm-dialog {
+  font-family: map.get(devfolio.$devfolio-typography, 'font-family');
+
+  .mat-mdc-dialog-container {
+    border-radius: map.get(devfolio.$border-radius-tokens, 'lg');
+    box-shadow: map.get(devfolio.$shadow-tokens, 'xl');
+    border: 1px solid map.get(devfolio.$devfolio-neutral-palette, 200);
+  }
+
+  .dialog-header {
+    display: flex;
+    align-items: center;
+    gap: map.get(devfolio.$spacing-tokens, 'md');
+    margin-bottom: map.get(devfolio.$spacing-tokens, 'lg');
+
+    .dialog-icon {
+      font-size: 32px;
+      width: 32px;
+      height: 32px;
+      padding: map.get(devfolio.$spacing-tokens, 'sm');
+      border-radius: map.get(devfolio.$border-radius-tokens, 'full');
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &.warning {
+        color: mat.m2-get-color-from-palette(devfolio.$devfolio-warn-palette, 600);
+        background: mat.m2-get-color-from-palette(devfolio.$devfolio-warn-palette, 50);
+      }
+
+      &.danger {
+        color: mat.m2-get-color-from-palette(devfolio.$devfolio-warn-palette, 700);
+        background: mat.m2-get-color-from-palette(devfolio.$devfolio-warn-palette, 100);
+      }
+
+      &.info {
+        color: mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette-palette, 600);
+        background: mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette-palette, 50);
+      }
+    }
+
+    .dialog-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: map.get(devfolio.$devfolio-neutral-palette, 900);
+      margin: 0;
+    }
+  }
+
+  .dialog-content {
+    .dialog-message {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: map.get(devfolio.$devfolio-neutral-palette, 700);
+      margin-bottom: map.get(devfolio.$spacing-tokens, 'xl');
+    }
+
+    .dialog-details {
+      background: map.get(devfolio.$devfolio-neutral-palette, 50);
+      border: 1px solid map.get(devfolio.$devfolio-neutral-palette, 200);
+      border-radius: map.get(devfolio.$border-radius-tokens, 'md');
+      padding: map.get(devfolio.$spacing-tokens, 'md');
+      margin-bottom: map.get(devfolio.$spacing-tokens, 'lg');
+
+      .detail-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: map.get(devfolio.$spacing-tokens, 'xs');
+        font-size: 0.875rem;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        .label {
+          font-weight: 500;
+          color: map.get(devfolio.$devfolio-neutral-palette, 600);
+        }
+
+        .value {
+          color: map.get(devfolio.$devfolio-neutral-palette, 800);
+          font-weight: 600;
+        }
+      }
+    }
+  }
+
+  .dialog-actions {
+    display: flex;
+    gap: map.get(devfolio.$spacing-tokens, 'md');
+    justify-content: flex-end;
+    margin-top: map.get(devfolio.$spacing-tokens, 'xl');
+
+    .dialog-button {
+      border-radius: map.get(devfolio.$border-radius-tokens, 'md');
+      font-weight: 600;
+      text-transform: none;
+      letter-spacing: 0.5px;
+      padding: 0 map.get(devfolio.$spacing-tokens, 'lg');
+      transition: all 0.3s ease;
+
+      &.cancel-button {
+        border: 2px solid map.get(devfolio.$devfolio-neutral-palette, 300);
+        color: map.get(devfolio.$devfolio-neutral-palette, 700);
+
+        &:hover {
+          background: map.get(devfolio.$devfolio-neutral-palette, 50);
+          border-color: map.get(devfolio.$devfolio-neutral-palette, 400);
+        }
+      }
+
+      &.confirm-button {
+        &.primary {
+          background: linear-gradient(135deg,
+            #{mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette-palette, 500)},
+            #{mat.m2-get-color-from-palette(devfolio.$devfolio-primary-palette-palette, 600)});
+          box-shadow: map.get(devfolio.$shadow-tokens, 'sm');
+
+          &:hover {
+            transform: translateY(-1px);
+            box-shadow: map.get(devfolio.$shadow-tokens, 'md');
+          }
+        }
+
+        &.danger {
+          background: linear-gradient(135deg,
+            #{mat.m2-get-color-from-palette(devfolio.$devfolio-warn-palette, 500)},
+            #{mat.m2-get-color-from-palette(devfolio.$devfolio-warn-palette, 600)});
+          box-shadow: map.get(devfolio.$shadow-tokens, 'sm');
+
+          &:hover {
+            transform: translateY(-1px);
+            box-shadow: map.get(devfolio.$shadow-tokens, 'md');
+          }
+        }
+      }
+    }
+  }
+}
+
+// Animation
+.confirm-dialog {
+  animation: fadeInScale 0.3s ease-out;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

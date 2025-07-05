@@ -1,110 +1,312 @@
 <div class="portfolio-container">
-  <app-page-header
-    title="Portfolio"
-    subtitle="My Projects & Achievements"
-    icon="work"
-    [breadcrumbs]="[{ label: 'Home' }, { label: 'Portfolio' }]"
-  >
-  </app-page-header>
-
-  <div class="portfolio-content" *ngIf="!loading; else loadingTemplate">
-    <div class="filters-section">
-      <mat-form-field appearance="outline" class="filter-field">
-        <mat-label>Filter by Technology</mat-label>
-        <mat-select
-          [(value)]="selectedCategory"
-          (selectionChange)="filterByCategory(selectedCategory)"
-        >
-          <mat-option *ngFor="let category of categories" [value]="category">
-            {{ category | titlecase }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+  <!-- Modern Hero Section -->
+  <section class="hero-section">
+    <div class="hero-background">
+      <div class="hero-gradient"></div>
+      <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+      </div>
     </div>
 
-    <div
-      class="projects-grid"
-      *ngIf="filteredProjects.length > 0; else noProjectsTemplate"
-    >
-      <mat-card *ngFor="let project of filteredProjects" class="project-card">
-        <div class="card-header" *ngIf="project.imageUrl">
-          <img
-            mat-card-image
-            [src]="project.imageUrl"
-            [alt]="project.title"
-            class="project-image"
-          />
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1 class="hero-title">{{ portfolioOwner.name }}</h1>
+        <h2 class="hero-subtitle">{{ portfolioOwner.title }}</h2>
+        <p class="hero-description">{{ portfolioOwner.bio }}</p>
+
+        <div class="hero-actions">
+          <button mat-raised-button color="primary" class="cta-button" (click)="scrollToProjects()">
+            <mat-icon>work</mat-icon>
+            View My Work
+          </button>
+          <button mat-stroked-button color="accent" class="contact-button" (click)="scrollToContact()">
+            <mat-icon>mail</mat-icon>
+            Get In Touch
+          </button>
         </div>
 
-        <mat-card-header>
-          <mat-card-title>{{ project.title }}</mat-card-title>
-          <mat-card-subtitle>
-            <span class="duration">{{ project.durationInDays }} days</span>
-            <span class="date-range">
-              {{ project.startDate | date:'mediumDate' }}
-              <span *ngIf="project.endDate"> - {{ project.endDate | date:'mediumDate' }}</span>
-              <span *ngIf="!project.endDate"> - Present</span>
-            </span>
-          </mat-card-subtitle>
-        </mat-card-header>
-
-        <mat-card-content>
-          <p class="project-description">{{ project.description }}</p>
-
-          <div class="tech-stack" *ngIf="project.techStack && project.techStack.length > 0">
-            <mat-chip-set>
-              <mat-chip
-                *ngFor="let tech of project.techStack"
-                class="tech-chip"
-              >
-                {{ tech }}
-              </mat-chip>
-            </mat-chip-set>
+        <div class="hero-stats">
+          <div class="stat">
+            <span class="stat-number">{{ allProjects.length }}+</span>
+            <span class="stat-label">Projects</span>
           </div>
-        </mat-card-content>
-
-        <mat-card-actions>
-          <button mat-button color="primary" (click)="openProject(project)">
-            <mat-icon>visibility</mat-icon>
-            View Project
-          </button>
-          <button
-            mat-button
-            *ngIf="project.repoUrl"
-            (click)="openSource(project)"
-          >
-            <mat-icon>code</mat-icon>
-            View Code
-          </button>
-        </mat-card-actions>
-      </mat-card>
-    </div>
-
-    <ng-template #noProjectsTemplate>
-      <div class="no-projects">
-        <mat-icon class="no-projects-icon">work_off</mat-icon>
-        <h3>No Projects Found</h3>
-        <p>
-          {{
-            selectedCategory !== 'all'
-              ? "No projects match your selected category."
-              : "No projects available at the moment."
-          }}
-        </p>
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="filterByCategory('all')"
-          *ngIf="selectedCategory !== 'all'"
-        >
-          Show All Projects
-        </button>
+          <div class="stat">
+            <span class="stat-number">{{ getCompletedProjectsCount() }}+</span>
+            <span class="stat-label">Completed</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">{{ portfolioOwner.skills.length }}+</span>
+            <span class="stat-label">Technologies</span>
+          </div>
+        </div>
       </div>
-    </ng-template>
-  </div>
 
+      <div class="hero-visual">
+        <div class="profile-card">
+          <div class="profile-avatar">
+            <mat-icon class="avatar-icon">account_circle</mat-icon>
+          </div>
+          <div class="profile-info">
+            <h3>{{ portfolioOwner.name }}</h3>
+            <p>{{ portfolioOwner.location }}</p>
+            <div class="profile-skills">
+              <mat-chip *ngFor="let skill of portfolioOwner.skills.slice(0, 4)" class="skill-chip">
+                {{ skill }}
+              </mat-chip>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section class="skills-section" id="skills">
+    <div class="section-container">
+      <div class="section-header">
+        <h2 class="section-title">Technologies & Skills</h2>
+        <p class="section-subtitle">The tools and technologies I work with</p>
+      </div>
+
+      <div class="skills-grid">
+        <div class="skill-category" *ngFor="let category of getSkillCategories()">
+          <h3 class="category-title">{{ category.name }}</h3>
+          <div class="skills-list">
+            <mat-chip *ngFor="let skill of category.skills" class="tech-chip">
+              {{ skill }}
+            </mat-chip>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section class="projects-section" id="projects">
+    <div class="section-container">
+      <div class="section-header">
+        <h2 class="section-title">Featured Projects</h2>
+        <p class="section-subtitle">A showcase of my recent work and achievements</p>
+      </div>
+
+      <div class="filters-section" *ngIf="!loading">
+        <mat-tab-group
+          [(selectedIndex)]="selectedTabIndex"
+          (selectedTabChange)="onTabChange($event)"
+          class="projects-tabs"
+        >
+          <mat-tab label="All Projects">
+            <ng-template matTabContent>
+              <div class="tab-content">All {{ allProjects.length }} projects</div>
+            </ng-template>
+          </mat-tab>
+          <mat-tab *ngFor="let category of getUniqueCategories()" [label]="category | titlecase">
+            <ng-template matTabContent>
+              <div class="tab-content">{{ getCategoryCount(category) }} {{ category }} projects</div>
+            </ng-template>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+
+      <div class="portfolio-content" *ngIf="!loading; else loadingTemplate">
+        <div
+          class="projects-grid"
+          *ngIf="filteredProjects.length > 0; else noProjectsTemplate"
+        >
+          <mat-card *ngFor="let project of filteredProjects; let i = index"
+                    class="project-card"
+                    [class.featured]="i < 3"
+                    [@fadeInUp]="i">
+
+            <div class="card-image" *ngIf="project.imageUrl">
+              <img
+                [src]="project.imageUrl"
+                [alt]="project.title"
+                class="project-image"
+              />
+              <div class="image-overlay">
+                <button mat-fab color="primary" (click)="openProject(project)">
+                  <mat-icon>visibility</mat-icon>
+                </button>
+              </div>
+            </div>
+
+            <div class="card-content">
+              <mat-card-header class="project-header">
+                <mat-card-title>{{ project.title }}</mat-card-title>
+                <mat-card-subtitle>
+                  <div class="project-meta">
+                    <span class="duration">
+                      <mat-icon>schedule</mat-icon>
+                      {{ project.durationInDays }} days
+                    </span>
+                    <span class="status" [class]="getStatusClass(project.status)">
+                      <mat-icon>{{ getStatusIcon(project.status) }}</mat-icon>
+                      {{ getStatusText(project.status) }}
+                    </span>
+                  </div>
+                </mat-card-subtitle>
+              </mat-card-header>
+
+              <mat-card-content>
+                <p class="project-description">{{ project.description }}</p>
+
+                <div class="project-details">
+                  <div class="date-range">
+                    <mat-icon>calendar_today</mat-icon>
+                    <span>
+                      {{ project.startDate | date:'MMM yyyy' }}
+                      <span *ngIf="project.endDate"> - {{ project.endDate | date:'MMM yyyy' }}</span>
+                      <span *ngIf="!project.endDate"> - Present</span>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="tech-stack" *ngIf="project.techStack && project.techStack.length > 0">
+                  <div class="tech-header">
+                    <mat-icon>code</mat-icon>
+                    <span>Technologies</span>
+                  </div>
+                  <div class="tech-chips">
+                    <mat-chip
+                      *ngFor="let tech of project.techStack"
+                      class="tech-chip"
+                    >
+                      {{ tech }}
+                    </mat-chip>
+                  </div>
+                </div>
+              </mat-card-content>
+
+              <mat-card-actions class="card-actions">
+                <button mat-raised-button color="primary" (click)="openProject(project)">
+                  <mat-icon>visibility</mat-icon>
+                  View Details
+                </button>
+                <button
+                  mat-stroked-button
+                  color="accent"
+                  *ngIf="project.repoUrl"
+                  (click)="openSource(project)"
+                >
+                  <mat-icon>code</mat-icon>
+                  Source Code
+                </button>
+                <button mat-icon-button (click)="shareProject(project)">
+                  <mat-icon>share</mat-icon>
+                </button>
+              </mat-card-actions>
+            </div>
+          </mat-card>
+        </div>
+
+        <ng-template #noProjectsTemplate>
+          <div class="no-projects">
+            <div class="no-projects-icon">
+              <mat-icon>work_off</mat-icon>
+            </div>
+            <h3>No Projects Found</h3>
+            <p>
+              {{
+                selectedCategory !== 'all'
+                  ? "No projects match your selected category."
+                  : "Projects are being added. Check back soon!"
+              }}
+            </p>
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="filterByCategory('all')"
+              *ngIf="selectedCategory !== 'all'"
+            >
+              <mat-icon>refresh</mat-icon>
+              Show All Projects
+            </button>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact-section" id="contact">
+    <div class="section-container">
+      <div class="contact-content">
+        <div class="contact-info">
+          <h2 class="section-title">Let's Work Together</h2>
+          <p class="section-subtitle">Have a project in mind? Let's discuss how we can bring your ideas to life.</p>
+
+          <div class="contact-details">
+            <div class="contact-item">
+              <mat-icon>mail</mat-icon>
+              <span>{{ portfolioOwner.email }}</span>
+            </div>
+            <div class="contact-item">
+              <mat-icon>location_on</mat-icon>
+              <span>{{ portfolioOwner.location }}</span>
+            </div>
+          </div>
+
+          <div class="social-links">
+            <button mat-fab color="primary" (click)="openSocialLink('github')">
+              <mat-icon>code</mat-icon>
+            </button>
+            <button mat-fab color="primary" (click)="openSocialLink('linkedin')">
+              <mat-icon>business</mat-icon>
+            </button>
+            <button mat-fab color="primary" (click)="openSocialLink('twitter')">
+              <mat-icon>alternate_email</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="contact-form">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>Send a Message</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p>Contact form coming soon. For now, feel free to reach out via email!</p>
+              <button mat-raised-button color="primary" (click)="sendEmail()">
+                <mat-icon>mail</mat-icon>
+                Send Email
+              </button>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Loading Template -->
   <ng-template #loadingTemplate>
-    <app-loading-spinner message="Loading projects..." [size]="60">
-    </app-loading-spinner>
+    <div class="loading-container">
+      <app-loading-spinner message="Loading portfolio..." [size]="60"></app-loading-spinner>
+    </div>
   </ng-template>
+
+  <!-- No Projects Template -->
+  <ng-template #noProjectsTemplate>
+    <div class="no-projects">
+      <mat-icon class="no-projects-icon">work_off</mat-icon>
+      <h3>No Projects Found</h3>
+      <p>There are no projects to display at the moment.</p>
+    </div>
+  </ng-template>
+
+  <!-- Error Template -->
+  <div *ngIf="error" class="error-message">
+    <mat-card color="warn">
+      <mat-card-content>
+        <mat-icon>error</mat-icon>
+        <p>{{ error }}</p>
+        <button mat-raised-button color="primary" (click)="refreshData()">
+          <mat-icon>refresh</mat-icon>
+          Retry
+        </button>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>

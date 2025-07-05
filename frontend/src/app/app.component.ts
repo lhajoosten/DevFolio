@@ -8,13 +8,8 @@ import { CommonModule } from '@angular/common';
   template: `
     <router-outlet></router-outlet>
   `,
-  styles: [`
-    :host {
-      display: block;
-      height: 100vh;
-    }
-  `]
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'DevFolio';
+  title = 'devfolio';
 }
