@@ -169,16 +169,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(options =>
     {
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "Portfolio API v1");
-        options.RoutePrefix = string.Empty; // Set Swagger UI at the app's root
+        options.RoutePrefix = string.Empty;
         options.DisplayRequestDuration();
         options.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
-        options.DefaultModelsExpandDepth(-1); // Hide schemas section
+        options.DefaultModelsExpandDepth(-1);
         options.EnableDeepLinking();
         options.EnableFilter();
         options.EnableValidator();
-
-        // Custom CSS for better appearance
-        options.InjectStylesheet("/swagger-ui/custom.css");
     });
 
     app.UseDeveloperExceptionPage();
