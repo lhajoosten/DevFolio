@@ -42,41 +42,40 @@ export interface Education {
     MatButtonModule,
     MatIconModule,
     MatChipsModule,
-    MatProgressBarModule
+    MatProgressBarModule,
   ],
   templateUrl: './about.component.html',
-  styleUrl: './about.component.scss'
+  styleUrl: './about.component.scss',
 })
 export class AboutComponent implements OnInit {
-
   personalInfo = {
     firstName: 'Luc',
     lastName: 'Joosten',
     title: 'Full-Stack Developer',
-    profileImage: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face',
+    profileImage: './assets/images/profile-picture.jpg',
     location: 'Nederland',
     email: 'lhajoosten@outlook.com',
     github: 'https://github.com/lhajoosten',
     linkedin: 'https://linkedin.com/in/lhajoosten',
-    cv: '/assets/cv/luc-joosten-cv.pdf'
+    cv: '/assets/cv/luc-joosten-cv.pdf',
   };
 
   aboutText = {
-    introduction: `Hallo! Ik ben Luc Joosten, een gepassioneerde full-stack developer uit Nederland. 
-                   Na mijn opleiding ben ik volledig gefocust op het creëren van moderne, schaalbare 
+    introduction: `Hallo! Ik ben Luc Joosten, een gepassioneerde full-stack developer uit Nederland.
+                   Na mijn opleiding ben ik volledig gefocust op het creëren van moderne, schaalbare
                    web applicaties die zowel gebruiksvriendelijk als technisch uitstekend zijn.`,
-    
-    passion: `Wat mij echt motiveert is het transformeren van complexe business requirements naar 
-              elegante, intuïtieve oplossingen. Ik hou van de uitdaging om nieuwe technologieën te 
+
+    passion: `Wat mij echt motiveert is het transformeren van complexe business requirements naar
+              elegante, intuïtieve oplossingen. Ik hou van de uitdaging om nieuwe technologieën te
               leren en toe te passen, en ik geloof sterk in clean code principles en best practices.`,
-    
-    approach: `Mijn aanpak is altijd gebruikersgericht - ik begin met het begrijpen van de behoeften 
-               van eindgebruikers en bouw vervolgens robuuste systemen die deze behoeften effectief 
+
+    approach: `Mijn aanpak is altijd gebruikersgericht - ik begin met het begrijpen van de behoeften
+               van eindgebruikers en bouw vervolgens robuuste systemen die deze behoeften effectief
                adresseren. Ik werk graag in teams waar kennis delen en continu leren centraal staan.`,
-    
-    goals: `Momenteel ben ik op zoek naar uitdagende projecten waar ik mijn skills verder kan 
-            ontwikkelen en waardevolle bijdragen kan leveren aan innovatieve softwareoplossingen. 
-            Ik ben vooral geïnteresseerd in posities waar Angular en .NET centraal staan.`
+
+    goals: `Momenteel ben ik op zoek naar uitdagende projecten waar ik mijn skills verder kan
+            ontwikkelen en waardevolle bijdragen kan leveren aan innovatieve softwareoplossingen.
+            Ik ben vooral geïnteresseerd in posities waar Angular en .NET centraal staan.`,
   };
 
   skillCategories: SkillCategory[] = [
@@ -91,8 +90,8 @@ export class AboutComponent implements OnInit {
         { name: 'SCSS/Sass', level: 90, experience: '2+ jaar' },
         { name: 'Angular Material', level: 85, experience: '2+ jaar' },
         { name: 'RxJS', level: 80, experience: '1+ jaar' },
-        { name: 'Responsive Design', level: 90, experience: '2+ jaar' }
-      ]
+        { name: 'Responsive Design', level: 90, experience: '2+ jaar' },
+      ],
     },
     {
       name: 'Backend Development',
@@ -103,9 +102,13 @@ export class AboutComponent implements OnInit {
         { name: 'ASP.NET Web API', level: 85, experience: '2+ jaar' },
         { name: 'Entity Framework', level: 80, experience: '1+ jaar' },
         { name: 'RESTful APIs', level: 85, experience: '2+ jaar' },
-        { name: 'Authentication & Authorization', level: 75, experience: '1+ jaar' },
-        { name: 'LINQ', level: 85, experience: '2+ jaar' }
-      ]
+        {
+          name: 'Authentication & Authorization',
+          level: 75,
+          experience: '1+ jaar',
+        },
+        { name: 'LINQ', level: 85, experience: '2+ jaar' },
+      ],
     },
     {
       name: 'Database & Data',
@@ -115,8 +118,8 @@ export class AboutComponent implements OnInit {
         { name: 'SQL Server', level: 75, experience: '1+ jaar' },
         { name: 'SQL', level: 85, experience: '2+ jaar' },
         { name: 'Database Design', level: 75, experience: '1+ jaar' },
-        { name: 'Data Modeling', level: 70, experience: '1+ jaar' }
-      ]
+        { name: 'Data Modeling', level: 70, experience: '1+ jaar' },
+      ],
     },
     {
       name: 'Tools & Workflow',
@@ -128,9 +131,9 @@ export class AboutComponent implements OnInit {
         { name: 'NPM/Yarn', level: 85, experience: '2+ jaar' },
         { name: 'Azure DevOps', level: 70, experience: '<1 jaar' },
         { name: 'Docker', level: 65, experience: '<1 jaar' },
-        { name: 'Postman', level: 85, experience: '2+ jaar' }
-      ]
-    }
+        { name: 'Postman', level: 85, experience: '2+ jaar' },
+      ],
+    },
   ];
 
   experiences: Experience[] = [
@@ -138,16 +141,25 @@ export class AboutComponent implements OnInit {
       title: 'Junior Full-Stack Developer',
       company: 'Eigen Projecten',
       period: '2023 - Heden',
-      description: 'Zelfstandige ontwikkeling van diverse web applicaties om praktische ervaring op te doen en vaardigheden te ontwikkelen.',
-      technologies: ['Angular', 'TypeScript', '.NET Core', 'C#', 'PostgreSQL', 'SCSS']
+      description:
+        'Zelfstandige ontwikkeling van diverse web applicaties om praktische ervaring op te doen en vaardigheden te ontwikkelen.',
+      technologies: [
+        'Angular',
+        'TypeScript',
+        '.NET Core',
+        'C#',
+        'PostgreSQL',
+        'SCSS',
+      ],
     },
     {
       title: 'Software Development Student',
       company: 'Hogeschool',
       period: '2021 - 2023',
-      description: 'Intensive studie van moderne software development praktijken met focus op web development en enterprise applicaties.',
-      technologies: ['C#', '.NET', 'JavaScript', 'SQL', 'HTML/CSS', 'Git']
-    }
+      description:
+        'Intensive studie van moderne software development praktijken met focus op web development en enterprise applicaties.',
+      technologies: ['C#', '.NET', 'JavaScript', 'SQL', 'HTML/CSS', 'Git'],
+    },
   ];
 
   education: Education[] = [
@@ -155,26 +167,38 @@ export class AboutComponent implements OnInit {
       degree: 'Bachelor Software Development',
       institution: 'Hogeschool Nederland',
       period: '2021 - 2023',
-      description: 'Afgestudeerd met focus op modern web development, software architecture en best practices.'
+      description:
+        'Afgestudeerd met focus op modern web development, software architecture en best practices.',
     },
     {
       degree: 'Diverse Online Certificeringen',
       institution: 'Pluralsight, Udemy, Microsoft Learn',
       period: '2023 - Heden',
-      description: 'Voortdurende professionele ontwikkeling door online cursussen en certificeringen.'
-    }
+      description:
+        'Voortdurende professionele ontwikkeling door online cursussen en certificeringen.',
+    },
   ];
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
     // Any initialization logic
   }
 
-  downloadCV(): void {
+  downloadDutchCV(): void {
     const link = document.createElement('a');
-    link.href = this.personalInfo.cv;
-    link.download = 'CV-Luc-Joosten-Full-Stack-Developer.pdf';
+    link.href = '/assets/documents/luc-joosten-cv.pdf';
+    link.download = 'cv-luc-joosten.pdf';
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  downloadEnglishCV(): void {
+    const link = document.createElement('a');
+    link.href = '/assets/documents/luc-joosten-cv-english.pdf';
+    link.download = 'cv-luc-joosten-en.pdf';
     link.target = '_blank';
     document.body.appendChild(link);
     link.click();

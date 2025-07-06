@@ -1,6 +1,5 @@
 <!-- DevFolio - About Page -->
 <div class="about-page">
-
   <!-- Hero Section -->
   <section class="about-hero">
     <div class="container mx-auto px-6">
@@ -8,13 +7,16 @@
         <div class="hero-text">
           <h1 class="page-title">Over Mij</h1>
           <p class="page-subtitle">
-            Leer meer over mijn achtergrond, vaardigheden en passie voor software development
+            Leer meer over mijn achtergrond, vaardigheden en passie voor
+            software development
           </p>
         </div>
         <div class="hero-image">
-          <img [src]="personalInfo.profileImage" 
-               [alt]="personalInfo.firstName + ' ' + personalInfo.lastName" 
-               class="profile-image">
+          <img
+            [src]="personalInfo.profileImage"
+            [alt]="personalInfo.firstName + ' ' + personalInfo.lastName"
+            class="profile-image"
+          />
         </div>
       </div>
     </div>
@@ -25,8 +27,10 @@
     <div class="container mx-auto px-6">
       <div class="intro-content">
         <div class="intro-text">
-          <h2 class="section-title">Hallo, ik ben {{ personalInfo.firstName }}!</h2>
-          
+          <h2 class="section-title">
+            Hallo, ik ben {{ personalInfo.firstName }}!
+          </h2>
+
           <div class="text-blocks">
             <p class="intro-paragraph">{{ aboutText.introduction }}</p>
             <p class="intro-paragraph">{{ aboutText.passion }}</p>
@@ -50,15 +54,33 @@
           </div>
 
           <div class="action-buttons">
-            <button mat-raised-button color="primary" (click)="downloadCV()">
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="downloadDutchCV()"
+            >
               <mat-icon>description</mat-icon>
-              Download CV
+              Download CV (Nederlands PDF)
             </button>
-            <button mat-stroked-button (click)="openExternalLink(personalInfo.linkedin)">
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="downloadEnglishCV()"
+            >
+              <mat-icon>description</mat-icon>
+              Download CV (English PDF)
+            </button>
+            <button
+              mat-stroked-button
+              (click)="openExternalLink(personalInfo.linkedin)"
+            >
               <mat-icon>work</mat-icon>
               LinkedIn
             </button>
-            <button mat-stroked-button (click)="openExternalLink(personalInfo.github)">
+            <button
+              mat-stroked-button
+              (click)="openExternalLink(personalInfo.github)"
+            >
               <mat-icon>code</mat-icon>
               GitHub
             </button>
@@ -73,7 +95,8 @@
     <div class="container mx-auto px-6">
       <h2 class="section-title">Technische Vaardigheden</h2>
       <p class="section-subtitle">
-        Een overzicht van mijn technische expertise en ervaring met verschillende technologieën
+        Een overzicht van mijn technische expertise en ervaring met
+        verschillende technologieën
       </p>
 
       <div class="skills-grid">
@@ -91,13 +114,16 @@
               </div>
               <div class="skill-level">
                 <div class="progress-container">
-                  <mat-progress-bar 
-                    mode="determinate" 
+                  <mat-progress-bar
+                    mode="determinate"
                     [value]="skill.level"
-                    class="skill-progress">
+                    class="skill-progress"
+                  >
                   </mat-progress-bar>
                 </div>
-                <span class="level-text">{{ getSkillLevelText(skill.level) }}</span>
+                <span class="level-text">{{
+                  getSkillLevelText(skill.level)
+                }}</span>
               </div>
             </div>
           </div>
@@ -154,7 +180,9 @@
             <h3 class="degree">{{ edu.degree }}</h3>
             <p class="institution">{{ edu.institution }}</p>
             <span class="period">{{ edu.period }}</span>
-            <p *ngIf="edu.description" class="description">{{ edu.description }}</p>
+            <p *ngIf="edu.description" class="description">
+              {{ edu.description }}
+            </p>
           </div>
         </div>
       </div>
@@ -167,11 +195,16 @@
       <div class="cta-content">
         <h2 class="cta-title">Laten we samenwerken!</h2>
         <p class="cta-description">
-          Ben je op zoek naar een gepassioneerde developer? 
-          Ik sta open voor nieuwe uitdagingen en interessante projecten.
+          Ben je op zoek naar een gepassioneerde developer? Ik sta open voor
+          nieuwe uitdagingen en interessante projecten.
         </p>
         <div class="cta-actions">
-          <a routerLink="/contact" mat-raised-button color="primary" class="cta-btn">
+          <a
+            routerLink="/contact"
+            mat-raised-button
+            color="primary"
+            class="cta-btn"
+          >
             <mat-icon>email</mat-icon>
             Neem contact op
           </a>
@@ -195,5 +228,4 @@
       </div>
     </div>
   </section>
-
 </div>

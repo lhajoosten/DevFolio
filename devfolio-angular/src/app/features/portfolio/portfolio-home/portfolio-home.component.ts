@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { takeUntil, map, startWith } from 'rxjs/operators';
 import { ProjectsService } from '../../../core/services/projects.service';
@@ -21,6 +22,8 @@ export interface PersonalInfo {
   github: string;
   linkedin: string;
   isAvailableForWork: boolean;
+  yearsExperience?: number;
+  currentRole?: string;
 }
 
 export interface Skill {
@@ -37,7 +40,8 @@ export interface Skill {
     RouterModule,
     MatButtonModule,
     MatIconModule,
-    MatChipsModule
+    MatChipsModule,
+    MatTooltipModule
   ],
   templateUrl: './portfolio-home.component.html',
   styleUrl: './portfolio-home.component.scss'
@@ -59,7 +63,9 @@ export class PortfolioHomeComponent implements OnInit, OnDestroy {
     email: 'lhajoosten@outlook.com',
     github: 'https://github.com/lhajoosten',
     linkedin: 'https://linkedin.com/in/lhajoosten',
-    isAvailableForWork: true
+    isAvailableForWork: true,
+    yearsExperience: 1,
+    currentRole: 'Junior Developer'
   };
 
   // Featured projects van de API
@@ -85,11 +91,12 @@ export class PortfolioHomeComponent implements OnInit, OnDestroy {
     { name: 'Jest/Jasmine', level: 4, category: 'Tools' }
   ];
 
+  private currentTextIndex = 0;
+
   constructor(private projectsService: ProjectsService) {
-    // Load featured projects and handle loading state
     this.featuredProjects$ = this.projectsService.getFeaturedProjects().pipe(
-      map(projects => projects.slice(0, 6)), // Limit to 6 featured projects
-      startWith([]), // Start with empty array
+      map(projects => projects.slice(0, 6)),
+      startWith([]),
       takeUntil(this.destroy$)
     );
   }
@@ -97,6 +104,7 @@ export class PortfolioHomeComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loadInitialData();
     this.setupScrollAnimations();
+    this.startRotatingText();
   }
 
   ngOnDestroy(): void {
@@ -141,6 +149,17 @@ export class PortfolioHomeComponent implements OnInit, OnDestroy {
     }
   }
 
+  private startRotatingText(): void {
+    setInterval(() => {
+      const elements = document.querySelectorAll('.role-item');
+      if (elements.length > 0) {
+        elements.forEach(el => el.classList.remove('active'));
+        this.currentTextIndex = (this.currentTextIndex + 1) % elements.length;
+        elements[this.currentTextIndex]?.classList.add('active');
+      }
+    }, 3000);
+  }
+
   /**
    * Download CV functionality with analytics tracking
    */
@@ -181,6 +200,13 @@ export class PortfolioHomeComponent implements OnInit, OnDestroy {
   scrollToProjects(): void {
     this.smoothScrollTo('projects');
     this.trackEvent('navigation', 'scroll', 'Scroll to Projects');
+  }
+
+  /**
+   * Scroll to the next section (about section)
+   */
+  scrollToNextSection(): void {
+    this.smoothScrollTo('about');
   }
 
   /**

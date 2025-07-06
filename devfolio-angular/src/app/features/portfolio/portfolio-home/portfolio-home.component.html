@@ -3,44 +3,168 @@
 
   <!-- Hero Section -->
   <section class="hero-section">
+    <!-- Background Elements -->
+    <div class="hero-background">
+      <div class="gradient-overlay"></div>
+      <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+      </div>
+      <div class="grid-pattern"></div>
+    </div>
+
     <div class="container mx-auto px-6">
       <div class="hero-content">
         <div class="hero-text">
-          <p class="hero-subtitle">Hallo, ik ben</p>
+          <!-- Introduction -->
+          <div class="hero-intro">
+            <span class="greeting-emoji">👋</span>
+            <p class="hero-subtitle animate-fade-in">Hallo, ik ben</p>
+          </div>
 
-          <h1 class="hero-title">
+          <!-- Main Title with Typing Effect -->
+          <h1 class="hero-title animate-slide-up">
             {{ personalInfo.firstName }}
-            <span class="text-accent">{{ personalInfo.lastName }}</span>
+            <span class="text-accent gradient-text">{{ personalInfo.lastName }}</span>
           </h1>
 
-          <h2 class="hero-role">{{ personalInfo.title }}</h2>
-          <p class="hero-description">{{ personalInfo.tagline }}</p>
-
-          <div class="hero-actions">
-            <a href="#projects" class="btn-primary" (click)="scrollToProjects()">
-              <mat-icon>work</mat-icon>
-              Bekijk mijn werk
-            </a>
-            <a href="#" class="btn-secondary" (click)="downloadCV()">
-              <mat-icon>description</mat-icon>
-              Download CV
-            </a>
-            <a href="#contact" class="btn-secondary" (click)="scrollToContact()">
-              <mat-icon>email</mat-icon>
-              Contact
-            </a>
+          <!-- Role with Rotating Text -->
+          <div class="hero-role-container animate-slide-up-delay-1">
+            <h2 class="hero-role">
+              <span class="role-prefix">Ik ben een</span>
+              <span class="rotating-text">
+                <span class="role-item active">{{ personalInfo.title }}</span>
+                <span class="role-item">Problem Solver</span>
+                <span class="role-item">Code Architect</span>
+                <span class="role-item">Tech Enthusiast</span>
+              </span>
+            </h2>
           </div>
-        </div>
 
-        <div class="hero-image">
-          <div class="profile-card">
-            <img [src]="personalInfo.profileImage" [alt]="personalInfo.firstName + ' ' + personalInfo.lastName" class="profile-image">
-            <div class="availability-badge" *ngIf="personalInfo.isAvailableForWork">
-              Beschikbaar voor werk
+          <!-- Enhanced Description -->
+          <div class="hero-description-container animate-slide-up-delay-2">
+            <p class="hero-description">{{ personalInfo.tagline }}</p>
+            <p class="hero-tagline">
+              Gespecialiseerd in het bouwen van schaalbare web applicaties met moderne technologieën.
+              Van concept tot deployment - ik breng ideeën tot leven.
+            </p>
+          </div>
+
+          <!-- Stats Bar -->
+          <div class="hero-stats animate-fade-in-delay-3">
+            <div class="stat-item">
+              <span class="stat-number">{{ personalInfo.yearsExperience || '3' }}+</span>
+              <span class="stat-label">Jaar Ervaring</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">{{ (featuredProjects$ | async)?.length || '10' }}+</span>
+              <span class="stat-label">Projecten</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">100%</span>
+              <span class="stat-label">Tevredenheid</span>
+            </div>
+          </div>
+
+          <!-- Enhanced Action Buttons -->
+          <div class="hero-actions animate-slide-up-delay-4">
+            <button class="btn-primary btn-hero" (click)="scrollToProjects()">
+              <mat-icon>rocket_launch</mat-icon>
+              <span>Bekijk mijn werk</span>
+              <div class="btn-shine"></div>
+            </button>
+
+            <button class="btn-secondary btn-hero" (click)="downloadCV()">
+              <mat-icon>download</mat-icon>
+              <span>Download CV</span>
+            </button>
+
+            <button class="btn-outline btn-hero" (click)="scrollToContact()">
+              <mat-icon>chat</mat-icon>
+              <span>Laten we praten</span>
+            </button>
+          </div>
+
+          <!-- Social Proof -->
+          <div class="hero-social-proof animate-fade-in-delay-5">
+            <p class="social-proof-text">Vertrouwd door ontwikkelaars wereldwijd</p>
+            <div class="tech-badges">
+              <div class="tech-badge">
+                <mat-icon>code</mat-icon>
+                <span>Angular Expert</span>
+              </div>
+              <div class="tech-badge">
+                <mat-icon>storage</mat-icon>
+                <span>.NET Specialist</span>
+              </div>
+              <div class="tech-badge">
+                <mat-icon>cloud</mat-icon>
+                <span>Cloud Ready</span>
+              </div>
             </div>
           </div>
         </div>
+
+        <!-- Enhanced Hero Image -->
+        <div class="hero-image animate-float">
+          <div class="profile-card-container">
+            <!-- Decorative Elements -->
+            <div class="card-decoration decoration-1"></div>
+            <div class="card-decoration decoration-2"></div>
+
+            <div class="profile-card">
+              <!-- Profile Image with Frame -->
+              <div class="profile-image-container">
+                <div class="image-frame">
+                  <img
+                    [src]="personalInfo.profileImage"
+                    [alt]="personalInfo.firstName + ' ' + personalInfo.lastName"
+                    class="profile-image"
+                    loading="lazy">
+                </div>
+                <div class="image-border"></div>
+              </div>
+
+              <!-- Enhanced Availability Badge -->
+              <div class="availability-badge" *ngIf="personalInfo.isAvailableForWork">
+                <div class="badge-dot"></div>
+                <span class="badge-text">Beschikbaar voor werk</span>
+                <mat-icon class="badge-icon">verified</mat-icon>
+              </div>
+
+              <!-- Quick Info Cards -->
+              <div class="quick-info-cards">
+                <div class="info-card">
+                  <mat-icon>location_on</mat-icon>
+                  <span>{{ personalInfo.location || 'Nederland' }}</span>
+                </div>
+                <div class="info-card">
+                  <mat-icon>work</mat-icon>
+                  <span>{{ personalInfo.currentRole || 'Full-Stack Developer' }}</span>
+                </div>
+              </div>
+
+              <!-- Floating Action Button -->
+              <button class="profile-fab" (click)="scrollToContact()" matTooltip="Direct contact">
+                <mat-icon>message</mat-icon>
+              </button>
+            </div>
+
+            <!-- Background Glow -->
+            <div class="profile-glow"></div>
+          </div>
+        </div>
       </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator animate-bounce">
+      <button class="scroll-button" (click)="scrollToNextSection()" aria-label="Scroll naar volgende sectie">
+        <mat-icon>keyboard_arrow_down</mat-icon>
+      </button>
+      <span class="scroll-text">Scroll voor meer</span>
     </div>
   </section>
 

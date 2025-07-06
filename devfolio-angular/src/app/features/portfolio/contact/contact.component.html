@@ -1,13 +1,13 @@
 <!-- DevFolio - Contact Page -->
 <div class="contact-page">
-
   <!-- Hero Section -->
   <section class="contact-hero">
     <div class="container mx-auto px-6">
       <div class="hero-content">
         <h1 class="page-title">Laten we in contact komen</h1>
         <p class="page-subtitle">
-          Heb je een project in gedachten? Ik sta klaar om te helpen bij het realiseren van jouw ideeën.
+          Heb je een project in gedachten? Ik sta klaar om te helpen bij het
+          realiseren van jouw ideeën.
         </p>
       </div>
     </div>
@@ -22,10 +22,12 @@
       </p>
 
       <div class="contact-methods-grid">
-        <div *ngFor="let method of contactMethods" 
-             class="contact-method-card"
-             [class.clickable]="method.link"
-             (click)="openContactMethod(method)">
+        <div
+          *ngFor="let method of contactMethods"
+          class="contact-method-card"
+          [class.clickable]="method.link"
+          (click)="openContactMethod(method)"
+        >
           <div class="method-icon">
             <mat-icon>{{ method.icon }}</mat-icon>
           </div>
@@ -52,34 +54,43 @@
           </p>
         </div>
 
-        <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
-          
+        <form
+          [formGroup]="contactForm"
+          (ngSubmit)="onSubmit()"
+          class="contact-form"
+        >
           <!-- Basic Information -->
           <div class="form-section">
             <h3 class="section-label">Contactgegevens</h3>
-            
+
             <div class="form-row">
               <mat-form-field appearance="outline" class="form-field">
                 <mat-label>Volledige naam *</mat-label>
-                <input matInput 
-                       type="text" 
-                       formControlName="name"
-                       placeholder="Je voor- en achternaam">
+                <input
+                  matInput
+                  type="text"
+                  formControlName="name"
+                  placeholder="Je voor- en achternaam"
+                />
                 <mat-icon matSuffix>person</mat-icon>
                 <mat-error *ngIf="nameControl?.invalid && nameControl?.touched">
-                  {{ getErrorMessage('name') }}
+                  {{ getErrorMessage("name") }}
                 </mat-error>
               </mat-form-field>
 
               <mat-form-field appearance="outline" class="form-field">
                 <mat-label>Email adres *</mat-label>
-                <input matInput 
-                       type="email" 
-                       formControlName="email"
-                       placeholder="je@email.com">
+                <input
+                  matInput
+                  type="email"
+                  formControlName="email"
+                  placeholder="je@email.com"
+                />
                 <mat-icon matSuffix>email</mat-icon>
-                <mat-error *ngIf="emailControl?.invalid && emailControl?.touched">
-                  {{ getErrorMessage('email') }}
+                <mat-error
+                  *ngIf="emailControl?.invalid && emailControl?.touched"
+                >
+                  {{ getErrorMessage("email") }}
                 </mat-error>
               </mat-form-field>
             </div>
@@ -88,16 +99,20 @@
           <!-- Project Information -->
           <div class="form-section">
             <h3 class="section-label">Project informatie</h3>
-            
+
             <mat-form-field appearance="outline" class="form-field full-width">
               <mat-label>Onderwerp *</mat-label>
-              <input matInput 
-                     type="text" 
-                     formControlName="subject"
-                     placeholder="Korte beschrijving van je project">
+              <input
+                matInput
+                type="text"
+                formControlName="subject"
+                placeholder="Korte beschrijving van je project"
+              />
               <mat-icon matSuffix>subject</mat-icon>
-              <mat-error *ngIf="subjectControl?.invalid && subjectControl?.touched">
-                {{ getErrorMessage('subject') }}
+              <mat-error
+                *ngIf="subjectControl?.invalid && subjectControl?.touched"
+              >
+                {{ getErrorMessage("subject") }}
               </mat-error>
             </mat-form-field>
 
@@ -105,7 +120,10 @@
               <mat-form-field appearance="outline" class="form-field">
                 <mat-label>Project type *</mat-label>
                 <mat-select formControlName="projectType">
-                  <mat-option *ngFor="let type of projectTypes" [value]="type.value">
+                  <mat-option
+                    *ngFor="let type of projectTypes"
+                    [value]="type.value"
+                  >
                     {{ type.label }}
                   </mat-option>
                 </mat-select>
@@ -115,7 +133,10 @@
               <mat-form-field appearance="outline" class="form-field">
                 <mat-label>Budget indicatie</mat-label>
                 <mat-select formControlName="budget">
-                  <mat-option *ngFor="let budget of budgetRanges" [value]="budget.value">
+                  <mat-option
+                    *ngFor="let budget of budgetRanges"
+                    [value]="budget.value"
+                  >
                     {{ budget.label }}
                   </mat-option>
                 </mat-select>
@@ -126,7 +147,10 @@
             <mat-form-field appearance="outline" class="form-field full-width">
               <mat-label>Gewenste tijdslijn</mat-label>
               <mat-select formControlName="timeline">
-                <mat-option *ngFor="let timeline of timelines" [value]="timeline.value">
+                <mat-option
+                  *ngFor="let timeline of timelines"
+                  [value]="timeline.value"
+                >
                   {{ timeline.label }}
                 </mat-option>
               </mat-select>
@@ -135,37 +159,53 @@
 
             <mat-form-field appearance="outline" class="form-field full-width">
               <mat-label>Beschrijving van je project *</mat-label>
-              <textarea matInput 
-                        formControlName="message"
-                        rows="6"
-                        placeholder="Vertel me meer over je project, doelen, en specifieke wensen..."></textarea>
+              <textarea
+                matInput
+                formControlName="message"
+                rows="6"
+                placeholder="Vertel me meer over je project, doelen, en specifieke wensen..."
+              ></textarea>
               <mat-icon matSuffix>message</mat-icon>
-              <mat-error *ngIf="messageControl?.invalid && messageControl?.touched">
-                {{ getErrorMessage('message') }}
+              <mat-error
+                *ngIf="messageControl?.invalid && messageControl?.touched"
+              >
+                {{ getErrorMessage("message") }}
               </mat-error>
             </mat-form-field>
           </div>
 
           <!-- Privacy Consent -->
           <div class="form-section">
-            <mat-checkbox formControlName="privacyConsent" class="privacy-checkbox">
-              Ik ga akkoord met het verwerken van mijn gegevens voor contactdoeleinden *
+            <mat-checkbox
+              formControlName="privacyConsent"
+              class="privacy-checkbox"
+            >
+              Ik ga akkoord met het verwerken van mijn gegevens voor
+              contactdoeleinden *
             </mat-checkbox>
-            <mat-error *ngIf="privacyConsentControl?.invalid && privacyConsentControl?.touched" 
-                       class="privacy-error">
+            <mat-error
+              *ngIf="
+                privacyConsentControl?.invalid && privacyConsentControl?.touched
+              "
+              class="privacy-error"
+            >
               Je moet akkoord gaan met de privacyverklaring
             </mat-error>
           </div>
 
           <!-- Submit Button -->
           <div class="form-actions">
-            <button mat-raised-button 
-                    color="primary" 
-                    type="submit"
-                    [disabled]="isSubmitting"
-                    class="submit-btn">
+            <button
+              mat-raised-button
+              color="primary"
+              type="submit"
+              [disabled]="isSubmitting"
+              class="submit-btn"
+            >
               <mat-icon *ngIf="!isSubmitting">send</mat-icon>
-              <mat-icon *ngIf="isSubmitting" class="loading-icon">refresh</mat-icon>
+              <mat-icon *ngIf="isSubmitting" class="loading-icon"
+                >refresh</mat-icon
+              >
               <span *ngIf="!isSubmitting">Bericht versturen</span>
               <span *ngIf="isSubmitting">Versturen...</span>
             </button>
@@ -179,7 +219,6 @@
   <section class="additional-info-section">
     <div class="container mx-auto px-6">
       <div class="info-grid">
-        
         <div class="info-card">
           <div class="card-icon">
             <mat-icon>schedule</mat-icon>
@@ -187,7 +226,8 @@
           <div class="card-content">
             <h3 class="card-title">Snelle respons</h3>
             <p class="card-description">
-              Ik reageer meestal binnen 24 uur op nieuwe berichten en probeer zo snel mogelijk duidelijkheid te geven.
+              Ik reageer meestal binnen 24 uur op nieuwe berichten en probeer zo
+              snel mogelijk duidelijkheid te geven.
             </p>
           </div>
         </div>
@@ -199,7 +239,8 @@
           <div class="card-content">
             <h3 class="card-title">Gratis adviesgesprek</h3>
             <p class="card-description">
-              Voor elk project begin ik met een gratis kennismakingsgesprek om je behoeften goed te begrijpen.
+              Voor elk project begin ik met een gratis kennismakingsgesprek om
+              je behoeften goed te begrijpen.
             </p>
           </div>
         </div>
@@ -211,7 +252,8 @@
           <div class="card-content">
             <h3 class="card-title">Kwaliteit gegarandeerd</h3>
             <p class="card-description">
-              Ik werk volgens moderne standaarden en best practices om hoogkwalitatieve oplossingen te leveren.
+              Ik werk volgens moderne standaarden en best practices om
+              hoogkwalitatieve oplossingen te leveren.
             </p>
           </div>
         </div>
@@ -220,11 +262,16 @@
       <div class="cta-section">
         <h3 class="cta-title">Liever direct contact?</h3>
         <p class="cta-description">
-          Download mijn CV voor meer informatie over mijn achtergrond en ervaring.
+          Download mijn CV voor meer informatie over mijn achtergrond en
+          ervaring.
         </p>
-        <button mat-stroked-button class="download-cv-btn" (click)="downloadCV()">
+        <button mat-raised-button color="primary" (click)="downloadDutchCV()">
           <mat-icon>description</mat-icon>
-          Download CV
+          Download CV (Nederlands PDF)
+        </button>
+        <button mat-raised-button color="secondary" class="english-cv-btn" (click)="downloadEnglishCV()">
+          <mat-icon>description</mat-icon>
+          Download CV (English PDF)
         </button>
       </div>
     </div>
@@ -241,5 +288,4 @@
       </div>
     </div>
   </section>
-
 </div>
