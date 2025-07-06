@@ -1,6 +1,6 @@
-@use '../../../../styles/themes/devfolio-theme' as theme;
-@use '../../../../styles/tokens/design-tokens' as tokens;
-@use 'sass:map';
+@use "../../../../styles/themes/devfolio-theme" as theme;
+@use "../../../../styles/tokens/design-tokens" as tokens;
+@use "sass:map";
 
 // Animations
 @keyframes fadeInUp {
@@ -15,8 +15,12 @@
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes scaleIn {
@@ -37,22 +41,24 @@
 
 // Header Section
 .projects-header {
-  background: linear-gradient(135deg,
+  background: linear-gradient(
+    135deg,
     theme.devfolio-primary(600) 0%,
     theme.devfolio-primary(700) 50%,
-    theme.devfolio-accent(600) 100%);
+    theme.devfolio-accent(600) 100%
+  );
   color: white;
   padding: 120px 0 80px;
   position: relative;
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
   }
 
   .header-content {
@@ -93,7 +99,7 @@
   position: sticky;
   top: 0;
   z-index: 10;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   .filters-container {
     display: grid;
@@ -109,6 +115,12 @@
     @media (max-width: 768px) {
       grid-template-columns: 1fr;
       gap: 16px;
+    }
+
+    // Fix Angular Material form field alignment issues
+    // Remove default margins that cause alignment issues
+    ::ng-deep.mat-mdc-form-field-subscript-wrapper.mat-mdc-form-field-bottom-align {
+      display: none;
     }
 
     .search-field {
@@ -199,7 +211,9 @@
 
       &.highlighted {
         border-color: theme.devfolio-accent(300);
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 0 0 1px theme.devfolio-accent(200);
+        box-shadow:
+          0 4px 6px rgba(0, 0, 0, 0.05),
+          0 0 0 1px theme.devfolio-accent(200);
       }
 
       .project-image-container {
@@ -217,9 +231,7 @@
         .default-project-image {
           width: 100%;
           height: 100%;
-          background: linear-gradient(135deg,
-            theme.devfolio-primary(100),
-            theme.devfolio-accent(100));
+          background: linear-gradient(135deg, theme.devfolio-primary(100), theme.devfolio-accent(100));
           display: flex;
           align-items: center;
           justify-content: center;
