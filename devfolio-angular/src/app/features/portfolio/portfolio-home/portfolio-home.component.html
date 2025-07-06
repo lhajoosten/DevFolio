@@ -1,6 +1,5 @@
 <!-- DevFolio - Luc Joosten Portfolio Home -->
 <div class="portfolio-home">
-
   <!-- Hero Section -->
   <section class="hero-section">
     <!-- Background Elements -->
@@ -27,7 +26,9 @@
           <!-- Main Title with Typing Effect -->
           <h1 class="hero-title animate-slide-up">
             {{ personalInfo.firstName }}
-            <span class="text-accent gradient-text">{{ personalInfo.lastName }}</span>
+            <span class="text-accent gradient-text">{{
+              personalInfo.lastName
+            }}</span>
           </h1>
 
           <!-- Role with Rotating Text -->
@@ -47,19 +48,24 @@
           <div class="hero-description-container animate-slide-up-delay-2">
             <p class="hero-description">{{ personalInfo.tagline }}</p>
             <p class="hero-tagline">
-              Gespecialiseerd in het bouwen van schaalbare web applicaties met moderne technologieën.
-              Van concept tot deployment - ik breng ideeën tot leven.
+              Gespecialiseerd in het bouwen van schaalbare web applicaties met
+              moderne technologieën. Van concept tot deployment - ik breng
+              ideeën tot leven.
             </p>
           </div>
 
           <!-- Stats Bar -->
           <div class="hero-stats animate-fade-in-delay-3">
             <div class="stat-item">
-              <span class="stat-number">{{ personalInfo.yearsExperience || '3' }}+</span>
+              <span class="stat-number"
+                >{{ personalInfo.yearsExperience || "3" }}+</span
+              >
               <span class="stat-label">Jaar Ervaring</span>
             </div>
             <div class="stat-item">
-              <span class="stat-number">{{ (featuredProjects$ | async)?.length || '10' }}+</span>
+              <span class="stat-number"
+                >{{ (featuredProjects$ | async)?.length || "10" }}+</span
+              >
               <span class="stat-label">Projecten</span>
             </div>
             <div class="stat-item">
@@ -89,7 +95,9 @@
 
           <!-- Social Proof -->
           <div class="hero-social-proof animate-fade-in-delay-5">
-            <p class="social-proof-text">Vertrouwd door ontwikkelaars wereldwijd</p>
+            <p class="social-proof-text">
+              Vertrouwd door ontwikkelaars wereldwijd
+            </p>
             <div class="tech-badges">
               <div class="tech-badge">
                 <mat-icon>code</mat-icon>
@@ -122,13 +130,17 @@
                     [src]="personalInfo.profileImage"
                     [alt]="personalInfo.firstName + ' ' + personalInfo.lastName"
                     class="profile-image"
-                    loading="lazy">
+                    loading="lazy"
+                  />
                 </div>
                 <div class="image-border"></div>
               </div>
 
               <!-- Enhanced Availability Badge -->
-              <div class="availability-badge" *ngIf="personalInfo.isAvailableForWork">
+              <div
+                class="availability-badge"
+                *ngIf="personalInfo.isAvailableForWork"
+              >
                 <div class="badge-dot"></div>
                 <span class="badge-text">Beschikbaar voor werk</span>
                 <mat-icon class="badge-icon">verified</mat-icon>
@@ -138,16 +150,22 @@
               <div class="quick-info-cards">
                 <div class="info-card">
                   <mat-icon>location_on</mat-icon>
-                  <span>{{ personalInfo.location || 'Nederland' }}</span>
+                  <span>{{ personalInfo.location || "Nederland" }}</span>
                 </div>
                 <div class="info-card">
                   <mat-icon>work</mat-icon>
-                  <span>{{ personalInfo.currentRole || 'Full-Stack Developer' }}</span>
+                  <span>{{
+                    personalInfo.currentRole || "Full-Stack Developer"
+                  }}</span>
                 </div>
               </div>
 
               <!-- Floating Action Button -->
-              <button class="profile-fab" (click)="scrollToContact()" matTooltip="Direct contact">
+              <button
+                class="profile-fab"
+                (click)="scrollToContact()"
+                matTooltip="Direct contact"
+              >
                 <mat-icon>message</mat-icon>
               </button>
             </div>
@@ -161,7 +179,11 @@
 
     <!-- Scroll Indicator -->
     <div class="scroll-indicator animate-bounce">
-      <button class="scroll-button" (click)="scrollToNextSection()" aria-label="Scroll naar volgende sectie">
+      <button
+        class="scroll-button"
+        (click)="scrollToNextSection()"
+        aria-label="Scroll naar volgende sectie"
+      >
         <mat-icon>keyboard_arrow_down</mat-icon>
       </button>
       <span class="scroll-text">Scroll voor meer</span>
@@ -177,8 +199,18 @@
       <div class="about-content">
         <div class="about-text">
           <p>{{ personalInfo.shortBio }}</p>
-          <p>Ik ben een gedreven full-stack developer uit Nederland met een passie voor het creëren van moderne en gebruiksvriendelijke web applicaties. Met expertise in Angular en .NET bouw ik performante oplossingen die zowel technisch sterk als visueel aantrekkelijk zijn.</p>
-          <p>Wat mij motiveert is het transformeren van complexe problemen naar elegante, schaalbare oplossingen. Ik hou van het leren van nieuwe technologieën en het toepassen van best practices in mijn werk.</p>
+          <p>
+            Ik ben een gedreven full-stack developer uit Nederland met een
+            passie voor het creëren van moderne en gebruiksvriendelijke web
+            applicaties. Met expertise in Angular en .NET bouw ik performante
+            oplossingen die zowel technisch sterk als visueel aantrekkelijk
+            zijn.
+          </p>
+          <p>
+            Wat mij motiveert is het transformeren van complexe problemen naar
+            elegante, schaalbare oplossingen. Ik hou van het leren van nieuwe
+            technologieën en het toepassen van best practices in mijn werk.
+          </p>
         </div>
 
         <div class="skills-grid">
@@ -186,7 +218,11 @@
             <h3 class="category-title">Frontend</h3>
             <div class="skills-list">
               <ng-container *ngFor="let skill of highlightedSkills">
-                <span class="skill-chip" *ngIf="skill.category === 'Frontend'">{{ skill.name }}</span>
+                <span
+                  class="skill-chip"
+                  *ngIf="skill.category === 'Frontend'"
+                  >{{ skill.name }}</span
+                >
               </ng-container>
             </div>
           </div>
@@ -195,7 +231,14 @@
             <h3 class="category-title">Backend & Database</h3>
             <div class="skills-list">
               <ng-container *ngFor="let skill of highlightedSkills">
-                <span class="skill-chip" *ngIf="skill.category === 'Backend' || skill.category === 'Database'">{{ skill.name }}</span>
+                <span
+                  class="skill-chip"
+                  *ngIf="
+                    skill.category === 'Backend' ||
+                    skill.category === 'Database'
+                  "
+                  >{{ skill.name }}</span
+                >
               </ng-container>
             </div>
           </div>
@@ -204,7 +247,9 @@
             <h3 class="category-title">Tools & Methodologieën</h3>
             <div class="skills-list">
               <ng-container *ngFor="let skill of highlightedSkills">
-                <span class="skill-chip" *ngIf="skill.category === 'Tools'">{{ skill.name }}</span>
+                <span class="skill-chip" *ngIf="skill.category === 'Tools'">{{
+                  skill.name
+                }}</span>
               </ng-container>
             </div>
           </div>
@@ -217,25 +262,42 @@
   <section id="projects" class="projects-section">
     <div class="container mx-auto px-6">
       <h2 class="section-title">Uitgelichte Projecten</h2>
-      <p class="section-subtitle">Een selectie van mijn recente werk en persoonlijke projecten</p>
+      <p class="section-subtitle">
+        Een selectie van mijn recente werk en persoonlijke projecten
+      </p>
 
       <div class="projects-grid">
         <!-- Project cards will be populated from API -->
-        <div class="project-card" *ngFor="let project of (featuredProjects$ | async)">
+        <div
+          class="project-card"
+          *ngFor="let project of featuredProjects$ | async"
+        >
           <div class="project-image">
             <mat-icon>web</mat-icon>
           </div>
           <div class="project-content">
             <p class="project-description">{{ project.description }}</p>
             <div class="project-tech">
-              <span class="tech-tag" *ngFor="let tech of project.techStack">{{ tech }}</span>
+              <span class="tech-tag" *ngFor="let tech of project.techStack">{{
+                tech
+              }}</span>
             </div>
             <div class="project-links">
-              <a href="{{ project.repoUrl }}" class="project-link" *ngIf="project.repoUrl" target="_blank">
+              <a
+                href="{{ project.repoUrl }}"
+                class="project-link"
+                *ngIf="project.repoUrl"
+                target="_blank"
+              >
                 <mat-icon>code</mat-icon>
                 Code
               </a>
-              <a href="{{ project.demoUrl }}" class="project-link" *ngIf="project.demoUrl" target="_blank">
+              <a
+                href="{{ project.demoUrl }}"
+                class="project-link"
+                *ngIf="project.demoUrl"
+                target="_blank"
+              >
                 <mat-icon>open_in_new</mat-icon>
                 Live Demo
               </a>
@@ -250,7 +312,10 @@
           </div>
           <div class="project-content">
             <h3 class="project-title">DevFolio Portfolio</h3>
-            <p class="project-description">Een moderne portfolio applicatie gebouwd met Angular en .NET, met een focus op performance en gebruikservaring.</p>
+            <p class="project-description">
+              Een moderne portfolio applicatie gebouwd met Angular en .NET, met
+              een focus op performance en gebruikservaring.
+            </p>
             <div class="project-tech">
               <span class="tech-tag">Angular</span>
               <span class="tech-tag">.NET</span>
@@ -258,7 +323,11 @@
               <span class="tech-tag">SCSS</span>
             </div>
             <div class="project-links">
-              <a href="{{ personalInfo.github }}" class="project-link" target="_blank">
+              <a
+                href="{{ personalInfo.github }}"
+                class="project-link"
+                target="_blank"
+              >
                 <mat-icon>code</mat-icon>
                 Code
               </a>
@@ -280,7 +349,36 @@
   <section id="contact" class="contact-section">
     <div class="container mx-auto px-6">
       <h2 class="section-title">Laten we samenwerken</h2>
-      <p class="section-subtitle">Op zoek naar een getalenteerde developer? Laten we praten over hoe ik jouw team kan versterken.</p>
+      <p class="section-subtitle">
+        Op zoek naar een getalenteerde developer? Laten we praten over hoe ik
+        jouw team kan versterken.
+      </p>
+
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="contact-icon">
+            <mat-icon>code</mat-icon>
+          </div>
+          <div class="contact-label">GitHub</div>
+          <div class="contact-value">
+            <a href="{{ personalInfo.github }}" target="_blank">
+              Bekijk mijn repositories
+            </a>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">
+            <mat-icon>work</mat-icon>
+          </div>
+          <div class="contact-label">LinkedIn</div>
+          <div class="contact-value">
+            <a href="{{ personalInfo.linkedin }}" target="_blank">
+              Professioneel netwerk
+            </a>
+          </div>
+        </div>
+      </div>
 
       <div class="contact-info">
         <div class="contact-item">
@@ -289,7 +387,9 @@
           </div>
           <div class="contact-label">Email</div>
           <div class="contact-value">
-            <a href="mailto:{{ personalInfo.email }}">{{ personalInfo.email }}</a>
+            <a href="mailto:{{ personalInfo.email }}">{{
+              personalInfo.email
+            }}</a>
           </div>
         </div>
 
@@ -307,21 +407,15 @@
           </div>
           <div class="contact-label">Beschikbaarheid</div>
           <div class="contact-value">
-            <span *ngIf="personalInfo.isAvailableForWork">Beschikbaar voor nieuwe uitdagingen</span>
-            <span *ngIf="!personalInfo.isAvailableForWork">Momenteel niet beschikbaar</span>
+            <span *ngIf="personalInfo.isAvailableForWork"
+              >Beschikbaar voor nieuwe uitdagingen</span
+            >
+            <span *ngIf="!personalInfo.isAvailableForWork"
+              >Momenteel niet beschikbaar</span
+            >
           </div>
         </div>
       </div>
-
-      <div class="social-links" style="text-align: center; margin-top: 48px;">
-        <a href="{{ personalInfo.github }}" target="_blank" style="margin: 0 16px; color: #cbd5e1; font-size: 1.5rem;">
-          <mat-icon style="font-size: 2rem; width: 2rem; height: 2rem;">code</mat-icon>
-        </a>
-        <a href="{{ personalInfo.linkedin }}" target="_blank" style="margin: 0 16px; color: #cbd5e1; font-size: 1.5rem;">
-          <mat-icon style="font-size: 2rem; width: 2rem; height: 2rem;">work</mat-icon>
-        </a>
-      </div>
     </div>
   </section>
-
 </div>
