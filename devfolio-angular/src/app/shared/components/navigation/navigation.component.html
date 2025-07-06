@@ -1,0 +1,109 @@
+<nav class="devfolio-navbar" #navbar [class.scrolled]="isScrolled">
+  <div class="navbar-container">
+    <!-- Brand/Logo -->
+    <div class="navbar-brand">
+      <button
+        mat-button
+        class="brand-button"
+        (click)="navigateToRoute('')"
+        [attr.aria-label]="'Ga naar homepage'">
+        <span class="brand-text">Luc Joosten</span>
+      </button>
+    </div>
+
+    <!-- Desktop Navigation -->
+    <div class="navbar-nav desktop-nav">
+      <ng-container *ngFor="let item of navigationItems">
+        <button
+          mat-button
+          class="nav-link"
+          [class.active]="isActiveRoute(item.route)"
+          (click)="navigateToRoute(item.route)"
+          [attr.aria-label]="'Ga naar ' + item.label">
+          <mat-icon *ngIf="item.icon" class="nav-icon">{{ item.icon }}</mat-icon>
+          <span class="nav-text">{{ item.label }}</span>
+        </button>
+      </ng-container>
+    </div>
+
+    <!-- Social Links & Actions -->
+    <div class="navbar-actions desktop-nav">
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="socialMenu"
+        matTooltip="Social Media"
+        class="social-button"
+        aria-label="Open social media menu">
+        <mat-icon>share</mat-icon>
+      </button>
+
+      <mat-menu #socialMenu="matMenu" class="social-menu">
+        <ng-container *ngFor="let social of socialLinks">
+          <button
+            mat-menu-item
+            (click)="navigateToRoute(social.route, social.external)"
+            [attr.aria-label]="'Open ' + social.label">
+            <mat-icon>{{ social.icon }}</mat-icon>
+            <span>{{ social.label }}</span>
+          </button>
+        </ng-container>
+      </mat-menu>
+
+      <button
+        mat-icon-button
+        (click)="scrollToTop()"
+        matTooltip="Scroll naar boven"
+        class="scroll-top-button"
+        *ngIf="isScrolled"
+        aria-label="Scroll naar boven">
+        <mat-icon>keyboard_arrow_up</mat-icon>
+      </button>
+    </div>
+
+    <!-- Mobile Menu Toggle -->
+    <div class="mobile-nav">
+      <button
+        mat-icon-button
+        (click)="toggleMobileMenu()"
+        class="mobile-menu-toggle"
+        [attr.aria-expanded]="isMobileMenuOpen"
+        aria-label="Open mobiele menu">
+        <mat-icon>{{ isMobileMenuOpen ? 'close' : 'menu' }}</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Navigation Menu -->
+  <div class="mobile-menu" [class.open]="isMobileMenuOpen">
+    <div class="mobile-menu-content">
+      <div class="mobile-nav-items">
+        <ng-container *ngFor="let item of navigationItems">
+          <button
+            mat-button
+            class="mobile-nav-link"
+            [class.active]="isActiveRoute(item.route)"
+            (click)="navigateToRoute(item.route)"
+            [attr.aria-label]="'Ga naar ' + item.label">
+            <mat-icon class="mobile-nav-icon">{{ item.icon }}</mat-icon>
+            <span class="mobile-nav-text">{{ item.label }}</span>
+          </button>
+        </ng-container>
+      </div>
+
+      <div class="mobile-social-links">
+        <p class="mobile-social-title">Volg mij</p>
+        <div class="mobile-social-buttons">
+          <ng-container *ngFor="let social of socialLinks">
+            <button
+              mat-icon-button
+              (click)="navigateToRoute(social.route, social.external)"
+              [matTooltip]="social.label"
+              [attr.aria-label]="'Open ' + social.label">
+              <mat-icon>{{ social.icon }}</mat-icon>
+            </button>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
