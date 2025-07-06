@@ -1,0 +1,185 @@
+<!-- DevFolio - Luc Joosten Portfolio Home -->
+<div class="portfolio-home">
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="devfolio-container">
+      <div class="hero-content">
+        <div class="hero-text">
+          <div class="greeting">
+            <span class="wave">👋</span>
+            <span>Hallo, ik ben</span>
+          </div>
+
+          <h1 class="devfolio-heading-1">
+            {{ personalInfo.firstName }}
+            <span class="text-accent">{{ personalInfo.lastName }}</span>
+          </h1>
+
+          <h2 class="hero-subtitle">{{ personalInfo.title }}</h2>
+          <p class="devfolio-body-large hero-description">{{ personalInfo.tagline }}</p>
+          <p class="devfolio-body hero-bio">{{ personalInfo.shortBio }}</p>
+
+          <div class="hero-actions">
+            <button mat-raised-button color="primary" class="devfolio-btn devfolio-btn-primary" (click)="scrollToProjects()">
+              <mat-icon>work</mat-icon>
+              Bekijk mijn werk
+            </button>
+            <button mat-stroked-button class="devfolio-btn devfolio-btn-secondary" (click)="downloadCV()">
+              <mat-icon>description</mat-icon>
+              Download CV
+            </button>
+            <button mat-button class="devfolio-btn devfolio-btn-outline" (click)="scrollToContact()">
+              <mat-icon>email</mat-icon>
+              Contact
+            </button>
+          </div>
+        </div>
+
+        <div class="hero-image">
+          <div class="profile-card">
+            <img [src]="personalInfo.profileImage" [alt]="personalInfo.firstName + ' ' + personalInfo.lastName" class="profile-img">
+            <div class="availability-badge" *ngIf="personalInfo.isAvailableForWork">
+              <mat-icon class="available-icon">circle</mat-icon>
+              Beschikbaar voor werk
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="about-section devfolio-section" id="about">
+    <div class="devfolio-container">
+      <div class="section-header">
+        <h2 class="devfolio-heading-2 section-title">Over mij</h2>
+        <p class="devfolio-body section-subtitle">
+          Wie ik ben en waar ik passie voor heb
+        </p>
+      </div>
+
+      <div class="about-content">
+        <div class="about-text">
+          <p class="devfolio-body">
+            Ik ben een gedreven full-stack developer uit Nederland met een passie voor
+            het creëren van moderne en gebruiksvriendelijke web applicaties. Met expertise
+            in Angular en .NET bouw ik performante oplossingen die zowel technisch sterk
+            als visueel aantrekkelijk zijn.
+          </p>
+          <p class="devfolio-body">
+            Wat mij motiveert is het transformeren van complexe problemen naar elegante,
+            schaalbare oplossingen. Ik hou van het leren van nieuwe technologieën en
+            het toepassen van best practices in mijn werk.
+          </p>
+        </div>
+
+        <div class="skills-grid">
+          <div class="skill-category">
+            <h3 class="devfolio-heading-3">Frontend</h3>
+            <div class="skills-list">
+              <mat-chip *ngFor="let skill of highlightedSkills | filter:'Frontend'">
+                {{ skill.name }}
+              </mat-chip>
+            </div>
+          </div>
+          <div class="skill-category">
+            <h3 class="devfolio-heading-3">Backend & Database</h3>
+            <div class="skills-list">
+              <mat-chip *ngFor="let skill of highlightedSkills | filter:'Backend,Database'">
+                {{ skill.name }}
+              </mat-chip>
+            </div>
+          </div>
+          <div class="skill-category">
+            <h3 class="devfolio-heading-3">Tools & Methodologieën</h3>
+            <div class="skills-list">
+              <mat-chip *ngFor="let skill of highlightedSkills | filter:'Tools'">
+                {{ skill.name }}
+              </mat-chip>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Projects Section -->
+  <section class="projects-section devfolio-section" id="projects">
+    <div class="devfolio-container">
+      <div class="section-header">
+        <h2 class="devfolio-heading-2 section-title">Uitgelichte Projecten</h2>
+        <p class="devfolio-body section-subtitle">
+          Een selectie van mijn recente werk en persoonlijke projecten
+        </p>
+      </div>
+
+      <div class="projects-grid" *ngIf="featuredProjects$ | async as projects">
+        <div class="project-card devfolio-card" *ngFor="let project of projects">
+          <div class="project-image" *ngIf="project.imageUrl">
+            <img [src]="project.imageUrl" [alt]="project.title">
+          </div>
+          <div class="project-content">
+            <h3 class="devfolio-heading-3 project-title">{{ project.title }}</h3>
+            <p class="devfolio-body project-description">{{ project.description }}</p>
+            <div class="tech-stack">
+              <mat-chip *ngFor="let tech of project.techStack">{{ tech }}</mat-chip>
+            </div>
+            <div class="project-actions">
+              <a [href]="project.demoUrl" mat-button color="primary" *ngIf="project.demoUrl" target="_blank">
+                <mat-icon>launch</mat-icon>
+                Live Demo
+              </a>
+              <a [href]="project.repoUrl" mat-stroked-button target="_blank">
+                <mat-icon>code</mat-icon>
+                GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-footer">
+        <button mat-raised-button color="primary" routerLink="/projecten">
+          Alle projecten bekijken
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact-section devfolio-section" id="contact">
+    <div class="devfolio-container">
+      <div class="contact-content">
+        <h2 class="devfolio-heading-2 section-title">Laten we samenwerken</h2>
+        <p class="devfolio-body-large section-subtitle">
+          Op zoek naar een getalenteerde developer?
+          Laten we praten over hoe ik jouw team kan versterken.
+        </p>
+        <div class="contact-info">
+          <div class="contact-item">
+            <mat-icon>email</mat-icon>
+            <span>{{ personalInfo.email }}</span>
+          </div>
+          <div class="contact-item">
+            <mat-icon>location_on</mat-icon>
+            <span>{{ personalInfo.location }}</span>
+          </div>
+          <div class="contact-item" *ngIf="personalInfo.isAvailableForWork">
+            <mat-icon>check_circle</mat-icon>
+            <span>Beschikbaar voor nieuwe uitdagingen</span>
+          </div>
+        </div>
+        <div class="social-links">
+          <a [href]="personalInfo.github" mat-icon-button target="_blank" *ngIf="personalInfo.github">
+            <mat-icon>code</mat-icon>
+          </a>
+          <a [href]="personalInfo.linkedin" mat-icon-button target="_blank" *ngIf="personalInfo.linkedin">
+            <mat-icon>work</mat-icon>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
