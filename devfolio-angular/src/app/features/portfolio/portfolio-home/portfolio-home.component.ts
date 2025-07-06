@@ -169,7 +169,7 @@ export class PortfolioHomeComponent implements OnInit, OnDestroy {
       this.trackEvent('cv_download', 'engagement', 'CV Download');
 
       const link = document.createElement('a');
-      link.href = '/assets/cv/luc-joosten-cv.pdf';
+      link.href = '/assets/documents/luc-joosten-cv.pdf';
       link.download = 'CV-Luc-Joosten-Full-Stack-Developer.pdf';
       link.target = '_blank';
 
@@ -183,6 +183,27 @@ export class PortfolioHomeComponent implements OnInit, OnDestroy {
     } catch (error) {
       console.error('Error downloading CV:', error);
       this.showNotification('Er is een fout opgetreden bij het downloaden van de CV.');
+    }
+  }
+
+  /**
+   * Download English CV functionality with analytics tracking
+   */
+  downloadCvEnglish(): void {
+    try {
+      // Track analytics event
+      this.trackEvent('cv_download', 'engagement', 'CV Download English');
+      const link = document.createElement('a');
+      link.href = '/assets/documents/luc-joosten-cv-english.pdf';
+      link.download = 'CV-Luc-Joosten-Full-Stack-Developer-English.pdf';
+      link.target = '_blank';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      this.showNotification('CV download started!');
+    } catch (error) {
+      console.error('Error downloading CV:', error);
+      this.showNotification('An error occurred while downloading the CV.');
     }
   }
 

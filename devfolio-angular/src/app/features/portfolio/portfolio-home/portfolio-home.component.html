@@ -69,35 +69,41 @@
               <span class="stat-label">Projecten</span>
             </div>
             <div class="stat-item">
-              <span class="stat-number">100%</span>
-              <span class="stat-label">Tevredenheid</span>
+              <span class="stat-number">10+</span>
+              <span class="stat-label">Inzet</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">40+</span>
+              <span class="stat-label">Uren per week</span>
             </div>
           </div>
 
           <!-- Enhanced Action Buttons -->
           <div class="hero-actions animate-slide-up-delay-4">
-            <button class="btn-primary btn-hero" (click)="scrollToProjects()">
+            <button class="btn-secondary btn-hero" (click)="scrollToProjects()">
               <mat-icon>rocket_launch</mat-icon>
               <span>Bekijk mijn werk</span>
               <div class="btn-shine"></div>
-            </button>
-
-            <button class="btn-secondary btn-hero" (click)="downloadCV()">
-              <mat-icon>download</mat-icon>
-              <span>Download CV</span>
             </button>
 
             <button class="btn-outline btn-hero" (click)="scrollToContact()">
               <mat-icon>chat</mat-icon>
               <span>Laten we praten</span>
             </button>
+
+            <button class="btn-secondary btn-hero" (click)="downloadCV()">
+              <mat-icon>download</mat-icon>
+              <span>Download CV (PDF)</span>
+            </button>
+
+            <button class="btn-secondary btn-hero" (click)="downloadCvEnglish()">
+              <mat-icon>download</mat-icon>
+              <span>Download CV (PDF English)</span>
+            </button>
           </div>
 
           <!-- Social Proof -->
           <div class="hero-social-proof animate-fade-in-delay-5">
-            <p class="social-proof-text">
-              Vertrouwd door ontwikkelaars wereldwijd
-            </p>
             <div class="tech-badges">
               <div class="tech-badge">
                 <mat-icon>code</mat-icon>
