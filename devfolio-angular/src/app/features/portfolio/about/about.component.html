@@ -1,0 +1,199 @@
+<!-- DevFolio - About Page -->
+<div class="about-page">
+
+  <!-- Hero Section -->
+  <section class="about-hero">
+    <div class="container mx-auto px-6">
+      <div class="hero-content">
+        <div class="hero-text">
+          <h1 class="page-title">Over Mij</h1>
+          <p class="page-subtitle">
+            Leer meer over mijn achtergrond, vaardigheden en passie voor software development
+          </p>
+        </div>
+        <div class="hero-image">
+          <img [src]="personalInfo.profileImage" 
+               [alt]="personalInfo.firstName + ' ' + personalInfo.lastName" 
+               class="profile-image">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Introduction Section -->
+  <section class="introduction-section">
+    <div class="container mx-auto px-6">
+      <div class="intro-content">
+        <div class="intro-text">
+          <h2 class="section-title">Hallo, ik ben {{ personalInfo.firstName }}!</h2>
+          
+          <div class="text-blocks">
+            <p class="intro-paragraph">{{ aboutText.introduction }}</p>
+            <p class="intro-paragraph">{{ aboutText.passion }}</p>
+            <p class="intro-paragraph">{{ aboutText.approach }}</p>
+            <p class="intro-paragraph">{{ aboutText.goals }}</p>
+          </div>
+
+          <div class="quick-facts">
+            <div class="fact-item">
+              <mat-icon>location_on</mat-icon>
+              <span>{{ personalInfo.location }}</span>
+            </div>
+            <div class="fact-item">
+              <mat-icon>email</mat-icon>
+              <span>{{ personalInfo.email }}</span>
+            </div>
+            <div class="fact-item">
+              <mat-icon>work</mat-icon>
+              <span>{{ personalInfo.title }}</span>
+            </div>
+          </div>
+
+          <div class="action-buttons">
+            <button mat-raised-button color="primary" (click)="downloadCV()">
+              <mat-icon>description</mat-icon>
+              Download CV
+            </button>
+            <button mat-stroked-button (click)="openExternalLink(personalInfo.linkedin)">
+              <mat-icon>work</mat-icon>
+              LinkedIn
+            </button>
+            <button mat-stroked-button (click)="openExternalLink(personalInfo.github)">
+              <mat-icon>code</mat-icon>
+              GitHub
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section class="skills-section">
+    <div class="container mx-auto px-6">
+      <h2 class="section-title">Technische Vaardigheden</h2>
+      <p class="section-subtitle">
+        Een overzicht van mijn technische expertise en ervaring met verschillende technologieën
+      </p>
+
+      <div class="skills-grid">
+        <div *ngFor="let category of skillCategories" class="skill-category">
+          <div class="category-header">
+            <mat-icon class="category-icon">{{ category.icon }}</mat-icon>
+            <h3 class="category-title">{{ category.name }}</h3>
+          </div>
+
+          <div class="skills-list">
+            <div *ngFor="let skill of category.skills" class="skill-item">
+              <div class="skill-info">
+                <span class="skill-name">{{ skill.name }}</span>
+                <span class="skill-experience">{{ skill.experience }}</span>
+              </div>
+              <div class="skill-level">
+                <div class="progress-container">
+                  <mat-progress-bar 
+                    mode="determinate" 
+                    [value]="skill.level"
+                    class="skill-progress">
+                  </mat-progress-bar>
+                </div>
+                <span class="level-text">{{ getSkillLevelText(skill.level) }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience Section -->
+  <section class="experience-section">
+    <div class="container mx-auto px-6">
+      <h2 class="section-title">Ervaring</h2>
+      <p class="section-subtitle">
+        Mijn professionele en educatieve achtergrond in software development
+      </p>
+
+      <div class="experience-timeline">
+        <div *ngFor="let exp of experiences" class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="timeline-header">
+              <h3 class="job-title">{{ exp.title }}</h3>
+              <span class="company">{{ exp.company }}</span>
+              <span class="period">{{ exp.period }}</span>
+            </div>
+            <p class="job-description">{{ exp.description }}</p>
+            <div class="technologies">
+              <mat-chip-listbox>
+                <mat-chip-option *ngFor="let tech of exp.technologies" disabled>
+                  {{ tech }}
+                </mat-chip-option>
+              </mat-chip-listbox>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Education Section -->
+  <section class="education-section">
+    <div class="container mx-auto px-6">
+      <h2 class="section-title">Opleiding</h2>
+      <p class="section-subtitle">
+        Mijn educatieve achtergrond en voortdurende leertraject
+      </p>
+
+      <div class="education-grid">
+        <div *ngFor="let edu of education" class="education-item">
+          <div class="education-icon">
+            <mat-icon>school</mat-icon>
+          </div>
+          <div class="education-content">
+            <h3 class="degree">{{ edu.degree }}</h3>
+            <p class="institution">{{ edu.institution }}</p>
+            <span class="period">{{ edu.period }}</span>
+            <p *ngIf="edu.description" class="description">{{ edu.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact CTA Section -->
+  <section class="contact-cta-section">
+    <div class="container mx-auto px-6">
+      <div class="cta-content">
+        <h2 class="cta-title">Laten we samenwerken!</h2>
+        <p class="cta-description">
+          Ben je op zoek naar een gepassioneerde developer? 
+          Ik sta open voor nieuwe uitdagingen en interessante projecten.
+        </p>
+        <div class="cta-actions">
+          <a routerLink="/contact" mat-raised-button color="primary" class="cta-btn">
+            <mat-icon>email</mat-icon>
+            Neem contact op
+          </a>
+          <a routerLink="/projecten" mat-stroked-button class="cta-btn">
+            <mat-icon>work</mat-icon>
+            Bekijk mijn werk
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Back to Portfolio -->
+  <section class="back-section">
+    <div class="container mx-auto px-6">
+      <div class="back-container">
+        <a routerLink="/" mat-stroked-button class="back-btn">
+          <mat-icon>arrow_back</mat-icon>
+          Terug naar portfolio
+        </a>
+      </div>
+    </div>
+  </section>
+
+</div>

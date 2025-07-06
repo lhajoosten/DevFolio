@@ -1,0 +1,284 @@
+// DevFolio - Luc Joosten Portfolio Global Styles
+@use './styles/themes/devfolio-theme' as theme;
+@use './styles/tokens/design-tokens' as tokens;
+@use '@angular/material' as mat;
+@use 'sass:map';
+
+// Include Angular Material theme - v20 syntax
+@include mat.all-component-themes(theme.$devfolio-light-theme);
+
+// Import Google Fonts
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+// Material Icons font-face and icon setup
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+// Global reset and base styles
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px; // Base font size
+}
+
+body {
+  font-family: map.get(tokens.$devfolio-typography, 'font-family-primary');
+  font-size: map.get(tokens.$devfolio-typography, 'text-base');
+  font-weight: map.get(tokens.$devfolio-typography, 'font-normal');
+  line-height: map.get(tokens.$devfolio-typography, 'leading-normal');
+  color: theme.devfolio-neutral(800);
+  background-color: theme.devfolio-neutral(50);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// Typography utilities
+.devfolio-heading-1 {
+  @include theme.typography('text-5xl', 'font-bold');
+  line-height: map.get(tokens.$devfolio-typography, 'leading-tight');
+  color: theme.devfolio-neutral(900);
+
+  @include theme.respond-to('lg') {
+    @include theme.typography('text-6xl', 'font-bold');
+  }
+}
+
+.devfolio-heading-2 {
+  @include theme.typography('text-4xl', 'font-semibold');
+  line-height: map.get(tokens.$devfolio-typography, 'leading-tight');
+  color: theme.devfolio-neutral(900);
+}
+
+.devfolio-heading-3 {
+  @include theme.typography('text-3xl', 'font-semibold');
+  line-height: map.get(tokens.$devfolio-typography, 'leading-tight');
+  color: theme.devfolio-neutral(800);
+}
+
+.devfolio-body-large {
+  @include theme.typography('text-lg', 'font-normal');
+  line-height: map.get(tokens.$devfolio-typography, 'leading-relaxed');
+  color: theme.devfolio-neutral(700);
+}
+
+.devfolio-body {
+  @include theme.typography('text-base', 'font-normal');
+  line-height: map.get(tokens.$devfolio-typography, 'leading-normal');
+  color: theme.devfolio-neutral(700);
+}
+
+.devfolio-caption {
+  @include theme.typography('text-sm', 'font-normal');
+  color: theme.devfolio-neutral(600);
+}
+
+// Layout utilities
+.devfolio-container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  @include theme.spacing('padding-left', 'md');
+  @include theme.spacing('padding-right', 'md');
+
+  @include theme.respond-to('lg') {
+    @include theme.spacing('padding-left', 'xl');
+    @include theme.spacing('padding-right', 'xl');
+  }
+}
+
+.devfolio-section {
+  @include theme.spacing('padding-top', 'xxxl');
+  @include theme.spacing('padding-bottom', 'xxxl');
+
+  @include theme.respond-to('lg') {
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+}
+
+.devfolio-card {
+  background: white;
+  @include theme.border-radius('lg');
+  @include theme.shadow('md');
+  @include theme.spacing('padding', 'lg');
+  border: 1px solid theme.devfolio-neutral(200);
+
+  @include theme.respond-to('lg') {
+    @include theme.spacing('padding', 'xl');
+  }
+}
+
+// Button styles
+.devfolio-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  @include theme.spacing('padding', 'md');
+  gap: map.get(tokens.$devfolio-spacing, 'sm');
+  @include theme.border-radius('md');
+  @include theme.typography('text-base', 'font-medium');
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    @include theme.shadow('lg');
+  }
+
+  &.devfolio-btn-primary {
+    background: theme.devfolio-primary(500);
+    color: white;
+
+    &:hover {
+      background: theme.devfolio-primary(600);
+    }
+  }
+
+  &.devfolio-btn-secondary {
+    background: white;
+    color: theme.devfolio-primary(500);
+    border: 2px solid theme.devfolio-primary(500);
+
+    &:hover {
+      background: theme.devfolio-primary(50);
+    }
+  }
+
+  &.devfolio-btn-outline {
+    background: transparent;
+    color: theme.devfolio-neutral(700);
+    border: 2px solid theme.devfolio-neutral(300);
+
+    &:hover {
+      background: theme.devfolio-neutral(50);
+      border-color: theme.devfolio-neutral(400);
+    }
+  }
+}
+
+// Professional utility classes
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+
+  @media (max-width: 768px) {
+    padding: 0 16px;
+  }
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.px-6 {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-accent {
+  color: var(--devfolio-accent-500);
+}
+
+// Professional animations
+.animate-in {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.8s ease-out;
+}
+
+// Button improvements
+.btn-primary,
+.btn-secondary,
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: none;
+
+  &:focus {
+    outline: 2px solid var(--devfolio-accent-400);
+    outline-offset: 2px;
+  }
+
+  mat-icon {
+    font-size: 1.25rem;
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+
+// Professional section spacing
+section {
+  scroll-margin-top: 80px;
+}
+
+// Improved scrollbar styling
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--devfolio-primary-400);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--devfolio-primary-600);
+}
+
+// Utility classes
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.hidden { display: none !important; }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

@@ -1,0 +1,87 @@
+// Luc Joosten Portfolio Theme
+// Angular Material custom theme gebaseerd op eigen design tokens
+
+@use '@angular/material' as mat;
+@use 'sass:map';
+@use '../tokens/design-tokens' as tokens;
+
+// Include the common styles for Angular Material
+@include mat.core();
+
+// Define custom palettes using design tokens - Angular Material v20 syntax
+$devfolio-primary-palette: mat.m2-define-palette(tokens.$devfolio-primary, 500, 300, 700);
+$devfolio-accent-palette: mat.m2-define-palette(tokens.$devfolio-accent, 500, 300, 700);
+$devfolio-warn-palette: mat.m2-define-palette(mat.$m2-red-palette);
+// Create the theme - Angular Material v20 syntax
+$devfolio-light-theme: mat.m2-define-light-theme((
+  color: (
+    primary: $devfolio-primary-palette,
+    accent: $devfolio-accent-palette,
+    warn: $devfolio-warn-palette,
+  ),
+  typography: mat.m2-define-typography-config(
+    $font-family: map.get(tokens.$devfolio-typography, 'font-family-primary'),
+  ),
+  density: 0,
+));
+
+// Dark theme variant
+$devfolio-dark-theme: mat.m2-define-dark-theme((
+  color: (
+    primary: $devfolio-primary-palette,
+    accent: $devfolio-accent-palette,
+    warn: $devfolio-warn-palette,
+  ),
+  typography: mat.m2-define-typography-config(
+    $font-family: map.get(tokens.$devfolio-typography, 'font-family-primary'),
+  ),
+  density: 0,
+));
+
+// Export theme data
+$primary-color: mat.m2-get-color-from-palette($devfolio-primary-palette, 500);
+$accent-color: mat.m2-get-color-from-palette($devfolio-accent-palette, 500);
+
+// Utility mixins voor consistent gebruik van design tokens
+@mixin spacing($property, $size) {
+  #{$property}: map.get(tokens.$devfolio-spacing, $size);
+}
+
+@mixin typography($size, $weight: 'font-normal') {
+  font-size: map.get(tokens.$devfolio-typography, $size);
+  font-weight: map.get(tokens.$devfolio-typography, $weight);
+  font-family: map.get(tokens.$devfolio-typography, 'font-family-primary');
+}
+
+@mixin border-radius($size) {
+  border-radius: map.get(tokens.$devfolio-border-radius, $size);
+}
+
+@mixin shadow($size) {
+  box-shadow: map.get(tokens.$devfolio-shadows, $size);
+}
+
+@mixin respond-to($breakpoint) {
+  @media (min-width: map.get(tokens.$devfolio-breakpoints, $breakpoint)) {
+    @content;
+  }
+}
+
+// Helper functions voor kleuren - toegang tot design tokens
+@function devfolio-primary($shade: 500) {
+  @return map.get(tokens.$devfolio-primary, $shade);
+}
+
+@function devfolio-accent($shade: 500) {
+  @return map.get(tokens.$devfolio-accent, $shade);
+}
+
+@function devfolio-neutral($shade: 500) {
+  @return map.get(tokens.$devfolio-neutral, $shade);
+}
+
+// Export voor gebruik in componenten
+:export {
+  primaryColor: #{$primary-color};
+  accentColor: #{$accent-color};
+}
