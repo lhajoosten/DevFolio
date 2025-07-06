@@ -4,6 +4,11 @@
 @use '@angular/material' as mat;
 @use 'sass:map';
 
+// Tailwind CSS
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 // Include Angular Material theme - v20 syntax
 @include mat.all-component-themes(theme.$devfolio-light-theme);
 

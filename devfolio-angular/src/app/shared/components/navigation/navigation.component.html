@@ -58,6 +58,28 @@
         aria-label="Scroll naar boven">
         <mat-icon>keyboard_arrow_up</mat-icon>
       </button>
+
+      <!-- Admin Link -->
+      <button
+        *ngIf="authService.isAuthenticated$ | async"
+        mat-icon-button
+        routerLink="/admin"
+        matTooltip="Admin Dashboard"
+        class="admin-button"
+        aria-label="Ga naar admin dashboard">
+        <mat-icon>admin_panel_settings</mat-icon>
+      </button>
+
+      <!-- Login Link -->
+      <button
+        *ngIf="!(authService.isAuthenticated$ | async)"
+        mat-button
+        routerLink="/auth/login"
+        class="login-button"
+        aria-label="Inloggen">
+        <mat-icon>login</mat-icon>
+        <span>Inloggen</span>
+      </button>
     </div>
 
     <!-- Mobile Menu Toggle -->

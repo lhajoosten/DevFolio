@@ -9,8 +9,8 @@ import { ApiResponse, User, LoginRequest, RegisterRequest, AuthTokens } from '..
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly API_URL = 'https://localhost:7058/api/v1/auth'; // Backend API URL
-  private readonly TOKEN_KEY = 'lh_portfolio_tokens';
+  private readonly API_URL = 'https://localhost:7175/api/v1/auth'; // Backend API URL
+  private readonly TOKEN_KEY = 'devfolio_token';
 
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
@@ -22,18 +22,37 @@ export class AuthService {
     private http: HttpClient,
     private router: Router
   ) {
-    this.loadTokensFromStorage();
+    // Delay token loading to avoid circular dependency
+    setTimeout(() => {
+      this.loadTokensFromStorage();
+    }, 0);
   }
 
   /**
    * Login gebruiker
    */
-  login(loginRequest: LoginRequest): Observable<ApiResponse<{ user: User, tokens: AuthTokens }>> {
-    return this.http.post<ApiResponse<{ user: User, tokens: AuthTokens }>>(`${this.API_URL}/login`, loginRequest)
+  login(loginRequest: LoginRequest): Observable<any> {
+    return this.http.post<any>(`${this.API_URL}/login`, loginRequest)
       .pipe(
         tap(response => {
-          if (response.success && response.data) {
-            this.setAuthData(response.data.user, response.data.tokens);
+          if (response) {
+            // Backend returns LoginResponseDto directly
+            const userData: User = {
+              id: response.id,
+              email: response.email,
+              username: response.username,
+              role: response.role,
+              isEmailConfirmed: true, // Assuming logged in users are confirmed
+              lastLoginAt: new Date()
+            };
+
+            const tokenData: AuthTokens = {
+              accessToken: response.token,
+              refreshToken: '', // Backend might not provide refresh token yet
+              expiresAt: new Date(response.expiresAt)
+            };
+
+            this.setAuthData(userData, tokenData);
           }
         }),
         catchError(this.handleError)
@@ -43,12 +62,28 @@ export class AuthService {
   /**
    * Registreer nieuwe gebruiker
    */
-  register(registerRequest: RegisterRequest): Observable<ApiResponse<{ user: User, tokens: AuthTokens }>> {
-    return this.http.post<ApiResponse<{ user: User, tokens: AuthTokens }>>(`${this.API_URL}/register`, registerRequest)
+  register(registerRequest: RegisterRequest): Observable<any> {
+    return this.http.post<any>(`${this.API_URL}/register`, registerRequest)
       .pipe(
         tap(response => {
-          if (response.success && response.data) {
-            this.setAuthData(response.data.user, response.data.tokens);
+          if (response) {
+            // Backend returns RegisterResponseDto directly
+            const userData: User = {
+              id: response.id,
+              email: response.email,
+              username: response.username,
+              role: response.role,
+              isEmailConfirmed: false, // New users might need email confirmation
+              lastLoginAt: new Date()
+            };
+
+            const tokenData: AuthTokens = {
+              accessToken: response.token,
+              refreshToken: '', // Backend might not provide refresh token yet
+              expiresAt: new Date(response.expiresAt)
+            };
+
+            this.setAuthData(userData, tokenData);
           }
         }),
         catchError(this.handleError)
@@ -62,41 +97,55 @@ export class AuthService {
     localStorage.removeItem(this.TOKEN_KEY);
     this.currentUserSubject.next(null);
     this.isAuthenticatedSubject.next(false);
-    this.router.navigate(['/login']);
+    // Only navigate if not already on auth pages
+    if (!this.router.url.includes('/auth/')) {
+      this.router.navigate(['/auth/login']);
+    }
   }
 
   /**
    * Get current user info
    */
-  getCurrentUser(): Observable<ApiResponse<User>> {
-    return this.http.get<ApiResponse<User>>(`${this.API_URL}/me`)
+  getCurrentUser(): Observable<any> {
+    console.log('getCurrentUser called, token:', this.getAccessToken());
+    return this.http.get<any>(`${this.API_URL}/me`)
       .pipe(
         tap(response => {
-          if (response.success && response.data) {
-            this.currentUserSubject.next(response.data);
+          console.log('getCurrentUser response:', response);
+          if (response) {
+            // Backend returns GetCurrentUserDto directly (not wrapped in ApiResponse)
+            this.currentUserSubject.next(response);
           }
         }),
-        catchError(this.handleError)
+        catchError(error => {
+          console.error('getCurrentUser error:', error);
+          return this.handleError(error);
+        })
       );
   }
 
   /**
    * Refresh authentication token
    */
-  refreshToken(): Observable<ApiResponse<AuthTokens>> {
+  refreshToken(): Observable<any> {
     const tokens = this.getStoredTokens();
     if (!tokens?.refreshToken) {
       return throwError(() => new Error('No refresh token available'));
     }
 
-    return this.http.post<ApiResponse<AuthTokens>>(`${this.API_URL}/refresh`, {
+    return this.http.post<any>(`${this.API_URL}/refresh`, {
       refreshToken: tokens.refreshToken
     }).pipe(
       tap(response => {
-        if (response.success && response.data) {
+        if (response && response.token) {
           const currentUser = this.currentUserSubject.value;
           if (currentUser) {
-            this.setAuthData(currentUser, response.data);
+            const tokenData = {
+              accessToken: response.token,
+              refreshToken: response.refreshToken || tokens.refreshToken,
+              expiresAt: new Date(response.expiresAt)
+            };
+            this.setAuthData(currentUser, tokenData);
           }
         }
       }),
@@ -139,7 +188,17 @@ export class AuthService {
     if (tokens && new Date(tokens.expiresAt) > new Date()) {
       this.isAuthenticatedSubject.next(true);
       // Load user data
-      this.getCurrentUser().subscribe();
+      this.getCurrentUser().subscribe({
+        next: (user) => {
+          console.log('User loaded from token:', user);
+        },
+        error: (error) => {
+          console.error('Failed to load user, clearing tokens:', error);
+          this.logout();
+        }
+      });
+    } else {
+      console.log('No valid tokens found in storage');
     }
   }
 

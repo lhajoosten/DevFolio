@@ -9,6 +9,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { filter } from 'rxjs/operators';
 import { ElementRef, HostListener } from '@angular/core';
 import { from } from 'rxjs';
+import { AuthService } from '../../../core/services/auth.service';
 
 interface NavigationItem {
   label: string;
@@ -67,7 +68,7 @@ export class NavigationComponent implements OnInit {
     }
   ];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, public authService: AuthService) {}
 
   ngOnInit(): void {
     // Track route changes

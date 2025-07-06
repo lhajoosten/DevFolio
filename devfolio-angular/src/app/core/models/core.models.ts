@@ -10,9 +10,24 @@ export interface User {
   id: number;
   email: string;
   username: string;
-  role: UserRole;
-  createdAt: Date;
-  updatedAt: Date;
+  role: string;
+  isEmailConfirmed: boolean;
+  lastLoginAt?: Date;
+  profile?: UserProfileData;
+}
+
+export interface UserProfileData {
+  firstName: string;
+  lastName: string;
+  fullName: string;
+  bio?: string;
+  profilePictureUrl?: string;
+  location?: string;
+  dateOfBirth?: Date;
+  age?: number;
+  websiteUrl?: string;
+  linkedInUrl?: string;
+  gitHubUrl?: string;
 }
 
 export interface UserProfile {
@@ -55,7 +70,7 @@ export enum UserRole {
 
 export enum ProjectStatus {
   Planned = 'Planned',
-  InProgress = 'InProgress', 
+  InProgress = 'InProgress',
   Completed = 'Completed',
   OnHold = 'OnHold'
 }
@@ -67,7 +82,7 @@ export interface AuthTokens {
 }
 
 export interface LoginRequest {
-  email: string;
+  emailOrUsername: string;
   password: string;
 }
 
@@ -76,4 +91,6 @@ export interface RegisterRequest {
   username: string;
   password: string;
   confirmPassword: string;
+  firstName: string;
+  lastName: string;
 }
