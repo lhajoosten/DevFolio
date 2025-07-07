@@ -276,17 +276,9 @@ export class PortfolioHomeComponent implements OnInit, OnDestroy {
         value: 1
       });
     }
-
-    // Alternative: send to your own analytics endpoint
-    console.log(`Analytics: ${category} - ${action} - ${label}`);
   }
 
   private showNotification(message: string): void {
-    // Implement your preferred notification system
-    // For now, just console log
-    console.log('Notification:', message);
-
-    // Example with simple browser notification
     if ('Notification' in window && Notification.permission === 'granted') {
       new Notification('DevFolio', {
         body: message,

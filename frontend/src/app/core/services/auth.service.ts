@@ -25,10 +25,8 @@ export class AuthService {
     private http: HttpClient,
     private router: Router
   ) {
-    console.log('AuthService: Constructor called');
     // Delay token loading to avoid circular dependency
     setTimeout(() => {
-      console.log('AuthService: Loading tokens from storage...');
       this.loadTokensFromStorage();
     }, 0);
   }
@@ -100,7 +98,6 @@ export class AuthService {
    * Logout gebruiker
    */
   logout(): void {
-    console.log('AuthService: Logging out user');
     localStorage.removeItem(this.TOKEN_KEY);
     this.currentUserSubject.next(null);
     this.isAuthenticatedSubject.next(false);
@@ -191,20 +188,16 @@ export class AuthService {
     const tokens = this.getStoredTokens();
     if (tokens && new Date(tokens.expiresAt) > new Date()) {
       // Don't set isAuthenticated to true yet - wait for user data validation
-      console.log('AuthService: Valid token found, loading user data...');
       this.getCurrentUser().subscribe({
         next: (user) => {
-          console.log('AuthService: User data loaded successfully', user);
           this.isAuthenticatedSubject.next(true);
           this.initialLoadCompleteSubject.next(true);
         },
         error: (error) => {
-          console.log('AuthService: Failed to load user data, logging out', error);
           this.logout();
         }
       });
     } else {
-      console.log('AuthService: No valid token found');
       this.isAuthenticatedSubject.next(false);
       this.initialLoadCompleteSubject.next(true);
     }

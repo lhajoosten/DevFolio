@@ -12,11 +12,8 @@
           </p>
         </div>
         <div class="hero-image">
-          <img
-            [src]="personalInfo.profileImage"
-            [alt]="personalInfo.firstName + ' ' + personalInfo.lastName"
-            class="profile-image"
-          />
+          <img [src]="personalInfo.profileImage" [alt]="personalInfo.firstName + ' ' + personalInfo.lastName"
+            class="profile-image" loading="eager" />
         </div>
       </div>
     </div>
@@ -54,33 +51,19 @@
           </div>
 
           <div class="action-buttons">
-            <button
-              mat-raised-button
-              color="primary"
-              (click)="downloadDutchCV()"
-            >
+            <button mat-raised-button color="primary" (click)="downloadDutchCV()">
               <mat-icon>description</mat-icon>
               Download CV (Nederlands PDF)
             </button>
-            <button
-              mat-raised-button
-              color="primary"
-              (click)="downloadEnglishCV()"
-            >
+            <button mat-raised-button color="primary" (click)="downloadEnglishCV()">
               <mat-icon>description</mat-icon>
               Download CV (English PDF)
             </button>
-            <button
-              mat-stroked-button
-              (click)="openExternalLink(personalInfo.linkedin)"
-            >
+            <button mat-stroked-button (click)="openExternalLink(personalInfo.linkedin)">
               <mat-icon>work</mat-icon>
               LinkedIn
             </button>
-            <button
-              mat-stroked-button
-              (click)="openExternalLink(personalInfo.github)"
-            >
+            <button mat-stroked-button (click)="openExternalLink(personalInfo.github)">
               <mat-icon>code</mat-icon>
               GitHub
             </button>
@@ -114,16 +97,12 @@
               </div>
               <div class="skill-level">
                 <div class="progress-container">
-                  <mat-progress-bar
-                    mode="determinate"
-                    [value]="skill.level"
-                    class="skill-progress"
-                  >
+                  <mat-progress-bar mode="determinate" [value]="skill.level" class="skill-progress">
                   </mat-progress-bar>
                 </div>
                 <span class="level-text">{{
                   getSkillLevelText(skill.level)
-                }}</span>
+                  }}</span>
               </div>
             </div>
           </div>
@@ -199,12 +178,7 @@
           nieuwe uitdagingen en interessante projecten.
         </p>
         <div class="cta-actions">
-          <a
-            routerLink="/contact"
-            mat-raised-button
-            color="primary"
-            class="cta-btn"
-          >
+          <a routerLink="/contact" mat-raised-button color="primary" class="cta-btn">
             <mat-icon>email</mat-icon>
             Neem contact op
           </a>

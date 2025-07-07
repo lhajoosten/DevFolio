@@ -217,7 +217,6 @@ export class ContactComponent implements OnInit {
     // For now, we'll simulate the submission
     return new Promise((resolve) => {
       setTimeout(() => {
-        console.log('Contact form submitted:', formData);
         resolve();
       }, 2000);
     });

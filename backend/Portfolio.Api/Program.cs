@@ -55,13 +55,13 @@ builder.Services.AddSwaggerGen(options =>
     options.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",
-        Title = "devfolio API",
+        Title = "DevFolio API",
         Description = "A comprehensive Portfolio Management API built with Clean Architecture",
         Contact = new OpenApiContact
         {
             Name = "L.H.A. Joosten",
             Email = "lhajoosten@outlook.com",
-            Url = new Uri("https://devfolio.nl")
+            Url = new Uri("https://lucjoosten.nl")
         },
         License = new OpenApiLicense
         {
@@ -119,13 +119,23 @@ builder.Services.AddSwaggerGen(options =>
 // Add CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowSpecificOrigin",
+    options.AddPolicy("LocalDevelopment",
         policy =>
         {
             policy.WithOrigins("https://localhost:4200", "http://localhost:4200")
                   .AllowAnyHeader()
                   .AllowAnyMethod()
                   .AllowCredentials();
+        });
+
+    options.AddPolicy("AllowSpecificOrigin",
+        policy =>
+        {
+            policy.WithOrigins("https://lucjoosten.nl")
+                    .AllowAnyHeader()
+                    .WithMethods("POST", "PUT", "GET")
+                    .SetIsOriginAllowedToAllowWildcardSubdomains()
+                    .AllowCredentials();
         });
 });
 
@@ -168,7 +178,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Portfolio API v1");
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "lucjoosten.nl (DevFolio) API v1");
         options.RoutePrefix = string.Empty;
         options.DisplayRequestDuration();
         options.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
@@ -179,11 +189,13 @@ if (app.Environment.IsDevelopment())
     });
 
     app.UseDeveloperExceptionPage();
+    app.UseCors("LocalDevelopment");
 }
 else
 {
     app.UseExceptionHandler("/Error");
     app.UseHsts();
+    app.UseCors("AllowSpecificOrigin");
 }
 
 app.UseHttpsRedirection();

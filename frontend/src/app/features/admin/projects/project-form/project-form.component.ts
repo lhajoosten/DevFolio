@@ -141,7 +141,6 @@ export class ProjectFormComponent implements OnInit {
 
       this.projectsService.updateProject(updateData).subscribe({
         next: () => {
-          console.log('Project updated successfully');
           this.router.navigate(['/admin/projecten']);
         },
         error: (error) => {
@@ -167,7 +166,6 @@ export class ProjectFormComponent implements OnInit {
 
       this.projectsService.createProject(createData).subscribe({
         next: () => {
-          console.log('Project created successfully');
           this.router.navigate(['/admin/projecten']);
         },
         error: (error) => {

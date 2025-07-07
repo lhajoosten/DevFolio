@@ -23,7 +23,7 @@ export class ProjectsListComponent implements OnInit {
 
   constructor(
     private projectsService: ProjectsService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadProjects();
@@ -77,7 +77,6 @@ export class ProjectsListComponent implements OnInit {
     if (confirm(`Weet je zeker dat je "${project.title}" wilt verwijderen?`)) {
       this.projectsService.deleteProject(project.id).subscribe({
         next: () => {
-          console.log('Project deleted successfully');
           this.loadProjects(); // Refresh the list
         },
         error: (error) => {
