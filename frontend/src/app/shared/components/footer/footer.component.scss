@@ -1,7 +1,8 @@
-@use '../../../../styles/themes/devfolio-theme' as theme;
+@use "../../../../styles/themes/devfolio-theme" as theme;
 
 .devfolio-footer {
-  background: linear-gradient(135deg,
+  background: linear-gradient(
+    135deg,
     rgba(var(--devfolio-surface-rgb), 0.98),
     rgba(var(--devfolio-surface-variant-rgb), 0.95)
   );
@@ -45,7 +46,11 @@
       font-size: 1.5rem;
       font-weight: 700;
       margin: 0 0 1rem 0;
-      background: linear-gradient(135deg, var(--devfolio-primary), var(--devfolio-secondary));
+      background: linear-gradient(
+        135deg,
+        var(--devfolio-primary),
+        var(--devfolio-secondary)
+      );
       background-clip: text;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;

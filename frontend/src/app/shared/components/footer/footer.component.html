@@ -6,8 +6,8 @@
       <div class="footer-brand">
         <h3 class="brand-title">Luc Joosten</h3>
         <p class="brand-description">
-          Fullstack .NET Developer met passie voor moderne web technologieën
-          en innovatieve softwareoplossingen.
+          Fullstack .NET Developer met passie voor moderne web technologieën en
+          innovatieve softwareoplossingen.
         </p>
 
         <!-- Social Links -->
@@ -17,7 +17,8 @@
               mat-icon-button
               (click)="navigateToLink(social.url, true)"
               [attr.aria-label]="'Bezoek mijn ' + social.name"
-              [attr.title]="social.name">
+              [attr.title]="social.name"
+            >
               <mat-icon>{{ social.icon }}</mat-icon>
             </button>
           </ng-container>
@@ -33,7 +34,8 @@
               mat-button
               class="footer-link"
               (click)="navigateToLink(link.url, link.external)"
-              [attr.aria-label]="'Ga naar ' + link.label">
+              [attr.aria-label]="'Ga naar ' + link.label"
+            >
               {{ link.label }}
             </button>
           </ng-container>
@@ -65,7 +67,8 @@
           mat-button
           class="back-to-top"
           (click)="scrollToTop()"
-          aria-label="Scroll naar boven">
+          aria-label="Scroll naar boven"
+        >
           <mat-icon>keyboard_arrow_up</mat-icon>
           <span>Terug naar boven</span>
         </button>
@@ -77,7 +80,10 @@
     <!-- Footer Bottom -->
     <div class="footer-bottom">
       <div class="copyright">
-        <span>&copy; {{ currentYear }} Luc Joosten. Alle rechten voorbehouden.</span>
+        <span
+          >&copy; {{ currentYear }} Luc Joosten. Alle rechten
+          voorbehouden.</span
+        >
       </div>
 
       <div class="legal-links">
@@ -86,7 +92,8 @@
             mat-button
             class="legal-link"
             (click)="navigateToLink(link.url, link.external)"
-            [attr.aria-label]="link.label">
+            [attr.aria-label]="link.label"
+          >
             {{ link.label }}
           </button>
           <span *ngIf="!last" class="separator">•</span>

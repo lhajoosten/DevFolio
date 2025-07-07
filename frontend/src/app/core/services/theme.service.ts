@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 export type Theme = 'light' | 'dark';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ThemeService {
   private readonly THEME_KEY = 'devfolio_theme';
@@ -48,7 +48,9 @@ export class ThemeService {
   }
 
   private getSystemTheme(): Theme {
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light';
   }
 
   private applyTheme(theme: Theme): void {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
@@ -34,7 +34,7 @@ export interface Education {
 }
 
 @Component({
-  selector: 'devfolio-about',
+  selector: 'app-about',
   standalone: true,
   imports: [
     CommonModule,
@@ -47,8 +47,8 @@ export interface Education {
   templateUrl: './about.component.html',
   styleUrl: './about.component.scss',
 })
-export class AboutComponent implements OnInit {
-  personalInfo = {
+export class AboutComponent {
+  protected personalInfo = {
     firstName: 'Luc',
     lastName: 'Joosten',
     title: 'Full-Stack Developer',
@@ -60,7 +60,7 @@ export class AboutComponent implements OnInit {
     cv: '/assets/cv/luc-joosten-cv.pdf',
   };
 
-  aboutText = {
+  protected aboutText = {
     introduction: `Hallo! Ik ben Luc Joosten, een gepassioneerde full-stack developer uit Nederland.
                    Na mijn opleiding ben ik volledig gefocust op het creëren van moderne, schaalbare
                    web applicaties die zowel gebruiksvriendelijk als technisch uitstekend zijn.`,
@@ -78,7 +78,7 @@ export class AboutComponent implements OnInit {
             Ik ben vooral geïnteresseerd in posities waar Angular en .NET centraal staan.`,
   };
 
-  skillCategories: SkillCategory[] = [
+  protected skillCategories: SkillCategory[] = [
     {
       name: 'Frontend Development',
       icon: 'web',
@@ -136,7 +136,7 @@ export class AboutComponent implements OnInit {
     },
   ];
 
-  experiences: Experience[] = [
+  protected experiences: Experience[] = [
     {
       title: 'Junior Full-Stack Developer',
       company: 'Eigen Projecten',
@@ -162,7 +162,7 @@ export class AboutComponent implements OnInit {
     },
   ];
 
-  education: Education[] = [
+  protected education: Education[] = [
     {
       degree: 'Bachelor Software Development',
       institution: 'Hogeschool Nederland',
@@ -179,13 +179,7 @@ export class AboutComponent implements OnInit {
     },
   ];
 
-  constructor() {}
-
-  ngOnInit(): void {
-    // Any initialization logic
-  }
-
-  downloadDutchCV(): void {
+  protected downloadDutchCV(): void {
     const link = document.createElement('a');
     link.href = '/assets/documents/luc-joosten-cv.pdf';
     link.download = 'cv-luc-joosten.pdf';
@@ -195,7 +189,7 @@ export class AboutComponent implements OnInit {
     document.body.removeChild(link);
   }
 
-  downloadEnglishCV(): void {
+  protected downloadEnglishCV(): void {
     const link = document.createElement('a');
     link.href = '/assets/documents/luc-joosten-cv-english.pdf';
     link.download = 'cv-luc-joosten-en.pdf';
@@ -205,15 +199,15 @@ export class AboutComponent implements OnInit {
     document.body.removeChild(link);
   }
 
-  openExternalLink(url: string): void {
+  protected openExternalLink(url: string): void {
     window.open(url, '_blank', 'noopener,noreferrer');
   }
 
-  getSkillPercentage(level: number): number {
+  protected getSkillPercentage(level: number): number {
     return level;
   }
 
-  getSkillLevelText(level: number): string {
+  protected getSkillLevelText(level: number): string {
     if (level >= 90) return 'Expert';
     if (level >= 80) return 'Gevorderd';
     if (level >= 70) return 'Intermediate';

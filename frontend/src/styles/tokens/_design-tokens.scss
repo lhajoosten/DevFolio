@@ -8,7 +8,8 @@ $devfolio-primary: (
   200: #9fd19f,
   300: #79be79,
   400: #5cb05c,
-  500: #3fa23f,   // Main brand green
+  500: #3fa23f,
+  // Main brand green
   600: #389538,
   700: #2f852f,
   800: #267626,
@@ -24,7 +25,7 @@ $devfolio-primary: (
     700: white,
     800: white,
     900: white,
-  )
+  ),
 );
 
 $devfolio-accent: (
@@ -33,7 +34,8 @@ $devfolio-accent: (
   200: #90caf9,
   300: #64b5f6,
   400: #42a5f5,
-  500: #2196f3,   // Professional blue
+  500: #2196f3,
+  // Professional blue
   600: #1e88e5,
   700: #1976d2,
   800: #1565c0,
@@ -49,7 +51,7 @@ $devfolio-accent: (
     700: white,
     800: white,
     900: white,
-  )
+  ),
 );
 
 // Neutral Colors voor tekst en achtergronden
@@ -75,87 +77,104 @@ $devfolio-neutral: (
     700: white,
     800: white,
     900: white,
-  )
+  ),
 );
 
 // Spacing System (8px base)
 $devfolio-spacing: (
-  'xs': 4px,    // 0.25rem
-  'sm': 8px,    // 0.5rem
-  'md': 16px,   // 1rem
-  'lg': 24px,   // 1.5rem
-  'xl': 32px,   // 2rem
-  'xxl': 48px,  // 3rem
-  'xxxl': 64px, // 4rem
+  "xs": 4px,
+  // 0.25rem
+  "sm": 8px,
+  // 0.5rem
+  "md": 16px,
+  // 1rem
+  "lg": 24px,
+  // 1.5rem
+  "xl": 32px,
+  // 2rem
+  "xxl": 48px,
+  // 3rem
+  "xxxl": 64px, // 4rem
 );
 
 // Typography Scale
 $devfolio-typography: (
-  'font-family-primary': '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-  'font-family-mono': '"JetBrains Mono", "Consolas", "Monaco", monospace',
+  "font-family-primary":
+    '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  "font-family-mono": '"JetBrains Mono", "Consolas", "Monaco", monospace',
 
   // Font Sizes
-  'text-xs': 0.75rem,   // 12px
-  'text-sm': 0.875rem,  // 14px
-  'text-base': 1rem,    // 16px
-  'text-lg': 1.125rem,  // 18px
-  'text-xl': 1.25rem,   // 20px
-  'text-2xl': 1.5rem,   // 24px
-  'text-3xl': 1.875rem, // 30px
-  'text-4xl': 2.25rem,  // 36px
-  'text-5xl': 3rem,     // 48px
-  'text-6xl': 3.75rem,  // 60px
+  "text-xs": 0.75rem,
+  // 12px
+  "text-sm": 0.875rem,
+  // 14px
+  "text-base": 1rem,
+  // 16px
+  "text-lg": 1.125rem,
+  // 18px
+  "text-xl": 1.25rem,
+  // 20px
+  "text-2xl": 1.5rem,
+  // 24px
+  "text-3xl": 1.875rem,
+  // 30px
+  "text-4xl": 2.25rem,
+  // 36px
+  "text-5xl": 3rem,
+  // 48px
+  "text-6xl": 3.75rem,
 
+  // 60px
   // Font Weights
-  'font-light': 300,
-  'font-normal': 400,
-  'font-medium': 500,
-  'font-semibold': 600,
-  'font-bold': 700,
+  "font-light": 300,
+  "font-normal": 400,
+  "font-medium": 500,
+  "font-semibold": 600,
+  "font-bold": 700,
 
   // Line Heights
-  'leading-tight': 1.25,
-  'leading-normal': 1.5,
-  'leading-relaxed': 1.75,
+  "leading-tight": 1.25,
+  "leading-normal": 1.5,
+  "leading-relaxed": 1.75,
 );
 
 // Border Radius
 $devfolio-border-radius: (
-  'none': 0,
-  'sm': 2px,
-  'md': 4px,
-  'lg': 8px,
-  'xl': 12px,
-  'xxl': 16px,
-  'full': 9999px,
+  "none": 0,
+  "sm": 2px,
+  "md": 4px,
+  "lg": 8px,
+  "xl": 12px,
+  "xxl": 16px,
+  "full": 9999px,
 );
 
 // Shadows
 $devfolio-shadows: (
-  'none': none,
-  'sm': 0 1px 2px 0 rgba(0, 0, 0, 0.05),
-  'md': 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-  'lg': 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-  'xl': 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-  'xxl': 0 25px 50px -12px rgba(0, 0, 0, 0.25),
+  "none": none,
+  "sm": 0 1px 2px 0 rgba(0, 0, 0, 0.05),
+  "md": 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+  "lg": 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+  "xl": 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+  "xxl": 0 25px 50px -12px rgba(0, 0, 0, 0.25),
 );
 
 // Breakpoints
 $devfolio-breakpoints: (
-  'sm': 640px,
-  'md': 768px,
-  'lg': 1024px,
-  'xl': 1280px,
-  'xxl': 1536px,
+  "sm": 640px,
+  "md": 768px,
+  "lg": 1024px,
+  "xl": 1280px,
+  "xxl": 1536px,
 );
 
 // Z-Index Scale
 $devfolio-z-index: (
-  'dropdown': 1000,
-  'sticky': 1020,
-  'fixed': 1030,
-  'modal': 1040,
-  'popover': 1050,
-  'tooltip': 1060,
-  'toast': 1070,
+  "dropdown": 1000,
+  "sticky": 1020,
+  "fixed": 1030,
+  "modal": 1040,
+  "popover": 1050,
+  "tooltip": 1060,
+  "toast": 1070,
 );

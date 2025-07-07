@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -23,22 +23,22 @@ import {
   templateUrl: './project-form.component.html',
 })
 export class ProjectFormComponent implements OnInit {
-  projectForm: FormGroup;
-  isEditMode = false;
-  isLoading = false;
-  isSaving = false;
-  errorMessage = '';
-  projectId?: number;
+  private fb = inject(FormBuilder);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private projectsService = inject(ProjectsService);
+
+  protected projectForm: FormGroup;
+  protected isEditMode = false;
+  protected isLoading = false;
+  protected isSaving = false;
+  protected errorMessage = '';
+  private projectId?: number;
 
   // Expose ProjectStatus enum for template
-  readonly ProjectStatus = ProjectStatus;
+  protected readonly ProjectStatus = ProjectStatus;
 
-  constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private route: ActivatedRoute,
-    private projectsService: ProjectsService
-  ) {
+  constructor() {
     this.projectForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', [Validators.required, Validators.minLength(10)]],
@@ -50,11 +50,11 @@ export class ProjectFormComponent implements OnInit {
     });
   }
 
-  get techStackArray(): FormArray {
+  protected get techStackArray(): FormArray {
     return this.projectForm.get('techStack') as FormArray;
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.route.params.subscribe((params) => {
       if (params['id']) {
         this.isEditMode = true;
@@ -108,15 +108,15 @@ export class ProjectFormComponent implements OnInit {
     return d.toISOString().split('T')[0];
   }
 
-  addTechStack(): void {
+  protected addTechStack(): void {
     this.techStackArray.push(this.fb.control('', Validators.required));
   }
 
-  removeTechStack(index: number): void {
+  protected removeTechStack(index: number): void {
     this.techStackArray.removeAt(index);
   }
 
-  onSubmit(): void {
+  protected onSubmit(): void {
     if (this.projectForm.invalid) {
       this.markFormGroupTouched();
       return;
@@ -133,7 +133,7 @@ export class ProjectFormComponent implements OnInit {
         repoUrl: formValue.repoUrl,
         imageUrl: formValue.imageUrl || undefined,
         techStack: formValue.techStack.filter(
-          (tech: string) => tech.trim() !== ''
+          (tech: string) => tech.trim() !== '',
         ),
         startDate: new Date(formValue.startDate),
         endDate: formValue.endDate ? new Date(formValue.endDate) : undefined,
@@ -156,7 +156,7 @@ export class ProjectFormComponent implements OnInit {
         repoUrl: formValue.repoUrl,
         imageUrl: formValue.imageUrl || undefined,
         techStack: formValue.techStack.filter(
-          (tech: string) => tech.trim() !== ''
+          (tech: string) => tech.trim() !== '',
         ),
         startDate: formValue.startDate
           ? new Date(formValue.startDate)
@@ -188,7 +188,7 @@ export class ProjectFormComponent implements OnInit {
     });
   }
 
-  getFieldError(fieldName: string): string {
+  protected getFieldError(fieldName: string): string {
     const field = this.projectForm.get(fieldName);
     if (field?.errors && field.touched) {
       if (field.errors['required']) return `${fieldName} is verplicht`;
@@ -199,21 +199,17 @@ export class ProjectFormComponent implements OnInit {
     return '';
   }
 
-  onCancel(): void {
+  protected onCancel(): void {
     this.router.navigate(['/admin/projecten']);
   }
 
-  addTech(): void {
+  protected addTech(): void {
     this.techStackArray.push(this.fb.control('', Validators.required));
   }
 
-  removeTech(index: number): void {
+  protected removeTech(index: number): void {
     if (this.techStackArray.length > 1) {
       this.techStackArray.removeAt(index);
     }
-  }
-
-  cancel(): void {
-    this.router.navigate(['/admin/projecten']);
   }
 }

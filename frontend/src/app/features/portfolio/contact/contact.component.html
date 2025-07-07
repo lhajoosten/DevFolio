@@ -22,11 +22,17 @@
       </p>
 
       <div class="contact-methods-grid">
-        <div
+        <button
           *ngFor="let method of contactMethods"
           class="contact-method-card"
           [class.clickable]="method.link"
           (click)="openContactMethod(method)"
+          type="button"
+          [tabindex]="method.link ? 0 : -1"
+          [attr.aria-label]="method.label"
+          (keyup.enter)="openContactMethod(method)"
+          (keydown.space)="openContactMethod(method)"
+          [disabled]="!method.link"
         >
           <div class="method-icon">
             <mat-icon>{{ method.icon }}</mat-icon>
@@ -38,7 +44,7 @@
           <div *ngIf="method.link" class="method-action">
             <mat-icon>open_in_new</mat-icon>
           </div>
-        </div>
+        </button>
       </div>
     </div>
   </section>
@@ -269,7 +275,12 @@
           <mat-icon>description</mat-icon>
           Download CV (Nederlands PDF)
         </button>
-        <button mat-raised-button color="secondary" class="english-cv-btn" (click)="downloadEnglishCV()">
+        <button
+          mat-raised-button
+          color="secondary"
+          class="english-cv-btn"
+          (click)="downloadEnglishCV()"
+        >
           <mat-icon>description</mat-icon>
           Download CV (English PDF)
         </button>

@@ -1,4 +1,4 @@
-@use '../../../../styles/themes/devfolio-theme' as theme;
+@use "../../../../styles/themes/devfolio-theme" as theme;
 
 .devfolio-navbar {
   position: fixed;
@@ -46,12 +46,21 @@
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
       &:hover {
-        background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(168, 85, 247, 0.1));
+        background: linear-gradient(
+          135deg,
+          rgba(34, 197, 94, 0.1),
+          rgba(168, 85, 247, 0.1)
+        );
         transform: translateY(-1px);
       }
 
       .brand-text {
-        background: linear-gradient(135deg, #22c55e 0%, #8b5cf6 50%, #ec4899 100%);
+        background: linear-gradient(
+          135deg,
+          #22c55e 0%,
+          #8b5cf6 50%,
+          #ec4899 100%
+        );
         background-clip: text;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -89,7 +98,11 @@
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
       &:hover {
-        background: linear-gradient(135deg, rgba(168, 85, 247, 0.08), rgba(236, 72, 153, 0.08));
+        background: linear-gradient(
+          135deg,
+          rgba(168, 85, 247, 0.08),
+          rgba(236, 72, 153, 0.08)
+        );
         color: #8b5cf6; // Purple color on hover
         transform: translateY(-1px);
 
@@ -100,7 +113,11 @@
       }
 
       &.active {
-        background: linear-gradient(135deg, rgba(34, 197, 94, 0.12), rgba(168, 85, 247, 0.12));
+        background: linear-gradient(
+          135deg,
+          rgba(34, 197, 94, 0.12),
+          rgba(168, 85, 247, 0.12)
+        );
         color: #22c55e; // Green for active state
 
         .nav-icon {
@@ -108,7 +125,7 @@
         }
 
         &::after {
-          content: '';
+          content: "";
           position: absolute;
           bottom: 0;
           left: 50%;
@@ -147,7 +164,11 @@
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
       &:hover {
-        background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(236, 72, 153, 0.1));
+        background: linear-gradient(
+          135deg,
+          rgba(168, 85, 247, 0.1),
+          rgba(236, 72, 153, 0.1)
+        );
         color: #8b5cf6;
         transform: translateY(-1px) scale(1.05);
       }
@@ -157,7 +178,11 @@
       animation: fadeInUp 0.3s ease-out;
 
       &:hover {
-        background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(168, 85, 247, 0.1));
+        background: linear-gradient(
+          135deg,
+          rgba(34, 197, 94, 0.1),
+          rgba(168, 85, 247, 0.1)
+        );
         color: #22c55e;
       }
     }
@@ -177,7 +202,11 @@
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
       &:hover {
-        background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(236, 72, 153, 0.1));
+        background: linear-gradient(
+          135deg,
+          rgba(168, 85, 247, 0.1),
+          rgba(236, 72, 153, 0.1)
+        );
         color: #8b5cf6;
         transform: scale(1.05);
       }
@@ -212,7 +241,11 @@
       padding: 1rem;
       max-height: calc(100vh - 64px);
       overflow-y: auto;
-      background: linear-gradient(135deg, rgba(34, 197, 94, 0.02), rgba(168, 85, 247, 0.02));
+      background: linear-gradient(
+        135deg,
+        rgba(34, 197, 94, 0.02),
+        rgba(168, 85, 247, 0.02)
+      );
     }
 
     .mobile-nav-items {
@@ -234,7 +267,11 @@
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
         &:hover {
-          background: linear-gradient(135deg, rgba(168, 85, 247, 0.08), rgba(236, 72, 153, 0.08));
+          background: linear-gradient(
+            135deg,
+            rgba(168, 85, 247, 0.08),
+            rgba(236, 72, 153, 0.08)
+          );
           color: #8b5cf6;
           transform: translateX(4px);
 
@@ -245,7 +282,11 @@
         }
 
         &.active {
-          background: linear-gradient(135deg, rgba(34, 197, 94, 0.12), rgba(168, 85, 247, 0.12));
+          background: linear-gradient(
+            135deg,
+            rgba(34, 197, 94, 0.12),
+            rgba(168, 85, 247, 0.12)
+          );
           color: #22c55e;
 
           .mobile-nav-icon {
@@ -295,7 +336,11 @@
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
           &:hover {
-            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(236, 72, 153, 0.1));
+            background: linear-gradient(
+              135deg,
+              rgba(168, 85, 247, 0.1),
+              rgba(236, 72, 153, 0.1)
+            );
             color: #8b5cf6;
             transform: translateY(-2px) scale(1.1);
           }
@@ -321,7 +366,11 @@
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
       &:hover {
-        background: linear-gradient(135deg, rgba(168, 85, 247, 0.08), rgba(236, 72, 153, 0.08));
+        background: linear-gradient(
+          135deg,
+          rgba(168, 85, 247, 0.08),
+          rgba(236, 72, 153, 0.08)
+        );
         color: #8b5cf6;
         transform: translateX(4px);
       }
@@ -352,7 +401,8 @@
 }
 
 @keyframes gradientShift {
-  0%, 100% {
+  0%,
+  100% {
     background-position: 0% 50%;
   }
   50% {

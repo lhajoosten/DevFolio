@@ -17,16 +17,11 @@ interface SocialLink {
 }
 
 @Component({
-  selector: 'devfolio-footer',
+  selector: 'app-footer',
   standalone: true,
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    MatIconModule,
-    MatDividerModule
-  ],
+  imports: [CommonModule, MatButtonModule, MatIconModule, MatDividerModule],
   templateUrl: './footer.component.html',
-  styleUrl: './footer.component.scss'
+  styleUrl: './footer.component.scss',
 })
 export class FooterComponent {
   protected currentYear = new Date().getFullYear();
@@ -35,30 +30,30 @@ export class FooterComponent {
     { label: 'Home', url: '' },
     { label: 'Projecten', url: 'projecten' },
     { label: 'Over Mij', url: 'over-mij' },
-    { label: 'Contact', url: 'contact' }
+    { label: 'Contact', url: 'contact' },
   ];
 
   protected legalLinks: FooterLink[] = [
     { label: 'Privacy Beleid', url: '/privacy', external: false },
-    { label: 'Algemene Voorwaarden', url: '/terms', external: false }
+    { label: 'Algemene Voorwaarden', url: '/terms', external: false },
   ];
 
   protected socialLinks: SocialLink[] = [
     {
       name: 'LinkedIn',
       url: 'https://linkedin.com/in/lhajoosten',
-      icon: 'link'
+      icon: 'link',
     },
     {
       name: 'GitHub',
       url: 'https://github.com/lhajoosten',
-      icon: 'code'
+      icon: 'code',
     },
     {
       name: 'Email',
       url: 'mailto:lhajoosten@outlook.com',
-      icon: 'email'
-    }
+      icon: 'email',
+    },
   ];
 
   protected navigateToLink(url: string, external: boolean = false): void {

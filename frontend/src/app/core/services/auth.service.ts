@@ -1,14 +1,26 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { User, LoginRequest, RegisterRequest, AuthTokens } from '../models/core.models';
+import {
+  User,
+  LoginRequest,
+  RegisterRequest,
+  AuthTokens,
+  CurrentUser,
+  RegisterResponse,
+  LoginResponse,
+  refreshTokenResponse,
+} from '../models/core.models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
+  private http = inject(HttpClient);
+  private router = inject(Router);
+
   private readonly API_URL = 'https://localhost:7175/api/v1/auth';
   private readonly TOKEN_KEY = 'devfolio_token';
 
@@ -21,10 +33,7 @@ export class AuthService {
   private initialLoadCompleteSubject = new BehaviorSubject<boolean>(false);
   public initialLoadComplete$ = this.initialLoadCompleteSubject.asObservable();
 
-  constructor(
-    private http: HttpClient,
-    private router: Router
-  ) {
+  constructor() {
     // Delay token loading to avoid circular dependency
     setTimeout(() => {
       this.loadTokensFromStorage();
@@ -34,10 +43,11 @@ export class AuthService {
   /**
    * Login gebruiker
    */
-  login(loginRequest: LoginRequest): Observable<any> {
-    return this.http.post<any>(`${this.API_URL}/login`, loginRequest)
+  public login(loginRequest: LoginRequest): Observable<LoginResponse> {
+    return this.http
+      .post<LoginResponse>(`${this.API_URL}/login`, loginRequest)
       .pipe(
-        tap(response => {
+        tap((response) => {
           if (response) {
             // Backend returns LoginResponseDto directly
             const userData: User = {
@@ -46,58 +56,49 @@ export class AuthService {
               username: response.username,
               role: response.role,
               isEmailConfirmed: true,
-              lastLoginAt: new Date()
+              lastLoginAt: new Date(),
             };
 
-            const tokenData: AuthTokens = {
-              accessToken: response.token,
-              refreshToken: '',
-              expiresAt: new Date(response.expiresAt)
-            };
-
-            this.setAuthData(userData, tokenData);
-            this.initialLoadCompleteSubject.next(true); // Mark initial load as complete after login
+            this.setAuthData(userData, response.token);
+            this.initialLoadCompleteSubject.next(true);
           }
         }),
-        catchError(this.handleError)
+        catchError(this.handleError),
       );
   }
 
   /**
    * Registreer nieuwe gebruiker
    */
-  register(registerRequest: RegisterRequest): Observable<any> {
-    return this.http.post<any>(`${this.API_URL}/register`, registerRequest)
+  public register(
+    registerRequest: RegisterRequest,
+  ): Observable<RegisterResponse> {
+    return this.http
+      .post<RegisterResponse>(`${this.API_URL}/register`, registerRequest)
       .pipe(
-        tap(response => {
+        tap((response) => {
           if (response) {
             // Backend returns RegisterResponseDto directly
             const userData: User = {
               id: response.id,
               email: response.email,
               username: response.username,
-              role: response.role,
-              isEmailConfirmed: false, // New users might need email confirmation
-              lastLoginAt: new Date()
+              isEmailConfirmed: false,
+              role: 'User', // Default role for new users
+              lastLoginAt: new Date(),
             };
 
-            const tokenData: AuthTokens = {
-              accessToken: response.token,
-              refreshToken: '', // Backend might not provide refresh token yet
-              expiresAt: new Date(response.expiresAt)
-            };
-
-            this.setAuthData(userData, tokenData);
+            this.setAuthData(userData, response.token);
             this.initialLoadCompleteSubject.next(true); // Mark initial load as complete after login
           }
         }),
-        catchError(this.handleError)
+        catchError(this.handleError),
       );
   }
   /**
    * Logout gebruiker
    */
-  logout(): void {
+  public logout(): void {
     localStorage.removeItem(this.TOKEN_KEY);
     this.currentUserSubject.next(null);
     this.isAuthenticatedSubject.next(false);
@@ -111,53 +112,49 @@ export class AuthService {
   /**
    * Get current user info
    */
-  getCurrentUser(): Observable<any> {
-    return this.http.get<any>(`${this.API_URL}/me`)
-      .pipe(
-        tap(response => {
-          if (response) {
-            this.currentUserSubject.next(response);
-          }
-        }),
-        catchError(error => {
-          return this.handleError(error);
-        })
-      );
+  public getCurrentUser(): Observable<CurrentUser> {
+    return this.http.get<CurrentUser>(`${this.API_URL}/me`).pipe(
+      tap((response) => {
+        if (response) {
+          this.currentUserSubject.next(response);
+        }
+      }),
+      catchError((error) => {
+        return this.handleError(error);
+      }),
+    );
   }
 
   /**
    * Refresh authentication token
    */
-  refreshToken(): Observable<any> {
+  public refreshToken(): Observable<refreshTokenResponse> {
     const tokens = this.getStoredTokens();
     if (!tokens?.refreshToken) {
       return throwError(() => new Error('No refresh token available'));
     }
 
-    return this.http.post<any>(`${this.API_URL}/refresh`, {
-      refreshToken: tokens.refreshToken
-    }).pipe(
-      tap(response => {
-        if (response && response.token) {
-          const currentUser = this.currentUserSubject.value;
-          if (currentUser) {
-            const tokenData = {
-              accessToken: response.token,
-              refreshToken: response.refreshToken || tokens.refreshToken,
-              expiresAt: new Date(response.expiresAt)
-            };
-            this.setAuthData(currentUser, tokenData);
+    return this.http
+      .post<refreshTokenResponse>(`${this.API_URL}/refresh`, {
+        refreshToken: tokens.refreshToken,
+      })
+      .pipe(
+        tap((response) => {
+          if (response && response.accessToken) {
+            const currentUser = this.currentUserSubject.value;
+            if (currentUser) {
+              this.setAuthData(currentUser, response.accessToken);
+            }
           }
-        }
-      }),
-      catchError(this.handleError)
-    );
+        }),
+        catchError(this.handleError),
+      );
   }
 
   /**
    * Check if user is authenticated
    */
-  isAuthenticated(): boolean {
+  public isAuthenticated(): boolean {
     const tokens = this.getStoredTokens();
     return !!(tokens?.accessToken && new Date(tokens.expiresAt) > new Date());
   }
@@ -165,7 +162,7 @@ export class AuthService {
   /**
    * Check if user is admin
    */
-  isAdmin(): boolean {
+  public isAdmin(): boolean {
     const user = this.currentUserSubject.value;
     return user?.role === 'Admin';
   }
@@ -173,13 +170,16 @@ export class AuthService {
   /**
    * Get access token
    */
-  getAccessToken(): string | null {
+  public getAccessToken(): string | null {
     const tokens = this.getStoredTokens();
     return tokens?.accessToken || null;
   }
 
-  private setAuthData(user: User, tokens: AuthTokens): void {
-    localStorage.setItem(this.TOKEN_KEY, JSON.stringify(tokens));
+  private setAuthData(user: User, token: string): void {
+    localStorage.setItem(
+      this.TOKEN_KEY,
+      JSON.stringify({ accessToken: token }),
+    );
     this.currentUserSubject.next(user);
     this.isAuthenticatedSubject.next(true);
   }
@@ -189,13 +189,13 @@ export class AuthService {
     if (tokens && new Date(tokens.expiresAt) > new Date()) {
       // Don't set isAuthenticated to true yet - wait for user data validation
       this.getCurrentUser().subscribe({
-        next: (user) => {
+        next: () => {
           this.isAuthenticatedSubject.next(true);
           this.initialLoadCompleteSubject.next(true);
         },
-        error: (error) => {
+        error: () => {
           this.logout();
-        }
+        },
       });
     } else {
       this.isAuthenticatedSubject.next(false);
@@ -215,7 +215,7 @@ export class AuthService {
     return null;
   }
 
-  private handleError(error: any): Observable<never> {
+  private handleError(error: HttpErrorResponse): Observable<never> {
     console.error('Auth service error:', error);
     return throwError(() => error);
   }

@@ -58,7 +58,12 @@
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
   }
 
   .header-content {
@@ -231,7 +236,11 @@
         .default-project-image {
           width: 100%;
           height: 100%;
-          background: linear-gradient(135deg, theme.devfolio-primary(100), theme.devfolio-accent(100));
+          background: linear-gradient(
+            135deg,
+            theme.devfolio-primary(100),
+            theme.devfolio-accent(100)
+          );
           display: flex;
           align-items: center;
           justify-content: center;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import {
@@ -35,7 +35,7 @@ export interface ContactInfo {
 }
 
 @Component({
-  selector: 'devfolio-contact',
+  selector: 'app-contact',
   standalone: true,
   imports: [
     CommonModule,
@@ -53,10 +53,13 @@ export interface ContactInfo {
   styleUrl: './contact.component.scss',
 })
 export class ContactComponent implements OnInit {
-  contactForm: FormGroup;
-  isSubmitting = false;
+  private fb = inject(FormBuilder);
+  private snackBar = inject(MatSnackBar);
 
-  personalInfo = {
+  protected contactForm: FormGroup;
+  protected isSubmitting = false;
+
+  protected personalInfo = {
     firstName: 'Luc',
     lastName: 'Joosten',
     title: 'Full-Stack Developer',
@@ -67,7 +70,7 @@ export class ContactComponent implements OnInit {
     phone: '+31 6 12345678', // Example phone number
   };
 
-  contactMethods: ContactInfo[] = [
+  protected contactMethods: ContactInfo[] = [
     {
       type: 'email',
       icon: 'email',
@@ -97,7 +100,7 @@ export class ContactComponent implements OnInit {
     },
   ];
 
-  projectTypes = [
+  protected projectTypes = [
     { value: 'website', label: 'Website Development' },
     { value: 'webapp', label: 'Web Applicatie' },
     { value: 'api', label: 'API Development' },
@@ -106,7 +109,7 @@ export class ContactComponent implements OnInit {
     { value: 'other', label: 'Anders' },
   ];
 
-  budgetRanges = [
+  protected budgetRanges = [
     { value: 'under-5k', label: 'Onder €5.000' },
     { value: '5k-15k', label: '€5.000 - €15.000' },
     { value: '15k-50k', label: '€15.000 - €50.000' },
@@ -114,7 +117,7 @@ export class ContactComponent implements OnInit {
     { value: 'discuss', label: 'Te bespreken' },
   ];
 
-  timelines = [
+  protected timelines = [
     { value: 'asap', label: 'Zo snel mogelijk' },
     { value: '1-month', label: 'Binnen 1 maand' },
     { value: '1-3-months', label: '1-3 maanden' },
@@ -122,12 +125,15 @@ export class ContactComponent implements OnInit {
     { value: 'flexible', label: 'Flexibel' },
   ];
 
-  constructor(private fb: FormBuilder, private snackBar: MatSnackBar) {
+  constructor() {
     this.contactForm = this.createForm();
   }
 
-  ngOnInit(): void {
-    // Any initialization logic
+  public ngOnInit(): void {
+    // Initialize form validation states
+    this.contactForm.statusChanges.subscribe(() => {
+      // Update UI when form validation state changes
+    });
   }
 
   private createForm(): FormGroup {
@@ -143,7 +149,7 @@ export class ContactComponent implements OnInit {
     });
   }
 
-  getErrorMessage(fieldName: string): string {
+  protected getErrorMessage(fieldName: string): string {
     const field = this.contactForm.get(fieldName);
 
     if (field?.hasError('required')) {
@@ -174,15 +180,13 @@ export class ContactComponent implements OnInit {
     return labels[fieldName] || fieldName;
   }
 
-  async onSubmit(): Promise<void> {
+  protected async onSubmit(): Promise<void> {
     if (this.contactForm.valid && !this.isSubmitting) {
       this.isSubmitting = true;
 
       try {
-        const formData = this.contactForm.value as ContactFormData;
-
         // Simulate API call
-        await this.submitContactForm(formData);
+        await this.submitContactForm();
 
         this.snackBar.open(
           'Bedankt voor je bericht! Ik neem zo snel mogelijk contact met je op.',
@@ -190,7 +194,7 @@ export class ContactComponent implements OnInit {
           {
             duration: 5000,
             panelClass: ['success-snackbar'],
-          }
+          },
         );
 
         this.contactForm.reset();
@@ -202,7 +206,7 @@ export class ContactComponent implements OnInit {
           {
             duration: 5000,
             panelClass: ['error-snackbar'],
-          }
+          },
         );
       } finally {
         this.isSubmitting = false;
@@ -212,7 +216,7 @@ export class ContactComponent implements OnInit {
     }
   }
 
-  private async submitContactForm(formData: ContactFormData): Promise<void> {
+  private async submitContactForm(): Promise<void> {
     // In a real application, this would call your backend API
     // For now, we'll simulate the submission
     return new Promise((resolve) => {
@@ -229,7 +233,7 @@ export class ContactComponent implements OnInit {
     });
   }
 
-  openContactMethod(contactInfo: ContactInfo): void {
+  protected openContactMethod(contactInfo: ContactInfo): void {
     if (contactInfo.link) {
       if (contactInfo.type === 'email') {
         // Pre-fill email subject for convenience
@@ -241,7 +245,7 @@ export class ContactComponent implements OnInit {
     }
   }
 
-  downloadDutchCV(): void {
+  protected downloadDutchCV(): void {
     const link = document.createElement('a');
     link.href = '/assets/documents/luc-joosten-cv.pdf';
     link.download = 'cv-luc-joosten.pdf';
@@ -251,7 +255,7 @@ export class ContactComponent implements OnInit {
     document.body.removeChild(link);
   }
 
-  downloadEnglishCV(): void {
+  protected downloadEnglishCV(): void {
     const link = document.createElement('a');
     link.href = '/assets/documents/luc-joosten-cv-english.pdf';
     link.download = 'cv-luc-joosten-en.pdf';
@@ -262,22 +266,22 @@ export class ContactComponent implements OnInit {
   }
 
   // Getters for template
-  get nameControl() {
+  protected get nameControl() {
     return this.contactForm.get('name');
   }
-  get emailControl() {
+  protected get emailControl() {
     return this.contactForm.get('email');
   }
-  get subjectControl() {
+  protected get subjectControl() {
     return this.contactForm.get('subject');
   }
-  get messageControl() {
+  protected get messageControl() {
     return this.contactForm.get('message');
   }
-  get projectTypeControl() {
+  protected get projectTypeControl() {
     return this.contactForm.get('projectType');
   }
-  get privacyConsentControl() {
+  protected get privacyConsentControl() {
     return this.contactForm.get('privacyConsent');
   }
 }

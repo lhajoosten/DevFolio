@@ -1,6 +1,6 @@
-@use '../../../../styles/themes/devfolio-theme' as theme;
-@use '../../../../styles/tokens/design-tokens' as tokens;
-@use 'sass:map';
+@use "../../../../styles/themes/devfolio-theme" as theme;
+@use "../../../../styles/tokens/design-tokens" as tokens;
+@use "sass:map";
 
 // Animations
 @keyframes fadeInUp {
@@ -43,22 +43,28 @@
 
 // Hero Section
 .about-hero {
-  background: linear-gradient(135deg,
+  background: linear-gradient(
+    135deg,
     theme.devfolio-primary(600) 0%,
     theme.devfolio-primary(700) 50%,
-    theme.devfolio-accent(600) 100%);
+    theme.devfolio-accent(600) 100%
+  );
   color: white;
   padding: 120px 0 80px;
   position: relative;
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     height: 100px;
-    background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.1));
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      rgba(255, 255, 255, 0.1)
+    );
   }
 
   .hero-content {
@@ -343,9 +349,11 @@
 
                 .mdc-linear-progress__bar-inner {
                   border-top-width: 8px;
-                  background: linear-gradient(90deg,
+                  background: linear-gradient(
+                    90deg,
                     theme.devfolio-primary(500),
-                    theme.devfolio-accent(500));
+                    theme.devfolio-accent(500)
+                  );
                 }
               }
             }
@@ -398,15 +406,17 @@
     animation: slideInLeft 0.8s ease-out;
 
     &::before {
-      content: '';
+      content: "";
       position: absolute;
       left: 20px;
       top: 0;
       bottom: 0;
       width: 2px;
-      background: linear-gradient(to bottom,
+      background: linear-gradient(
+        to bottom,
         theme.devfolio-primary(300),
-        theme.devfolio-accent(300));
+        theme.devfolio-accent(300)
+      );
 
       @media (max-width: 768px) {
         left: 15px;

@@ -1,13 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
 import { AuthService } from './auth.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HttpHelperService {
+  private authService = inject(AuthService);
 
-  constructor(private authService: AuthService) {}
+  // Legacy constructors removed; using inject() only
 
   /**
    * Get HTTP headers with authentication token
@@ -18,13 +19,13 @@ export class HttpHelperService {
 
     if (tokens?.accessToken) {
       return new HttpHeaders({
-        'Authorization': `Bearer ${tokens.accessToken}`,
-        'Content-Type': 'application/json'
+        Authorization: `Bearer ${tokens.accessToken}`,
+        'Content-Type': 'application/json',
       });
     }
 
     return new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     });
   }
 
@@ -33,11 +34,14 @@ export class HttpHelperService {
    */
   getBasicHeaders(): HttpHeaders {
     return new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     });
   }
 
-  private getStoredTokens(): any {
+  private getStoredTokens(): {
+    accessToken: string;
+    refreshToken?: string;
+  } | null {
     const tokenString = localStorage.getItem('devfolio_token');
     if (tokenString) {
       try {

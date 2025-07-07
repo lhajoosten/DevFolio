@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ProjectsService } from '../../../core/services/projects.service';
@@ -19,22 +19,20 @@ interface DashboardStats {
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit {
-  stats: DashboardStats = {
+  private projectsService = inject(ProjectsService);
+  private authService = inject(AuthService);
+
+  protected stats: DashboardStats = {
     totalProjects: 0,
     completedProjects: 0,
     inProgressProjects: 0,
-    plannedProjects: 0
+    plannedProjects: 0,
   };
 
-  recentProjects: any[] = [];
-  isLoading = true;
+  protected recentProjects: Project[] = [];
+  protected isLoading = true;
 
-  constructor(
-    private projectsService: ProjectsService,
-    private authService: AuthService
-  ) {}
-
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.loadDashboardData();
   }
 
@@ -44,13 +42,22 @@ export class DashboardComponent implements OnInit {
       next: (projects) => {
         // Calculate stats
         this.stats.totalProjects = projects.length;
-        this.stats.completedProjects = projects.filter((p: Project) => p.status === ProjectStatus.Completed).length;
-        this.stats.inProgressProjects = projects.filter((p: Project) => p.status === ProjectStatus.InProgress).length;
-        this.stats.plannedProjects = projects.filter((p: Project) => p.status === ProjectStatus.Planned).length;
+        this.stats.completedProjects = projects.filter(
+          (p: Project) => p.status === ProjectStatus.Completed,
+        ).length;
+        this.stats.inProgressProjects = projects.filter(
+          (p: Project) => p.status === ProjectStatus.InProgress,
+        ).length;
+        this.stats.plannedProjects = projects.filter(
+          (p: Project) => p.status === ProjectStatus.Planned,
+        ).length;
 
         // Get recent projects (latest 5) - use startDate since we don't have updatedAt
         this.recentProjects = projects
-          .sort((a: Project, b: Project) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime())
+          .sort(
+            (a: Project, b: Project) =>
+              new Date(b.startDate).getTime() - new Date(a.startDate).getTime(),
+          )
           .slice(0, 5);
 
         this.isLoading = false;
@@ -58,26 +65,31 @@ export class DashboardComponent implements OnInit {
       error: (error) => {
         console.error('Error loading dashboard data:', error);
         this.isLoading = false;
-      }
+      },
     });
   }
 
-  getStatusLabel(status: string): string {
+  protected getStatusLabel(status: string): string {
     switch (status) {
-      case 'Completed': return 'Afgerond';
-      case 'InProgress': return 'Bezig';
-      case 'Planned': return 'Gepland';
-      case 'OnHold': return 'Gepauzeerd';
-      default: return status;
+      case 'Completed':
+        return 'Afgerond';
+      case 'InProgress':
+        return 'Bezig';
+      case 'Planned':
+        return 'Gepland';
+      case 'OnHold':
+        return 'Gepauzeerd';
+      default:
+        return status;
     }
   }
 
-  formatDate(dateString: string | Date): string {
+  protected formatDate(dateString: string | Date): string {
     const date = new Date(dateString);
     return date.toLocaleDateString('nl-NL', {
       day: '2-digit',
       month: '2-digit',
-      year: 'numeric'
+      year: 'numeric',
     });
   }
 }

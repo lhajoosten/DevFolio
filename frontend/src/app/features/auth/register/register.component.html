@@ -191,7 +191,9 @@
               >Wachtwoord bevestiging is verplicht</span
             >
             <span
-              *ngIf="registerForm.get('confirmPassword')?.errors?.['passwordMatch']"
+              *ngIf="
+                registerForm.get('confirmPassword')?.errors?.['passwordMatch']
+              "
               >Wachtwoorden komen niet overeen</span
             >
           </div>

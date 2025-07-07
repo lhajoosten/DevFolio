@@ -1,4 +1,11 @@
-import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ElementRef,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
@@ -33,7 +40,7 @@ export interface Skill {
 }
 
 @Component({
-  selector: 'devfolio-portfolio-home',
+  selector: 'app-portfolio-home',
   standalone: true,
   imports: [
     CommonModule,
@@ -41,12 +48,14 @@ export interface Skill {
     MatButtonModule,
     MatIconModule,
     MatChipsModule,
-    MatTooltipModule
+    MatTooltipModule,
   ],
   templateUrl: './portfolio-home.component.html',
-  styleUrl: './portfolio-home.component.scss'
+  styleUrl: './portfolio-home.component.scss',
 })
 export class PortfolioHomeComponent implements OnInit, OnDestroy {
+  private projectsService = inject(ProjectsService);
+
   private destroy$ = new Subject<void>();
 
   @ViewChild('heroSection', { static: false }) heroSection?: ElementRef;
@@ -57,7 +66,8 @@ export class PortfolioHomeComponent implements OnInit, OnDestroy {
     lastName: 'Joosten',
     title: 'Full-Stack Developer',
     tagline: 'Recent afgestudeerd en klaar voor nieuwe uitdagingen',
-    shortBio: 'Gepassioneerd over het bouwen van moderne web applicaties met Angular en .NET. Altijd op zoek naar nieuwe technologieën en best practices.',
+    shortBio:
+      'Gepassioneerd over het bouwen van moderne web applicaties met Angular en .NET. Altijd op zoek naar nieuwe technologieën en best practices.',
     profileImage: './assets/images/profile-picture.jpg',
     location: 'Nederland',
     email: 'lhajoosten@outlook.com',
@@ -65,7 +75,7 @@ export class PortfolioHomeComponent implements OnInit, OnDestroy {
     linkedin: 'https://linkedin.com/in/lhajoosten',
     isAvailableForWork: true,
     yearsExperience: 1,
-    currentRole: 'Junior Developer'
+    currentRole: 'Junior Developer',
   };
 
   // Featured projects van de API
@@ -88,26 +98,26 @@ export class PortfolioHomeComponent implements OnInit, OnDestroy {
     { name: 'Git & GitHub', level: 5, category: 'Tools' },
     { name: 'Azure DevOps', level: 3, category: 'Tools' },
     { name: 'Docker', level: 3, category: 'Tools' },
-    { name: 'Jest/Jasmine', level: 4, category: 'Tools' }
+    { name: 'Jest/Jasmine', level: 4, category: 'Tools' },
   ];
 
   private currentTextIndex = 0;
 
-  constructor(private projectsService: ProjectsService) {
+  constructor() {
     this.featuredProjects$ = this.projectsService.getProjects().pipe(
-      map(projects => projects.slice(0, 6)),
+      map((projects) => projects.slice(0, 6)),
       startWith([]),
-      takeUntil(this.destroy$)
+      takeUntil(this.destroy$),
     );
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.loadInitialData();
     this.setupScrollAnimations();
     this.startRotatingText();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
@@ -116,7 +126,8 @@ export class PortfolioHomeComponent implements OnInit, OnDestroy {
     this.isLoading$.next(true);
 
     // Load featured projects for portfolio display
-    this.projectsService.getProjects()
+    this.projectsService
+      .getProjects()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
@@ -125,27 +136,32 @@ export class PortfolioHomeComponent implements OnInit, OnDestroy {
         error: (error) => {
           console.error('Error loading projects:', error);
           this.isLoading$.next(false);
-        }
+        },
       });
   }
 
   private setupScrollAnimations(): void {
     // Add intersection observer for scroll animations
     if ('IntersectionObserver' in window) {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('animate-in');
-          }
-        });
-      }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-      });
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('animate-in');
+            }
+          });
+        },
+        {
+          threshold: 0.1,
+          rootMargin: '0px 0px -50px 0px',
+        },
+      );
 
       // Observe sections that should animate in
-      const sections = document.querySelectorAll('.about-section, .projects-section, .contact-section');
-      sections.forEach(section => observer.observe(section));
+      const sections = document.querySelectorAll(
+        '.about-section, .projects-section, .contact-section',
+      );
+      sections.forEach((section) => observer.observe(section));
     }
   }
 
@@ -153,7 +169,7 @@ export class PortfolioHomeComponent implements OnInit, OnDestroy {
     setInterval(() => {
       const elements = document.querySelectorAll('.role-item');
       if (elements.length > 0) {
-        elements.forEach(el => el.classList.remove('active'));
+        elements.forEach((el) => el.classList.remove('active'));
         this.currentTextIndex = (this.currentTextIndex + 1) % elements.length;
         elements[this.currentTextIndex]?.classList.add('active');
       }
@@ -163,7 +179,7 @@ export class PortfolioHomeComponent implements OnInit, OnDestroy {
   /**
    * Download CV functionality with analytics tracking
    */
-  downloadCV(): void {
+  protected downloadCV(): void {
     try {
       // Track analytics event
       this.trackEvent('cv_download', 'engagement', 'CV Download');
@@ -182,14 +198,16 @@ export class PortfolioHomeComponent implements OnInit, OnDestroy {
       this.showNotification('CV download gestart!');
     } catch (error) {
       console.error('Error downloading CV:', error);
-      this.showNotification('Er is een fout opgetreden bij het downloaden van de CV.');
+      this.showNotification(
+        'Er is een fout opgetreden bij het downloaden van de CV.',
+      );
     }
   }
 
   /**
    * Download English CV functionality with analytics tracking
    */
-  downloadCvEnglish(): void {
+  protected downloadCvEnglish(): void {
     try {
       // Track analytics event
       this.trackEvent('cv_download', 'engagement', 'CV Download English');
@@ -210,7 +228,7 @@ export class PortfolioHomeComponent implements OnInit, OnDestroy {
   /**
    * Smooth scroll to contact section with offset for fixed header
    */
-  scrollToContact(): void {
+  protected scrollToContact(): void {
     this.smoothScrollTo('contact');
     this.trackEvent('navigation', 'scroll', 'Scroll to Contact');
   }
@@ -218,7 +236,7 @@ export class PortfolioHomeComponent implements OnInit, OnDestroy {
   /**
    * Smooth scroll to projects section
    */
-  scrollToProjects(): void {
+  protected scrollToProjects(): void {
     this.smoothScrollTo('projects');
     this.trackEvent('navigation', 'scroll', 'Scroll to Projects');
   }
@@ -226,14 +244,14 @@ export class PortfolioHomeComponent implements OnInit, OnDestroy {
   /**
    * Scroll to the next section (about section)
    */
-  scrollToNextSection(): void {
+  protected scrollToNextSection(): void {
     this.smoothScrollTo('about');
   }
 
   /**
    * Navigate to external links with tracking
    */
-  openExternalLink(url: string, linkType: string): void {
+  protected openExternalLink(url: string, linkType: string): void {
     this.trackEvent('external_link', 'click', linkType);
     window.open(url, '_blank', 'noopener,noreferrer');
   }
@@ -241,14 +259,16 @@ export class PortfolioHomeComponent implements OnInit, OnDestroy {
   /**
    * Get skills by category for template
    */
-  getSkillsByCategory(category: string): Skill[] {
-    return this.highlightedSkills.filter(skill => skill.category === category);
+  protected getSkillsByCategory(category: string): Skill[] {
+    return this.highlightedSkills.filter(
+      (skill) => skill.category === category,
+    );
   }
 
   /**
    * Format skill level for accessibility
    */
-  getSkillLevelText(level: number): string {
+  protected getSkillLevelText(level: number): string {
     const levels = ['Beginner', 'Novice', 'Intermediate', 'Advanced', 'Expert'];
     return levels[level - 1] || 'Unknown';
   }
@@ -262,19 +282,26 @@ export class PortfolioHomeComponent implements OnInit, OnDestroy {
 
       window.scrollTo({
         top: offsetPosition,
-        behavior: 'smooth'
+        behavior: 'smooth',
       });
     }
   }
 
   private trackEvent(action: string, category: string, label: string): void {
     // Analytics tracking - implement your preferred analytics service
-    if (typeof (window as any).gtag !== 'undefined') {
-      (window as any).gtag('event', action, {
-        event_category: category,
-        event_label: label,
-        value: 1
-      });
+    if (
+      typeof (window as { gtag?: (...args: unknown[]) => void }).gtag !==
+      'undefined'
+    ) {
+      (window as { gtag?: (...args: unknown[]) => void }).gtag?.(
+        'event',
+        action,
+        {
+          event_category: category,
+          event_label: label,
+          value: 1,
+        },
+      );
     }
   }
 
@@ -282,7 +309,7 @@ export class PortfolioHomeComponent implements OnInit, OnDestroy {
     if ('Notification' in window && Notification.permission === 'granted') {
       new Notification('DevFolio', {
         body: message,
-        icon: '/assets/icons/icon-192x192.png'
+        icon: '/assets/icons/icon-192x192.png',
       });
     }
   }

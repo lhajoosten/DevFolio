@@ -6,19 +6,19 @@ export const API_CONFIG = {
       LOGIN: '/auth/login',
       REGISTER: '/auth/register',
       REFRESH: '/auth/refresh',
-      PROFILE: '/auth/profile'
+      PROFILE: '/auth/profile',
     },
     PROJECTS: {
       LIST: '/projects',
       CREATE: '/projects',
       UPDATE: (id: number) => `/projects/${id}`,
       DELETE: (id: number) => `/projects/${id}`,
-      GET: (id: number) => `/projects/${id}`
-    }
+      GET: (id: number) => `/projects/${id}`,
+    },
   },
   STORAGE_KEYS: {
     ACCESS_TOKEN: 'devfolio_access_token',
     REFRESH_TOKEN: 'devfolio_refresh_token',
-    USER_PROFILE: 'devfolio_user_profile'
-  }
+    USER_PROFILE: 'devfolio_user_profile',
+  },
 } as const;

@@ -1,13 +1,13 @@
 <!-- DevFolio - Projects Overview -->
 <div class="projects-overview">
-
   <!-- Header Section -->
   <section class="projects-header">
     <div class="container mx-auto px-6">
       <div class="header-content">
         <h1 class="page-title">Mijn Projecten</h1>
         <p class="page-subtitle">
-          Een overzicht van al mijn projecten en work-in-progress. Van concept tot realisatie.
+          Een overzicht van al mijn projecten en work-in-progress. Van concept
+          tot realisatie.
         </p>
       </div>
     </div>
@@ -17,24 +17,30 @@
   <section class="filters-section">
     <div class="container mx-auto px-6">
       <div class="filters-container">
-
         <!-- Search Input -->
         <mat-form-field appearance="outline" class="search-field">
           <mat-label>Zoeken in projecten...</mat-label>
-          <input matInput
-                 type="text"
-                 [value]="(filter$ | async)?.searchTerm || ''"
-                 (input)="onSearchChange($any($event.target).value)"
-                 placeholder="Zoek op naam, beschrijving of technologie">
+          <input
+            matInput
+            type="text"
+            [value]="(filter$ | async)?.searchTerm || ''"
+            (input)="onSearchChange($any($event.target).value)"
+            placeholder="Zoek op naam, beschrijving of technologie"
+          />
           <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
 
         <!-- Status Filter -->
         <mat-form-field appearance="outline" class="status-field">
           <mat-label>Status</mat-label>
-          <mat-select [value]="(filter$ | async)?.status || 'all'"
-                      (selectionChange)="onStatusChange($event.value)">
-            <mat-option *ngFor="let status of projectStatuses" [value]="status.value">
+          <mat-select
+            [value]="(filter$ | async)?.status || 'all'"
+            (selectionChange)="onStatusChange($event.value)"
+          >
+            <mat-option
+              *ngFor="let status of projectStatuses"
+              [value]="status.value"
+            >
               {{ status.label }}
             </mat-option>
           </mat-select>
@@ -43,19 +49,26 @@
         <!-- Technology Filter -->
         <mat-form-field appearance="outline" class="tech-field">
           <mat-label>Technologie</mat-label>
-          <mat-select [value]="(filter$ | async)?.technology || ''"
-                      (selectionChange)="onTechnologyChange($event.value)">
+          <mat-select
+            [value]="(filter$ | async)?.technology || ''"
+            (selectionChange)="onTechnologyChange($event.value)"
+          >
             <mat-option value="">Alle technologieën</mat-option>
-            <mat-option *ngFor="let tech of availableTechnologies" [value]="tech">
+            <mat-option
+              *ngFor="let tech of availableTechnologies"
+              [value]="tech"
+            >
               {{ tech }}
             </mat-option>
           </mat-select>
         </mat-form-field>
 
         <!-- Clear Filters Button -->
-        <button mat-stroked-button
-                class="clear-filters-btn"
-                (click)="clearFilters()">
+        <button
+          mat-stroked-button
+          class="clear-filters-btn"
+          (click)="clearFilters()"
+        >
           <mat-icon>clear</mat-icon>
           Filters wissen
         </button>
@@ -66,7 +79,6 @@
   <!-- Projects Grid -->
   <section class="projects-grid-section">
     <div class="container mx-auto px-6">
-
       <!-- Loading State -->
       <div *ngIf="isLoading$ | async" class="loading-container">
         <div class="loading-spinner">
@@ -76,17 +88,23 @@
       </div>
 
       <!-- Projects Grid -->
-      <div *ngIf="!(isLoading$ | async)" class="projects-grid">
-        <div *ngFor="let project of (filteredProjects$ | async); trackBy: trackByProjectId"
-             class="project-card"
-             [class.highlighted]="project.isActive">
-
+      <div *ngIf="(isLoading$ | async) === false" class="projects-grid">
+        <div
+          *ngFor="
+            let project of filteredProjects$ | async;
+            trackBy: trackByProjectId
+          "
+          class="project-card"
+          [class.highlighted]="project.isActive"
+        >
           <!-- Project Image -->
           <div class="project-image-container">
-            <img *ngIf="project.imageUrl; else defaultImage"
-                 [src]="project.imageUrl"
-                 [alt]="project.title"
-                 class="project-image">
+            <img
+              *ngIf="project.imageUrl; else defaultImage"
+              [src]="project.imageUrl"
+              [alt]="project.title"
+              class="project-image"
+            />
             <ng-template #defaultImage>
               <div class="default-project-image">
                 <mat-icon>web</mat-icon>
@@ -94,8 +112,10 @@
             </ng-template>
 
             <!-- Status Badge -->
-            <div class="status-badge"
-                 [ngClass]="getStatusClass(project.status)">
+            <div
+              class="status-badge"
+              [ngClass]="getStatusClass(project.status)"
+            >
               {{ getStatusLabel(project.status) }}
             </div>
 
@@ -115,19 +135,21 @@
             <div class="project-dates">
               <span class="start-date">
                 <mat-icon>event</mat-icon>
-                {{ project.startDate | date:'MMM yyyy' }}
+                {{ project.startDate | date: "MMM yyyy" }}
               </span>
               <span *ngIf="project.endDate" class="end-date">
-                - {{ project.endDate | date:'MMM yyyy' }}
+                - {{ project.endDate | date: "MMM yyyy" }}
               </span>
             </div>
 
             <!-- Technologies -->
             <div class="project-technologies">
               <mat-chip-listbox class="tech-chips">
-                <mat-chip-option *ngFor="let tech of project.techStack"
-                                disabled
-                                class="tech-chip">
+                <mat-chip-option
+                  *ngFor="let tech of project.techStack"
+                  disabled
+                  class="tech-chip"
+                >
                   {{ tech }}
                 </mat-chip-option>
               </mat-chip-listbox>
@@ -135,19 +157,23 @@
 
             <!-- Project Actions -->
             <div class="project-actions">
-              <button *ngIf="project.repoUrl"
-                      mat-raised-button
-                      color="primary"
-                      class="action-btn primary"
-                      (click)="openProject(project)">
+              <button
+                *ngIf="project.repoUrl"
+                mat-raised-button
+                color="primary"
+                class="action-btn primary"
+                (click)="openProject(project)"
+              >
                 <mat-icon>open_in_new</mat-icon>
                 Live Demo
               </button>
 
-              <button *ngIf="project.repoUrl"
-                      mat-stroked-button
-                      class="action-btn secondary"
-                      (click)="openGithub(project)">
+              <button
+                *ngIf="project.repoUrl"
+                mat-stroked-button
+                class="action-btn secondary"
+                (click)="openGithub(project)"
+              >
                 <mat-icon>code</mat-icon>
                 Source Code
               </button>
@@ -157,12 +183,20 @@
       </div>
 
       <!-- No Results State -->
-      <div *ngIf="!(isLoading$ | async) && (filteredProjects$ | async)?.length === 0"
-           class="no-results">
+      <div
+        *ngIf="
+          (isLoading$ | async) === false &&
+          (filteredProjects$ | async)?.length === 0
+        "
+        class="no-results"
+      >
         <div class="no-results-content">
           <mat-icon class="no-results-icon">search_off</mat-icon>
           <h3>Geen projecten gevonden</h3>
-          <p>Probeer je zoekfilters aan te passen of wis alle filters om alle projecten te zien.</p>
+          <p>
+            Probeer je zoekfilters aan te passen of wis alle filters om alle
+            projecten te zien.
+          </p>
           <button mat-raised-button color="primary" (click)="clearFilters()">
             <mat-icon>refresh</mat-icon>
             Alle projecten tonen
@@ -183,5 +217,4 @@
       </div>
     </div>
   </section>
-
 </div>

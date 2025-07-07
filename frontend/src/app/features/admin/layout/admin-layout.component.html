@@ -1,13 +1,18 @@
 <div class="min-h-screen bg-neutral-50 dark:bg-neutral-900">
   <!-- Navigation -->
-  <nav class="bg-white dark:bg-neutral-800 shadow-sm border-b border-neutral-200 dark:border-neutral-700">
+  <nav
+    class="bg-white dark:bg-neutral-800 shadow-sm border-b border-neutral-200 dark:border-neutral-700"
+  >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16">
         <div class="flex">
           <!-- Logo -->
           <div class="flex-shrink-0 flex items-center">
-            <h1 class="text-xl font-bold text-primary-600 dark:text-primary-400">
-              <span class="text-neutral-900 dark:text-white">Luc Joosten</span> Admin
+            <h1
+              class="text-xl font-bold text-primary-600 dark:text-primary-400"
+            >
+              <span class="text-neutral-900 dark:text-white">Luc Joosten</span>
+              Admin
             </h1>
           </div>
 
@@ -51,11 +56,33 @@
             class="bg-neutral-100 dark:bg-neutral-700 p-2 rounded-md text-neutral-400 hover:text-neutral-500 hover:bg-neutral-200 dark:hover:bg-neutral-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors"
             title="Toggle theme"
           >
-            <svg *ngIf="(themeService.theme$ | async) === 'light'" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            <svg
+              *ngIf="(themeService.theme$ | async) === 'light'"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+              />
             </svg>
-            <svg *ngIf="(themeService.theme$ | async) === 'dark'" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            <svg
+              *ngIf="(themeService.theme$ | async) === 'dark'"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+              />
             </svg>
           </button>
 
@@ -70,9 +97,15 @@
                 aria-haspopup="true"
               >
                 <span class="sr-only">Open user menu</span>
-                <div class="h-8 w-8 rounded-full bg-primary-500 flex items-center justify-center">
+                <div
+                  class="h-8 w-8 rounded-full bg-primary-500 flex items-center justify-center"
+                >
                   <span class="text-sm font-medium text-white">
-                    {{ currentUser?.profile?.firstName?.charAt(0) || currentUser?.username?.charAt(0) || 'U' }}
+                    {{
+                      currentUser?.profile?.firstName?.charAt(0) ||
+                        currentUser?.username?.charAt(0) ||
+                        "U"
+                    }}
                   </span>
                 </div>
               </button>
@@ -87,9 +120,13 @@
               aria-labelledby="user-menu-button"
             >
               <div class="py-1" role="none">
-                <div class="px-4 py-2 text-sm text-neutral-700 dark:text-neutral-300 border-b border-neutral-200 dark:border-neutral-700">
-                  Ingelogd als:<br>
-                  <span class="font-medium">{{ currentUser?.email || 'Gebruiker' }}</span>
+                <div
+                  class="px-4 py-2 text-sm text-neutral-700 dark:text-neutral-300 border-b border-neutral-200 dark:border-neutral-700"
+                >
+                  Ingelogd als:<br />
+                  <span class="font-medium">{{
+                    currentUser?.email || "Gebruiker"
+                  }}</span>
                 </div>
                 <a
                   routerLink="/admin/profiel"
@@ -128,8 +165,18 @@
             aria-expanded="false"
           >
             <span class="sr-only">Open main menu</span>
-            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            <svg
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
             </svg>
           </button>
         </div>
@@ -138,7 +185,9 @@
 
     <!-- Mobile menu -->
     <div *ngIf="showMobileMenu" class="sm:hidden" id="mobile-menu">
-      <div class="pt-2 pb-3 space-y-1 bg-white dark:bg-neutral-800 border-t border-neutral-200 dark:border-neutral-700">
+      <div
+        class="pt-2 pb-3 space-y-1 bg-white dark:bg-neutral-800 border-t border-neutral-200 dark:border-neutral-700"
+      >
         <a
           routerLink="/admin/dashboard"
           routerLinkActive="bg-primary-50 dark:bg-primary-900/20 border-primary-500 text-primary-700 dark:text-primary-300"

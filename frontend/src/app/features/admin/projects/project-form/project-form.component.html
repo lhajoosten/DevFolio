@@ -160,6 +160,7 @@
       <div>
         <label
           class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+          for="techStack-0"
         >
           Tech Stack *
         </label>
@@ -168,6 +169,13 @@
             *ngFor="let tech of techStackArray.controls; let i = index"
             class="flex items-center space-x-2"
           >
+            <input
+              [id]="'techStack-' + i"
+              [formControlName]="i"
+              type="text"
+              class="form-input"
+              aria-label="Tech Stack"
+            />
             <input
               type="text"
               [formControlName]="i"
@@ -287,7 +295,7 @@
       >
         <button
           type="button"
-          (click)="cancel()"
+          (click)="onCancel()"
           class="bg-white dark:bg-gray-700 py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
         >
           Annuleren

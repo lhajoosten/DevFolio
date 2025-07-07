@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
@@ -9,20 +9,18 @@ import { ThemeService } from '../../../core/services/theme.service';
   standalone: true,
   imports: [CommonModule, RouterModule, RouterOutlet],
   templateUrl: './admin-layout.component.html',
-  styleUrls: ['./admin-layout.component.scss']
+  styleUrls: ['./admin-layout.component.scss'],
 })
 export class AdminLayoutComponent implements OnInit {
-  showUserMenu = false;
-  showMobileMenu = false;
-  currentUser: any = null;
+  private authService = inject(AuthService);
+  protected themeService = inject(ThemeService);
+  private router = inject(Router);
 
-  constructor(
-    private authService: AuthService,
-    public themeService: ThemeService,
-    private router: Router
-  ) {}
+  protected showUserMenu = false;
+  protected showMobileMenu = false;
+  protected currentUser: unknown = null;
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     // Get current user info
     this.authService.getCurrentUser().subscribe({
       next: (user) => {
@@ -30,33 +28,33 @@ export class AdminLayoutComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error loading user:', error);
-      }
+      },
     });
   }
 
-  toggleTheme(): void {
+  protected toggleTheme(): void {
     this.themeService.toggleTheme();
   }
 
-  toggleUserMenu(): void {
+  protected toggleUserMenu(): void {
     this.showUserMenu = !this.showUserMenu;
     this.showMobileMenu = false;
   }
 
-  closeUserMenu(): void {
+  protected closeUserMenu(): void {
     this.showUserMenu = false;
   }
 
-  toggleMobileMenu(): void {
+  protected toggleMobileMenu(): void {
     this.showMobileMenu = !this.showMobileMenu;
     this.showUserMenu = false;
   }
 
-  closeMobileMenu(): void {
+  protected closeMobileMenu(): void {
     this.showMobileMenu = false;
   }
 
-  logout(): void {
+  protected logout(): void {
     this.authService.logout();
     this.router.navigate(['/auth/login']);
   }

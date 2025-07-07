@@ -1,6 +1,6 @@
-@use '../../../../styles/themes/devfolio-theme' as theme;
-@use '../../../../styles/tokens/design-tokens' as tokens;
-@use 'sass:map';
+@use "../../../../styles/themes/devfolio-theme" as theme;
+@use "../../../../styles/tokens/design-tokens" as tokens;
+@use "sass:map";
 
 // Animations
 @keyframes fadeInUp {
@@ -26,8 +26,12 @@
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .contact-page {
@@ -37,22 +41,28 @@
 
 // Hero Section
 .contact-hero {
-  background: linear-gradient(135deg,
+  background: linear-gradient(
+    135deg,
     theme.devfolio-primary(600) 0%,
     theme.devfolio-primary(700) 50%,
-    theme.devfolio-accent(600) 100%);
+    theme.devfolio-accent(600) 100%
+  );
   color: white;
   padding: 120px 0 80px;
   position: relative;
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     height: 100px;
-    background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.1));
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      rgba(255, 255, 255, 0.1)
+    );
   }
 
   .hero-content {
@@ -378,9 +388,11 @@
 
   .cta-section {
     text-align: center;
-    background: linear-gradient(135deg,
+    background: linear-gradient(
+      135deg,
       theme.devfolio-primary(50),
-      theme.devfolio-accent(50));
+      theme.devfolio-accent(50)
+    );
     padding: 48px;
     border-radius: 24px;
     border: 1px solid theme.devfolio-primary(200);

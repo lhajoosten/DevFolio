@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,7 +9,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { Observable, Subject, BehaviorSubject, combineLatest } from 'rxjs';
-import { takeUntil, map, startWith, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import {
+  takeUntil,
+  map,
+  debounceTime,
+  distinctUntilChanged,
+} from 'rxjs/operators';
 import { ProjectsService } from '../../../core/services/projects.service';
 import { Project, ProjectStatus } from '../../../core/models';
 
@@ -20,7 +25,7 @@ export interface ProjectFilter {
 }
 
 @Component({
-  selector: 'devfolio-projects-overview',
+  selector: 'app-projects-overview',
   standalone: true,
   imports: [
     CommonModule,
@@ -31,12 +36,14 @@ export interface ProjectFilter {
     MatInputModule,
     MatSelectModule,
     MatFormFieldModule,
-    FormsModule
+    FormsModule,
   ],
   templateUrl: './projects-overview.component.html',
-  styleUrl: './projects-overview.component.scss'
+  styleUrl: './projects-overview.component.scss',
 })
 export class ProjectsOverviewComponent implements OnInit, OnDestroy {
+  private projectsService = inject(ProjectsService);
+
   private destroy$ = new Subject<void>();
 
   // Projects data
@@ -48,7 +55,7 @@ export class ProjectsOverviewComponent implements OnInit, OnDestroy {
   filter$ = new BehaviorSubject<ProjectFilter>({
     searchTerm: '',
     status: 'all',
-    technology: ''
+    technology: '',
   });
 
   // Available filter options
@@ -58,21 +65,22 @@ export class ProjectsOverviewComponent implements OnInit, OnDestroy {
     { value: ProjectStatus.InProgress, label: 'In ontwikkeling' },
     { value: ProjectStatus.Completed, label: 'Voltooid' },
     { value: ProjectStatus.OnHold, label: 'On hold' },
-    { value: ProjectStatus.Planned, label: 'Gepland' }];
+    { value: ProjectStatus.Planned, label: 'Gepland' },
+  ];
 
-  constructor(private projectsService: ProjectsService) {
+  constructor() {
     // Load all projects
-    this.allProjects$ = this.projectsService.getProjects().pipe(
-      takeUntil(this.destroy$)
-    );
+    this.allProjects$ = this.projectsService
+      .getProjects()
+      .pipe(takeUntil(this.destroy$));
 
     // Setup filtered projects based on filter criteria
     this.filteredProjects$ = combineLatest([
       this.allProjects$,
-      this.filter$.pipe(debounceTime(300), distinctUntilChanged())
+      this.filter$.pipe(debounceTime(300), distinctUntilChanged()),
     ]).pipe(
       map(([projects, filter]) => this.filterProjects(projects, filter)),
-      takeUntil(this.destroy$)
+      takeUntil(this.destroy$),
     );
   }
 
@@ -96,42 +104,48 @@ export class ProjectsOverviewComponent implements OnInit, OnDestroy {
       error: (error) => {
         console.error('Error loading projects:', error);
         this.isLoading$.next(false);
-      }
+      },
     });
   }
 
   private extractAvailableTechnologies(): void {
-    this.allProjects$.subscribe(projects => {
+    this.allProjects$.subscribe((projects) => {
       const techSet = new Set<string>();
-      projects.forEach(project => {
+      projects.forEach((project) => {
         project.techStack?.forEach((tech: string) => techSet.add(tech));
       });
       this.availableTechnologies = Array.from(techSet).sort();
     });
   }
 
-  private filterProjects(projects: Project[], filter: ProjectFilter): Project[] {
+  private filterProjects(
+    projects: Project[],
+    filter: ProjectFilter,
+  ): Project[] {
     let filtered = [...projects];
 
     // Filter by search term
     if (filter.searchTerm) {
       const searchLower = filter.searchTerm.toLowerCase();
-      filtered = filtered.filter(project =>
-        project.title.toLowerCase().includes(searchLower) ||
-        project.description?.toLowerCase().includes(searchLower) ||
-        project.techStack?.some((tech: string) => tech.toLowerCase().includes(searchLower))
+      filtered = filtered.filter(
+        (project) =>
+          project.title.toLowerCase().includes(searchLower) ||
+          project.description?.toLowerCase().includes(searchLower) ||
+          project.techStack?.some((tech: string) =>
+            tech.toLowerCase().includes(searchLower),
+          ),
       );
     }
 
     // Filter by status
     if (filter.status !== 'all') {
-      filtered = filtered.filter(project => project.status === filter.status);
+      filtered = filtered.filter((project) => project.status === filter.status);
     }
 
     // Filter by technology
     if (filter.technology) {
-      filtered = filtered.filter(project =>
-        project.techStack?.includes(filter.technology)
+      filtered = filtered.filter((project) =>
+        project.techStack?.includes(filter.technology),
       );
     }
 
@@ -157,7 +171,7 @@ export class ProjectsOverviewComponent implements OnInit, OnDestroy {
     this.filter$.next({
       searchTerm: '',
       status: 'all',
-      technology: ''
+      technology: '',
     });
   }
 

@@ -1,6 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
@@ -10,6 +15,9 @@ import { AuthService } from '../../../core/services/auth.service';
   templateUrl: './settings.component.html',
 })
 export class SettingsComponent implements OnInit {
+  private fb = inject(FormBuilder);
+  private authService = inject(AuthService);
+
   passwordForm: FormGroup;
   preferencesForm: FormGroup;
   isChangingPassword = false;
@@ -19,27 +27,27 @@ export class SettingsComponent implements OnInit {
   preferencesError = '';
   preferencesSuccess = '';
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService
-  ) {
-    this.passwordForm = this.fb.group({
-      currentPassword: ['', [Validators.required]],
-      newPassword: ['', [Validators.required, Validators.minLength(8)]],
-      confirmPassword: ['', [Validators.required]]
-    }, {
-      validators: this.passwordMatchValidator
-    });
+  constructor() {
+    this.passwordForm = this.fb.group(
+      {
+        currentPassword: ['', [Validators.required]],
+        newPassword: ['', [Validators.required, Validators.minLength(8)]],
+        confirmPassword: ['', [Validators.required]],
+      },
+      {
+        validators: this.passwordMatchValidator,
+      },
+    );
 
     this.preferencesForm = this.fb.group({
       emailNotifications: [true],
       projectUpdates: [true],
       darkMode: [false],
-      language: ['nl']
+      language: ['nl'],
     });
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.loadPreferences();
   }
 
@@ -58,7 +66,7 @@ export class SettingsComponent implements OnInit {
     return newPassword === confirmPassword ? null : { passwordMismatch: true };
   }
 
-  onChangePassword(): void {
+  protected onChangePassword(): void {
     if (this.passwordForm.invalid) {
       this.markFormGroupTouched(this.passwordForm);
       return;
@@ -68,9 +76,9 @@ export class SettingsComponent implements OnInit {
     this.passwordError = '';
     this.passwordSuccess = '';
 
-    const { currentPassword, newPassword } = this.passwordForm.value;
-
     // TODO: Implement password change API call
+    // const { currentPassword, newPassword } = this.passwordForm.value;
+
     setTimeout(() => {
       this.passwordSuccess = 'Wachtwoord succesvol gewijzigd!';
       this.isChangingPassword = false;
@@ -78,7 +86,7 @@ export class SettingsComponent implements OnInit {
     }, 1000);
   }
 
-  onSavePreferences(): void {
+  protected onSavePreferences(): void {
     this.isSavingPreferences = true;
     this.preferencesError = '';
     this.preferencesSuccess = '';
@@ -102,37 +110,42 @@ export class SettingsComponent implements OnInit {
   }
 
   private markFormGroupTouched(formGroup: FormGroup): void {
-    Object.keys(formGroup.controls).forEach(key => {
+    Object.keys(formGroup.controls).forEach((key) => {
       const control = formGroup.get(key);
       control?.markAsTouched();
     });
   }
 
-  getPasswordFieldError(fieldName: string): string {
+  protected getPasswordFieldError(fieldName: string): string {
     const field = this.passwordForm.get(fieldName);
     if (field?.errors && field.touched) {
       if (field.errors['required']) return `${fieldName} is verplicht`;
-      if (field.errors['minlength']) return `Wachtwoord moet minimaal 8 karakters lang zijn`;
+      if (field.errors['minlength'])
+        return `Wachtwoord moet minimaal 8 karakters lang zijn`;
     }
 
-    if (fieldName === 'confirmPassword' && this.passwordForm.errors?.['passwordMismatch'] && field?.touched) {
+    if (
+      fieldName === 'confirmPassword' &&
+      this.passwordForm.errors?.['passwordMismatch'] &&
+      field?.touched
+    ) {
       return 'Wachtwoorden komen niet overeen';
     }
 
     return '';
   }
 
-  clearPasswordMessages(): void {
+  protected clearPasswordMessages(): void {
     this.passwordError = '';
     this.passwordSuccess = '';
   }
 
-  clearPreferencesMessages(): void {
+  protected clearPreferencesMessages(): void {
     this.preferencesError = '';
     this.preferencesSuccess = '';
   }
 
-  onLogout(): void {
+  protected onLogout(): void {
     this.authService.logout();
   }
 }

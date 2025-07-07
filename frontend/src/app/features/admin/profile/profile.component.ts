@@ -1,9 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { ProfileService } from '../../../core/services/profile.service';
 import { AuthService } from '../../../core/services/auth.service';
-import { UserProfile, User } from '../../../core/models';
+import { User } from '../../../core/models';
 
 @Component({
   selector: 'app-profile',
@@ -12,18 +17,18 @@ import { UserProfile, User } from '../../../core/models';
   templateUrl: './profile.component.html',
 })
 export class ProfileComponent implements OnInit {
-  profileForm: FormGroup;
-  currentUser: User | null = null;
-  isLoading = false;
-  isSaving = false;
-  errorMessage = '';
-  successMessage = '';
+  private fb = inject(FormBuilder);
+  private profileService = inject(ProfileService);
+  private authService = inject(AuthService);
 
-  constructor(
-    private fb: FormBuilder,
-    private profileService: ProfileService,
-    private authService: AuthService
-  ) {
+  protected profileForm: FormGroup;
+  protected currentUser: User | null = null;
+  protected isLoading = false;
+  protected isSaving = false;
+  protected errorMessage = '';
+  protected successMessage = '';
+
+  constructor() {
     this.profileForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.minLength(2)]],
       lastName: ['', [Validators.required, Validators.minLength(2)]],
@@ -33,11 +38,11 @@ export class ProfileComponent implements OnInit {
       githubUrl: ['', [Validators.pattern('https?://github.com/.+')]],
       linkedInUrl: ['', [Validators.pattern('https?://linkedin.com/.+')]],
       phone: ['', [Validators.pattern('^[+]?[0-9\\s\\-\\(\\)]+$')]],
-      isAvailableForWork: [false]
+      isAvailableForWork: [false],
     });
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.loadProfile();
   }
 
@@ -45,7 +50,7 @@ export class ProfileComponent implements OnInit {
     this.isLoading = true;
 
     // Get current user from auth service
-    this.authService.currentUser$.subscribe(user => {
+    this.authService.currentUser$.subscribe((user) => {
       this.currentUser = user;
       if (user?.profile) {
         this.populateForm(user.profile);
@@ -55,21 +60,25 @@ export class ProfileComponent implements OnInit {
     this.isLoading = false;
   }
 
-  private populateForm(profile: any): void {
-    this.profileForm.patchValue({
-      firstName: profile.firstName || '',
-      lastName: profile.lastName || '',
-      bio: profile.bio || '',
-      location: profile.location || '',
-      website: profile.website || '',
-      githubUrl: profile.githubUrl || '',
-      linkedInUrl: profile.linkedInUrl || '',
-      phone: profile.phone || '',
-      isAvailableForWork: profile.isAvailableForWork || false
-    });
+  private populateForm(profile: unknown): void {
+    if (profile && typeof profile === 'object') {
+      const profileData = profile as Record<string, unknown>;
+      this.profileForm.patchValue({
+        firstName: (profileData['firstName'] as string) || '',
+        lastName: (profileData['lastName'] as string) || '',
+        bio: (profileData['bio'] as string) || '',
+        location: (profileData['location'] as string) || '',
+        website: (profileData['website'] as string) || '',
+        githubUrl: (profileData['githubUrl'] as string) || '',
+        linkedInUrl: (profileData['linkedInUrl'] as string) || '',
+        phone: (profileData['phone'] as string) || '',
+        isAvailableForWork:
+          (profileData['isAvailableForWork'] as boolean) || false,
+      });
+    }
   }
 
-  onSubmit(): void {
+  protected onSubmit(): void {
     if (this.profileForm.invalid) {
       this.markFormGroupTouched();
       return;
@@ -82,7 +91,7 @@ export class ProfileComponent implements OnInit {
     const profileData = this.profileForm.value;
 
     this.profileService.updateProfile(profileData).subscribe({
-      next: (updatedProfile) => {
+      next: () => {
         this.successMessage = 'Profiel succesvol bijgewerkt!';
         this.isSaving = false;
 
@@ -91,31 +100,33 @@ export class ProfileComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error updating profile:', error);
-        this.errorMessage = 'Er is een fout opgetreden bij het bijwerken van je profiel.';
+        this.errorMessage =
+          'Er is een fout opgetreden bij het bijwerken van je profiel.';
         this.isSaving = false;
-      }
+      },
     });
   }
 
   private markFormGroupTouched(): void {
-    Object.keys(this.profileForm.controls).forEach(key => {
+    Object.keys(this.profileForm.controls).forEach((key) => {
       const control = this.profileForm.get(key);
       control?.markAsTouched();
     });
   }
 
-  getFieldError(fieldName: string): string {
+  protected getFieldError(fieldName: string): string {
     const field = this.profileForm.get(fieldName);
     if (field?.errors && field.touched) {
       if (field.errors['required']) return `${fieldName} is verplicht`;
       if (field.errors['minlength']) return `${fieldName} is te kort`;
       if (field.errors['maxlength']) return `${fieldName} is te lang`;
-      if (field.errors['pattern']) return `${fieldName} heeft een ongeldig formaat`;
+      if (field.errors['pattern'])
+        return `${fieldName} heeft een ongeldig formaat`;
     }
     return '';
   }
 
-  clearMessages(): void {
+  protected clearMessages(): void {
     this.errorMessage = '';
     this.successMessage = '';
   }

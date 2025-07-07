@@ -1,8 +1,8 @@
 // DevFolio - Luc Joosten Portfolio Global Styles
-@use './styles/themes/devfolio-theme' as theme;
-@use './styles/tokens/design-tokens' as tokens;
-@use '@angular/material' as mat;
-@use 'sass:map';
+@use "./styles/themes/devfolio-theme" as theme;
+@use "./styles/tokens/design-tokens" as tokens;
+@use "@angular/material" as mat;
+@use "sass:map";
 
 // Tailwind CSS
 @tailwind base;
@@ -13,13 +13,13 @@
 @include mat.all-component-themes(theme.$devfolio-light-theme);
 
 // Import Google Fonts
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
-@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
 // Material Icons font-face and icon setup
 .material-icons {
-  font-family: 'Material Icons';
+  font-family: "Material Icons";
   font-weight: normal;
   font-style: normal;
   font-size: 24px;
@@ -30,8 +30,8 @@
   white-space: nowrap;
   word-wrap: normal;
   direction: ltr;
-  -webkit-font-feature-settings: 'liga';
-  font-feature-settings: 'liga';
+  -webkit-font-feature-settings: "liga";
+  font-feature-settings: "liga";
   -webkit-font-smoothing: antialiased;
 }
 
@@ -50,10 +50,10 @@ html {
 }
 
 body {
-  font-family: map.get(tokens.$devfolio-typography, 'font-family-primary');
-  font-size: map.get(tokens.$devfolio-typography, 'text-base');
-  font-weight: map.get(tokens.$devfolio-typography, 'font-normal');
-  line-height: map.get(tokens.$devfolio-typography, 'leading-normal');
+  font-family: map.get(tokens.$devfolio-typography, "font-family-primary");
+  font-size: map.get(tokens.$devfolio-typography, "text-base");
+  font-weight: map.get(tokens.$devfolio-typography, "font-normal");
+  line-height: map.get(tokens.$devfolio-typography, "leading-normal");
   color: theme.devfolio-neutral(800);
   background-color: theme.devfolio-neutral(50);
   -webkit-font-smoothing: antialiased;
@@ -62,41 +62,41 @@ body {
 
 // Typography utilities
 .devfolio-heading-1 {
-  @include theme.typography('text-5xl', 'font-bold');
-  line-height: map.get(tokens.$devfolio-typography, 'leading-tight');
+  @include theme.typography("text-5xl", "font-bold");
+  line-height: map.get(tokens.$devfolio-typography, "leading-tight");
   color: theme.devfolio-neutral(900);
 
-  @include theme.respond-to('lg') {
-    @include theme.typography('text-6xl', 'font-bold');
+  @include theme.respond-to("lg") {
+    @include theme.typography("text-6xl", "font-bold");
   }
 }
 
 .devfolio-heading-2 {
-  @include theme.typography('text-4xl', 'font-semibold');
-  line-height: map.get(tokens.$devfolio-typography, 'leading-tight');
+  @include theme.typography("text-4xl", "font-semibold");
+  line-height: map.get(tokens.$devfolio-typography, "leading-tight");
   color: theme.devfolio-neutral(900);
 }
 
 .devfolio-heading-3 {
-  @include theme.typography('text-3xl', 'font-semibold');
-  line-height: map.get(tokens.$devfolio-typography, 'leading-tight');
+  @include theme.typography("text-3xl", "font-semibold");
+  line-height: map.get(tokens.$devfolio-typography, "leading-tight");
   color: theme.devfolio-neutral(800);
 }
 
 .devfolio-body-large {
-  @include theme.typography('text-lg', 'font-normal');
-  line-height: map.get(tokens.$devfolio-typography, 'leading-relaxed');
+  @include theme.typography("text-lg", "font-normal");
+  line-height: map.get(tokens.$devfolio-typography, "leading-relaxed");
   color: theme.devfolio-neutral(700);
 }
 
 .devfolio-body {
-  @include theme.typography('text-base', 'font-normal');
-  line-height: map.get(tokens.$devfolio-typography, 'leading-normal');
+  @include theme.typography("text-base", "font-normal");
+  line-height: map.get(tokens.$devfolio-typography, "leading-normal");
   color: theme.devfolio-neutral(700);
 }
 
 .devfolio-caption {
-  @include theme.typography('text-sm', 'font-normal');
+  @include theme.typography("text-sm", "font-normal");
   color: theme.devfolio-neutral(600);
 }
 
@@ -105,20 +105,20 @@ body {
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
-  @include theme.spacing('padding-left', 'md');
-  @include theme.spacing('padding-right', 'md');
+  @include theme.spacing("padding-left", "md");
+  @include theme.spacing("padding-right", "md");
 
-  @include theme.respond-to('lg') {
-    @include theme.spacing('padding-left', 'xl');
-    @include theme.spacing('padding-right', 'xl');
+  @include theme.respond-to("lg") {
+    @include theme.spacing("padding-left", "xl");
+    @include theme.spacing("padding-right", "xl");
   }
 }
 
 .devfolio-section {
-  @include theme.spacing('padding-top', 'xxxl');
-  @include theme.spacing('padding-bottom', 'xxxl');
+  @include theme.spacing("padding-top", "xxxl");
+  @include theme.spacing("padding-bottom", "xxxl");
 
-  @include theme.respond-to('lg') {
+  @include theme.respond-to("lg") {
     padding-top: 80px;
     padding-bottom: 80px;
   }
@@ -126,13 +126,13 @@ body {
 
 .devfolio-card {
   background: white;
-  @include theme.border-radius('lg');
-  @include theme.shadow('md');
-  @include theme.spacing('padding', 'lg');
+  @include theme.border-radius("lg");
+  @include theme.shadow("md");
+  @include theme.spacing("padding", "lg");
   border: 1px solid theme.devfolio-neutral(200);
 
-  @include theme.respond-to('lg') {
-    @include theme.spacing('padding', 'xl');
+  @include theme.respond-to("lg") {
+    @include theme.spacing("padding", "xl");
   }
 }
 
@@ -141,10 +141,10 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  @include theme.spacing('padding', 'md');
-  gap: map.get(tokens.$devfolio-spacing, 'sm');
-  @include theme.border-radius('md');
-  @include theme.typography('text-base', 'font-medium');
+  @include theme.spacing("padding", "md");
+  gap: map.get(tokens.$devfolio-spacing, "sm");
+  @include theme.border-radius("md");
+  @include theme.typography("text-base", "font-medium");
   text-decoration: none;
   border: none;
   cursor: pointer;
@@ -152,7 +152,7 @@ body {
 
   &:hover {
     transform: translateY(-1px);
-    @include theme.shadow('lg');
+    @include theme.shadow("lg");
   }
 
   &.devfolio-btn-primary {
@@ -271,11 +271,19 @@ section {
 }
 
 // Utility classes
-.text-center { text-align: center; }
-.text-left { text-align: left; }
-.text-right { text-align: right; }
+.text-center {
+  text-align: center;
+}
+.text-left {
+  text-align: left;
+}
+.text-right {
+  text-align: right;
+}
 
-.hidden { display: none !important; }
+.hidden {
+  display: none !important;
+}
 .sr-only {
   position: absolute;
   width: 1px;

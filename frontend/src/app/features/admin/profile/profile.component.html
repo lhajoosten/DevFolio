@@ -12,11 +12,24 @@
   </div>
 
   <!-- Messages -->
-  <div *ngIf="successMessage" class="mt-4 rounded-md bg-green-50 dark:bg-green-900 p-4">
+  <div
+    *ngIf="successMessage"
+    class="mt-4 rounded-md bg-green-50 dark:bg-green-900 p-4"
+  >
     <div class="flex">
       <div class="flex-shrink-0">
-        <svg class="h-5 w-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <svg
+          class="h-5 w-5 text-green-400"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
         </svg>
       </div>
       <div class="ml-3">
@@ -25,20 +38,46 @@
         </p>
       </div>
       <div class="ml-auto pl-3">
-        <button (click)="clearMessages()" class="text-green-500 hover:text-green-400">
-          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        <button
+          (click)="clearMessages()"
+          class="text-green-500 hover:text-green-400"
+        >
+          <svg
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
           </svg>
         </button>
       </div>
     </div>
   </div>
 
-  <div *ngIf="errorMessage" class="mt-4 rounded-md bg-red-50 dark:bg-red-900 p-4">
+  <div
+    *ngIf="errorMessage"
+    class="mt-4 rounded-md bg-red-50 dark:bg-red-900 p-4"
+  >
     <div class="flex">
       <div class="flex-shrink-0">
-        <svg class="h-5 w-5 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <svg
+          class="h-5 w-5 text-red-400"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
         </svg>
       </div>
       <div class="ml-3">
@@ -47,9 +86,22 @@
         </p>
       </div>
       <div class="ml-auto pl-3">
-        <button (click)="clearMessages()" class="text-red-500 hover:text-red-400">
-          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        <button
+          (click)="clearMessages()"
+          class="text-red-500 hover:text-red-400"
+        >
+          <svg
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
           </svg>
         </button>
       </div>
@@ -59,7 +111,6 @@
   <!-- Profile Form -->
   <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="mt-8">
     <div class="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
-
       <!-- Basic Information -->
       <div class="sm:col-span-2">
         <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
@@ -69,7 +120,10 @@
 
       <!-- First Name -->
       <div>
-        <label for="firstName" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+        <label
+          for="firstName"
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+        >
           Voornaam *
         </label>
         <div class="mt-1">
@@ -80,15 +134,21 @@
             class="block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
             [class.border-red-500]="getFieldError('firstName')"
           />
-          <p *ngIf="getFieldError('firstName')" class="mt-1 text-sm text-red-600">
-            {{ getFieldError('firstName') }}
+          <p
+            *ngIf="getFieldError('firstName')"
+            class="mt-1 text-sm text-red-600"
+          >
+            {{ getFieldError("firstName") }}
           </p>
         </div>
       </div>
 
       <!-- Last Name -->
       <div>
-        <label for="lastName" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+        <label
+          for="lastName"
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+        >
           Achternaam *
         </label>
         <div class="mt-1">
@@ -99,15 +159,21 @@
             class="block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
             [class.border-red-500]="getFieldError('lastName')"
           />
-          <p *ngIf="getFieldError('lastName')" class="mt-1 text-sm text-red-600">
-            {{ getFieldError('lastName') }}
+          <p
+            *ngIf="getFieldError('lastName')"
+            class="mt-1 text-sm text-red-600"
+          >
+            {{ getFieldError("lastName") }}
           </p>
         </div>
       </div>
 
       <!-- Bio -->
       <div class="sm:col-span-2">
-        <label for="bio" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+        <label
+          for="bio"
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+        >
           Bio
         </label>
         <div class="mt-1">
@@ -120,7 +186,7 @@
             [class.border-red-500]="getFieldError('bio')"
           ></textarea>
           <p *ngIf="getFieldError('bio')" class="mt-1 text-sm text-red-600">
-            {{ getFieldError('bio') }}
+            {{ getFieldError("bio") }}
           </p>
         </div>
       </div>
@@ -134,7 +200,10 @@
 
       <!-- Location -->
       <div>
-        <label for="location" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+        <label
+          for="location"
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+        >
           Locatie
         </label>
         <div class="mt-1">
@@ -146,15 +215,21 @@
             placeholder="Amsterdam, Nederland"
             [class.border-red-500]="getFieldError('location')"
           />
-          <p *ngIf="getFieldError('location')" class="mt-1 text-sm text-red-600">
-            {{ getFieldError('location') }}
+          <p
+            *ngIf="getFieldError('location')"
+            class="mt-1 text-sm text-red-600"
+          >
+            {{ getFieldError("location") }}
           </p>
         </div>
       </div>
 
       <!-- Phone -->
       <div>
-        <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+        <label
+          for="phone"
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+        >
           Telefoon
         </label>
         <div class="mt-1">
@@ -167,7 +242,7 @@
             [class.border-red-500]="getFieldError('phone')"
           />
           <p *ngIf="getFieldError('phone')" class="mt-1 text-sm text-red-600">
-            {{ getFieldError('phone') }}
+            {{ getFieldError("phone") }}
           </p>
         </div>
       </div>
@@ -181,7 +256,10 @@
 
       <!-- Website -->
       <div>
-        <label for="website" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+        <label
+          for="website"
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+        >
           Website
         </label>
         <div class="mt-1">
@@ -194,14 +272,17 @@
             [class.border-red-500]="getFieldError('website')"
           />
           <p *ngIf="getFieldError('website')" class="mt-1 text-sm text-red-600">
-            {{ getFieldError('website') }}
+            {{ getFieldError("website") }}
           </p>
         </div>
       </div>
 
       <!-- GitHub URL -->
       <div>
-        <label for="githubUrl" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+        <label
+          for="githubUrl"
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+        >
           GitHub
         </label>
         <div class="mt-1">
@@ -213,15 +294,21 @@
             placeholder="https://github.com/jouwgebruikersnaam"
             [class.border-red-500]="getFieldError('githubUrl')"
           />
-          <p *ngIf="getFieldError('githubUrl')" class="mt-1 text-sm text-red-600">
-            {{ getFieldError('githubUrl') }}
+          <p
+            *ngIf="getFieldError('githubUrl')"
+            class="mt-1 text-sm text-red-600"
+          >
+            {{ getFieldError("githubUrl") }}
           </p>
         </div>
       </div>
 
       <!-- LinkedIn URL -->
       <div>
-        <label for="linkedInUrl" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+        <label
+          for="linkedInUrl"
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+        >
           LinkedIn
         </label>
         <div class="mt-1">
@@ -233,8 +320,11 @@
             placeholder="https://linkedin.com/in/jouwprofiel"
             [class.border-red-500]="getFieldError('linkedInUrl')"
           />
-          <p *ngIf="getFieldError('linkedInUrl')" class="mt-1 text-sm text-red-600">
-            {{ getFieldError('linkedInUrl') }}
+          <p
+            *ngIf="getFieldError('linkedInUrl')"
+            class="mt-1 text-sm text-red-600"
+          >
+            {{ getFieldError("linkedInUrl") }}
           </p>
         </div>
       </div>
@@ -251,11 +341,15 @@
             />
           </div>
           <div class="ml-3 text-sm">
-            <label for="isAvailableForWork" class="font-medium text-gray-700 dark:text-gray-300">
+            <label
+              for="isAvailableForWork"
+              class="font-medium text-gray-700 dark:text-gray-300"
+            >
               Beschikbaar voor werk
             </label>
             <p class="text-gray-500 dark:text-gray-400">
-              Toon op je profiel dat je beschikbaar bent voor nieuwe projecten of werkgelegenheden.
+              Toon op je profiel dat je beschikbaar bent voor nieuwe projecten
+              of werkgelegenheden.
             </p>
           </div>
         </div>
@@ -278,9 +372,24 @@
           [disabled]="isSaving || profileForm.invalid"
         >
           <span *ngIf="isSaving" class="flex items-center">
-            <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            <svg
+              class="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
             </svg>
             Opslaan...
           </span>

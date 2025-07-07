@@ -19,7 +19,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
             const authReq = req.clone({
               headers: req.headers.set(
                 'Authorization',
-                `Bearer ${accessToken}`
+                `Bearer ${accessToken}`,
               ),
             });
             return next(authReq);
@@ -28,7 +28,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
             // Refresh failed, logout user
             authService.logout();
             return throwError(() => error);
-          })
+          }),
         );
       }
 
@@ -38,6 +38,6 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       }
 
       return throwError(() => error);
-    })
+    }),
   );
 };

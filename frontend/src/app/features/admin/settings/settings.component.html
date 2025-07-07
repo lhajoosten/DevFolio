@@ -12,7 +12,6 @@
   </div>
 
   <div class="mt-8 space-y-8">
-
     <!-- Password Change Section -->
     <div class="bg-white dark:bg-gray-800 shadow rounded-lg">
       <div class="px-4 py-5 sm:p-6">
@@ -21,11 +20,24 @@
         </h3>
 
         <!-- Password Messages -->
-        <div *ngIf="passwordSuccess" class="mb-4 rounded-md bg-green-50 dark:bg-green-900 p-4">
+        <div
+          *ngIf="passwordSuccess"
+          class="mb-4 rounded-md bg-green-50 dark:bg-green-900 p-4"
+        >
           <div class="flex">
             <div class="flex-shrink-0">
-              <svg class="h-5 w-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <svg
+                class="h-5 w-5 text-green-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
             </div>
             <div class="ml-3">
@@ -34,20 +46,46 @@
               </p>
             </div>
             <div class="ml-auto pl-3">
-              <button (click)="clearPasswordMessages()" class="text-green-500 hover:text-green-400">
-                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              <button
+                (click)="clearPasswordMessages()"
+                class="text-green-500 hover:text-green-400"
+              >
+                <svg
+                  class="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               </button>
             </div>
           </div>
         </div>
 
-        <div *ngIf="passwordError" class="mb-4 rounded-md bg-red-50 dark:bg-red-900 p-4">
+        <div
+          *ngIf="passwordError"
+          class="mb-4 rounded-md bg-red-50 dark:bg-red-900 p-4"
+        >
           <div class="flex">
             <div class="flex-shrink-0">
-              <svg class="h-5 w-5 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <svg
+                class="h-5 w-5 text-red-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
             </div>
             <div class="ml-3">
@@ -56,9 +94,22 @@
               </p>
             </div>
             <div class="ml-auto pl-3">
-              <button (click)="clearPasswordMessages()" class="text-red-500 hover:text-red-400">
-                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              <button
+                (click)="clearPasswordMessages()"
+                class="text-red-500 hover:text-red-400"
+              >
+                <svg
+                  class="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               </button>
             </div>
@@ -66,10 +117,17 @@
         </div>
 
         <!-- Password Form -->
-        <form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()" class="space-y-4">
+        <form
+          [formGroup]="passwordForm"
+          (ngSubmit)="onChangePassword()"
+          class="space-y-4"
+        >
           <!-- Current Password -->
           <div>
-            <label for="currentPassword" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label
+              for="currentPassword"
+              class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
               Huidig Wachtwoord
             </label>
             <div class="mt-1">
@@ -78,17 +136,25 @@
                 id="currentPassword"
                 formControlName="currentPassword"
                 class="block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                [class.border-red-500]="getPasswordFieldError('currentPassword')"
+                [class.border-red-500]="
+                  getPasswordFieldError('currentPassword')
+                "
               />
-              <p *ngIf="getPasswordFieldError('currentPassword')" class="mt-1 text-sm text-red-600">
-                {{ getPasswordFieldError('currentPassword') }}
+              <p
+                *ngIf="getPasswordFieldError('currentPassword')"
+                class="mt-1 text-sm text-red-600"
+              >
+                {{ getPasswordFieldError("currentPassword") }}
               </p>
             </div>
           </div>
 
           <!-- New Password -->
           <div>
-            <label for="newPassword" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label
+              for="newPassword"
+              class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
               Nieuw Wachtwoord
             </label>
             <div class="mt-1">
@@ -99,15 +165,21 @@
                 class="block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 [class.border-red-500]="getPasswordFieldError('newPassword')"
               />
-              <p *ngIf="getPasswordFieldError('newPassword')" class="mt-1 text-sm text-red-600">
-                {{ getPasswordFieldError('newPassword') }}
+              <p
+                *ngIf="getPasswordFieldError('newPassword')"
+                class="mt-1 text-sm text-red-600"
+              >
+                {{ getPasswordFieldError("newPassword") }}
               </p>
             </div>
           </div>
 
           <!-- Confirm Password -->
           <div>
-            <label for="confirmPassword" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label
+              for="confirmPassword"
+              class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
               Bevestig Nieuw Wachtwoord
             </label>
             <div class="mt-1">
@@ -116,10 +188,15 @@
                 id="confirmPassword"
                 formControlName="confirmPassword"
                 class="block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                [class.border-red-500]="getPasswordFieldError('confirmPassword')"
+                [class.border-red-500]="
+                  getPasswordFieldError('confirmPassword')
+                "
               />
-              <p *ngIf="getPasswordFieldError('confirmPassword')" class="mt-1 text-sm text-red-600">
-                {{ getPasswordFieldError('confirmPassword') }}
+              <p
+                *ngIf="getPasswordFieldError('confirmPassword')"
+                class="mt-1 text-sm text-red-600"
+              >
+                {{ getPasswordFieldError("confirmPassword") }}
               </p>
             </div>
           </div>
@@ -132,9 +209,24 @@
               [disabled]="isChangingPassword || passwordForm.invalid"
             >
               <span *ngIf="isChangingPassword" class="flex items-center">
-                <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
-                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                <svg
+                  class="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  ></circle>
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
                 </svg>
                 Wijzigen...
               </span>
@@ -153,11 +245,24 @@
         </h3>
 
         <!-- Preferences Messages -->
-        <div *ngIf="preferencesSuccess" class="mb-4 rounded-md bg-green-50 dark:bg-green-900 p-4">
+        <div
+          *ngIf="preferencesSuccess"
+          class="mb-4 rounded-md bg-green-50 dark:bg-green-900 p-4"
+        >
           <div class="flex">
             <div class="flex-shrink-0">
-              <svg class="h-5 w-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <svg
+                class="h-5 w-5 text-green-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
             </div>
             <div class="ml-3">
@@ -166,9 +271,22 @@
               </p>
             </div>
             <div class="ml-auto pl-3">
-              <button (click)="clearPreferencesMessages()" class="text-green-500 hover:text-green-400">
-                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              <button
+                (click)="clearPreferencesMessages()"
+                class="text-green-500 hover:text-green-400"
+              >
+                <svg
+                  class="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               </button>
             </div>
@@ -176,11 +294,18 @@
         </div>
 
         <!-- Preferences Form -->
-        <form [formGroup]="preferencesForm" (ngSubmit)="onSavePreferences()" class="space-y-6">
-
+        <form
+          [formGroup]="preferencesForm"
+          (ngSubmit)="onSavePreferences()"
+          class="space-y-6"
+        >
           <!-- Notifications -->
           <div>
-            <h4 class="text-base font-medium text-gray-900 dark:text-white mb-4">Notificaties</h4>
+            <h4
+              class="text-base font-medium text-gray-900 dark:text-white mb-4"
+            >
+              Notificaties
+            </h4>
             <div class="space-y-4">
               <div class="relative flex items-start">
                 <div class="flex items-center h-5">
@@ -192,7 +317,10 @@
                   />
                 </div>
                 <div class="ml-3 text-sm">
-                  <label for="emailNotifications" class="font-medium text-gray-700 dark:text-gray-300">
+                  <label
+                    for="emailNotifications"
+                    class="font-medium text-gray-700 dark:text-gray-300"
+                  >
                     Email notificaties
                   </label>
                   <p class="text-gray-500 dark:text-gray-400">
@@ -211,7 +339,10 @@
                   />
                 </div>
                 <div class="ml-3 text-sm">
-                  <label for="projectUpdates" class="font-medium text-gray-700 dark:text-gray-300">
+                  <label
+                    for="projectUpdates"
+                    class="font-medium text-gray-700 dark:text-gray-300"
+                  >
                     Project updates
                   </label>
                   <p class="text-gray-500 dark:text-gray-400">
@@ -224,7 +355,11 @@
 
           <!-- Appearance -->
           <div>
-            <h4 class="text-base font-medium text-gray-900 dark:text-white mb-4">Uiterlijk</h4>
+            <h4
+              class="text-base font-medium text-gray-900 dark:text-white mb-4"
+            >
+              Uiterlijk
+            </h4>
             <div class="relative flex items-start">
               <div class="flex items-center h-5">
                 <input
@@ -235,7 +370,10 @@
                 />
               </div>
               <div class="ml-3 text-sm">
-                <label for="darkMode" class="font-medium text-gray-700 dark:text-gray-300">
+                <label
+                  for="darkMode"
+                  class="font-medium text-gray-700 dark:text-gray-300"
+                >
                   Donkere modus
                 </label>
                 <p class="text-gray-500 dark:text-gray-400">
@@ -247,7 +385,11 @@
 
           <!-- Language -->
           <div>
-            <h4 class="text-base font-medium text-gray-900 dark:text-white mb-4">Taal</h4>
+            <h4
+              class="text-base font-medium text-gray-900 dark:text-white mb-4"
+            >
+              Taal
+            </h4>
             <select
               formControlName="language"
               class="block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
@@ -265,9 +407,24 @@
               [disabled]="isSavingPreferences"
             >
               <span *ngIf="isSavingPreferences" class="flex items-center">
-                <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
-                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                <svg
+                  class="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  ></circle>
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
                 </svg>
                 Opslaan...
               </span>
@@ -294,6 +451,5 @@
         </div>
       </div>
     </div>
-
   </div>
 </div>

@@ -1,5 +1,5 @@
 // Core data models voor de applicatie
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   data: T;
   success: boolean;
   message?: string;
@@ -84,14 +84,14 @@ export interface UpdateProjectDto {
 
 export enum UserRole {
   Admin = 'Admin',
-  User = 'User'
+  User = 'User',
 }
 
 export enum ProjectStatus {
   Planned = 'Planned',
   InProgress = 'InProgress',
   Completed = 'Completed',
-  OnHold = 'OnHold'
+  OnHold = 'OnHold',
 }
 
 export interface AuthTokens {
@@ -122,4 +122,53 @@ export interface PaginatedResponse<T> {
   pageSize: number;
   hasNext: boolean;
   hasPrevious: boolean;
+}
+
+export interface LoginResponse {
+  id: number;
+  email: string;
+  username: string;
+  fullName: string;
+  role: UserRole;
+  token: string;
+  expiresAt: Date;
+}
+
+export interface RegisterResponse {
+  id: number;
+  email: string;
+  username: string;
+  fullName: string;
+  isEmailConfirmed: boolean;
+  token: string;
+}
+
+export interface CurrentUser {
+  id: number;
+  email: string;
+  username: string;
+  role: string;
+  isEmailConfirmed: boolean;
+  lastLoginAt?: Date;
+  profile?: UserProfile;
+}
+
+export interface UserProfile {
+  firstName: string;
+  lastName: string;
+  fullName: string;
+  bio?: string;
+  profilePictureUrl?: string;
+  location?: string;
+  dateOfBirth?: Date;
+  age?: number;
+  websiteUrl?: string;
+  linkedInUrl?: string;
+  gitHubUrl?: string;
+}
+
+export interface refreshTokenResponse {
+  accessToken: string;
+  refreshToken: string;
+  expiresAt: Date;
 }

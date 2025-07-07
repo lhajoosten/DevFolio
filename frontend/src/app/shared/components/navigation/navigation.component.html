@@ -6,7 +6,8 @@
         mat-button
         class="brand-button"
         (click)="navigateToRoute('')"
-        [attr.aria-label]="'Ga naar homepage'">
+        [attr.aria-label]="'Ga naar homepage'"
+      >
         <span class="brand-text">Luc Joosten</span>
       </button>
     </div>
@@ -19,8 +20,11 @@
           class="nav-link"
           [class.active]="isActiveRoute(item.route)"
           (click)="navigateToRoute(item.route)"
-          [attr.aria-label]="'Ga naar ' + item.label">
-          <mat-icon *ngIf="item.icon" class="nav-icon">{{ item.icon }}</mat-icon>
+          [attr.aria-label]="'Ga naar ' + item.label"
+        >
+          <mat-icon *ngIf="item.icon" class="nav-icon">{{
+            item.icon
+          }}</mat-icon>
           <span class="nav-text">{{ item.label }}</span>
         </button>
       </ng-container>
@@ -33,7 +37,8 @@
         [matMenuTriggerFor]="socialMenu"
         matTooltip="Social Media"
         class="social-button"
-        aria-label="Open social media menu">
+        aria-label="Open social media menu"
+      >
         <mat-icon>share</mat-icon>
       </button>
 
@@ -42,7 +47,8 @@
           <button
             mat-menu-item
             (click)="navigateToRoute(social.route, social.external)"
-            [attr.aria-label]="'Open ' + social.label">
+            [attr.aria-label]="'Open ' + social.label"
+          >
             <mat-icon>{{ social.icon }}</mat-icon>
             <span>{{ social.label }}</span>
           </button>
@@ -55,40 +61,44 @@
         matTooltip="Scroll naar boven"
         class="scroll-top-button"
         *ngIf="isScrolled"
-        aria-label="Scroll naar boven">
+        aria-label="Scroll naar boven"
+      >
         <mat-icon>keyboard_arrow_up</mat-icon>
       </button>
 
       <!-- Admin Link -->
       <button
-        *ngIf="authService.isAuthenticated$ | async"
+        *ngIf="(authService.isAuthenticated$ | async) === true"
         mat-icon-button
         routerLink="/admin"
         matTooltip="Admin Dashboard"
         class="admin-button"
-        aria-label="Ga naar admin dashboard">
+        aria-label="Ga naar admin dashboard"
+      >
         <mat-icon>admin_panel_settings</mat-icon>
       </button>
 
       <!-- Logout Button -->
       <button
-        *ngIf="authService.isAuthenticated$ | async"
+        *ngIf="(authService.isAuthenticated$ | async) === true"
         mat-button
         (click)="logout()"
         matTooltip="Uitloggen"
         class="logout-button"
-        aria-label="Uitloggen">
+        aria-label="Uitloggen"
+      >
         <mat-icon>logout</mat-icon>
         <span>Uitloggen</span>
       </button>
 
       <!-- Login Link -->
       <button
-        *ngIf="!(authService.isAuthenticated$ | async)"
+        *ngIf="(authService.isAuthenticated$ | async) === false"
         mat-button
         routerLink="/auth/login"
         class="login-button"
-        aria-label="Inloggen">
+        aria-label="Inloggen"
+      >
         <mat-icon>login</mat-icon>
         <span>Inloggen</span>
       </button>
@@ -101,8 +111,9 @@
         (click)="toggleMobileMenu()"
         class="mobile-menu-toggle"
         [attr.aria-expanded]="isMobileMenuOpen"
-        aria-label="Open mobiele menu">
-        <mat-icon>{{ isMobileMenuOpen ? 'close' : 'menu' }}</mat-icon>
+        aria-label="Open mobiele menu"
+      >
+        <mat-icon>{{ isMobileMenuOpen ? "close" : "menu" }}</mat-icon>
       </button>
     </div>
   </div>
@@ -117,7 +128,8 @@
             class="mobile-nav-link"
             [class.active]="isActiveRoute(item.route)"
             (click)="navigateToRoute(item.route)"
-            [attr.aria-label]="'Ga naar ' + item.label">
+            [attr.aria-label]="'Ga naar ' + item.label"
+          >
             <mat-icon class="mobile-nav-icon">{{ item.icon }}</mat-icon>
             <span class="mobile-nav-text">{{ item.label }}</span>
           </button>
@@ -125,35 +137,38 @@
 
         <!-- Mobile Admin Link -->
         <button
-          *ngIf="authService.isAuthenticated$ | async"
+          *ngIf="(authService.isAuthenticated$ | async) === true"
           mat-button
           class="mobile-nav-link"
           routerLink="/admin"
           (click)="toggleMobileMenu()"
-          aria-label="Ga naar admin dashboard">
+          aria-label="Ga naar admin dashboard"
+        >
           <mat-icon class="mobile-nav-icon">admin_panel_settings</mat-icon>
           <span class="mobile-nav-text">Admin Dashboard</span>
         </button>
 
         <!-- Mobile Logout Button -->
         <button
-          *ngIf="authService.isAuthenticated$ | async"
+          *ngIf="(authService.isAuthenticated$ | async) === true"
           mat-button
           class="mobile-nav-link logout-link"
           (click)="logout()"
-          aria-label="Uitloggen">
+          aria-label="Uitloggen"
+        >
           <mat-icon class="mobile-nav-icon">logout</mat-icon>
           <span class="mobile-nav-text">Uitloggen</span>
         </button>
 
         <!-- Mobile Login Link -->
         <button
-          *ngIf="!(authService.isAuthenticated$ | async)"
+          *ngIf="(authService.isAuthenticated$ | async) === false"
           mat-button
           class="mobile-nav-link"
           routerLink="/auth/login"
           (click)="toggleMobileMenu()"
-          aria-label="Inloggen">
+          aria-label="Inloggen"
+        >
           <mat-icon class="mobile-nav-icon">login</mat-icon>
           <span class="mobile-nav-text">Inloggen</span>
         </button>
@@ -167,7 +182,8 @@
               mat-icon-button
               (click)="navigateToRoute(social.route, social.external)"
               [matTooltip]="social.label"
-              [attr.aria-label]="'Open ' + social.label">
+              [attr.aria-label]="'Open ' + social.label"
+            >
               <mat-icon>{{ social.icon }}</mat-icon>
             </button>
           </ng-container>

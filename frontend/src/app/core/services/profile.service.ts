@@ -1,21 +1,23 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { API_CONFIG } from '../config/api.config';
 import { UserProfile } from '../models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProfileService {
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
+
+  // Legacy constructors removed; using inject() only
 
   /**
    * Get current user profile
    */
   getProfile(): Observable<UserProfile> {
     return this.http.get<UserProfile>(
-      `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.AUTH.PROFILE}`
+      `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.AUTH.PROFILE}`,
     );
   }
 
@@ -25,7 +27,7 @@ export class ProfileService {
   updateProfile(profileData: Partial<UserProfile>): Observable<UserProfile> {
     return this.http.put<UserProfile>(
       `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.AUTH.PROFILE}`,
-      profileData
+      profileData,
     );
   }
 
@@ -38,7 +40,7 @@ export class ProfileService {
 
     return this.http.post<{ imageUrl: string }>(
       `${API_CONFIG.BASE_URL}/auth/profile/upload-picture`,
-      formData
+      formData,
     );
   }
 }

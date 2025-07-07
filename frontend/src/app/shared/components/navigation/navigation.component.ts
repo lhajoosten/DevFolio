@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild }from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -8,7 +8,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { filter } from 'rxjs/operators';
 import { ElementRef, HostListener } from '@angular/core';
-import { from } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
 
 interface NavigationItem {
@@ -19,7 +18,7 @@ interface NavigationItem {
 }
 
 @Component({
-  selector: 'devfolio-navigation',
+  selector: 'app-navigation',
   standalone: true,
   imports: [
     CommonModule,
@@ -28,12 +27,15 @@ interface NavigationItem {
     MatButtonModule,
     MatIconModule,
     MatMenuModule,
-    MatTooltipModule
+    MatTooltipModule,
   ],
   templateUrl: './navigation.component.html',
-  styleUrl: './navigation.component.scss'
+  styleUrl: './navigation.component.scss',
 })
 export class NavigationComponent implements OnInit {
+  private router = inject(Router);
+  protected authService = inject(AuthService);
+
   @ViewChild('navbar', { static: true }) navbar!: ElementRef;
 
   protected currentRoute = '';
@@ -44,7 +46,7 @@ export class NavigationComponent implements OnInit {
     { label: 'Home', route: '', icon: 'home_outlined' },
     { label: 'Projecten', route: 'projecten', icon: 'work_outline' },
     { label: 'Over Mij', route: 'over-mij', icon: 'person_outline' },
-    { label: 'Contact', route: 'contact', icon: 'mail_outline' }
+    { label: 'Contact', route: 'contact', icon: 'mail_outline' },
   ];
 
   protected socialLinks: NavigationItem[] = [
@@ -52,28 +54,28 @@ export class NavigationComponent implements OnInit {
       label: 'LinkedIn',
       route: 'https://linkedin.com/in/lhajoosten',
       icon: 'link',
-      external: true
+      external: true,
     },
     {
       label: 'GitHub',
       route: 'https://github.com/lhajoosten',
       icon: 'code',
-      external: true
+      external: true,
     },
     {
       label: 'Email',
       route: 'mailto:lhajoosten@outlook.com',
       icon: 'mail_outline',
-      external: true
-    }
+      external: true,
+    },
   ];
 
-  constructor(private router: Router, public authService: AuthService) {}
+  constructor() {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     // Track route changes
     this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
+      .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         this.currentRoute = event.url.substring(1); // Remove leading slash
       });
@@ -83,7 +85,7 @@ export class NavigationComponent implements OnInit {
   }
 
   @HostListener('window:scroll')
-  onWindowScroll(): void {
+  protected onWindowScroll(): void {
     this.isScrolled = window.pageYOffset > 50;
   }
 

@@ -1,15 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ApiResponse, Project } from '../models/core.models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiService {
+  private http = inject(HttpClient);
+
   private readonly BASE_URL = 'https://localhost:7058/api/v1';
 
-  constructor(private http: HttpClient) {}
+  // Legacy constructors removed; using inject() only
 
   // Generic GET method
   get<T>(endpoint: string, params?: HttpParams): Observable<T> {
@@ -17,12 +19,12 @@ export class ApiService {
   }
 
   // Generic POST method
-  post<T>(endpoint: string, data: any): Observable<T> {
+  post<T, D = unknown>(endpoint: string, data: D): Observable<T> {
     return this.http.post<T>(`${this.BASE_URL}${endpoint}`, data);
   }
 
   // Generic PUT method
-  put<T>(endpoint: string, data: any): Observable<T> {
+  put<T, D = unknown>(endpoint: string, data: D): Observable<T> {
     return this.http.put<T>(`${this.BASE_URL}${endpoint}`, data);
   }
 
@@ -44,7 +46,10 @@ export class ApiService {
     return this.post<ApiResponse<number>>('/projects', project);
   }
 
-  updateProject(id: number, project: Partial<Project>): Observable<ApiResponse<void>> {
+  updateProject(
+    id: number,
+    project: Partial<Project>,
+  ): Observable<ApiResponse<void>> {
     return this.put<ApiResponse<void>>(`/projects/${id}`, project);
   }
 

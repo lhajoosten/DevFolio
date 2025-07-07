@@ -28,7 +28,7 @@
             {{ personalInfo.firstName }}
             <span class="text-accent gradient-text">{{
               personalInfo.lastName
-              }}</span>
+            }}</span>
           </h1>
 
           <!-- Role with Rotating Text -->
@@ -57,11 +57,15 @@
           <!-- Stats Bar -->
           <div class="hero-stats animate-fade-in-delay-3">
             <div class="stat-item">
-              <span class="stat-number">{{ personalInfo.yearsExperience || "3" }}+</span>
+              <span class="stat-number"
+                >{{ personalInfo.yearsExperience || "3" }}+</span
+              >
               <span class="stat-label">Jaar Ervaring</span>
             </div>
             <div class="stat-item">
-              <span class="stat-number">{{ (featuredProjects$ | async)?.length || "4" }}+</span>
+              <span class="stat-number"
+                >{{ (featuredProjects$ | async)?.length || "4" }}+</span
+              >
               <span class="stat-label">Projecten</span>
             </div>
             <div class="stat-item">
@@ -92,7 +96,10 @@
               <span>Download CV (PDF)</span>
             </button>
 
-            <button class="btn-secondary btn-hero" (click)="downloadCvEnglish()">
+            <button
+              class="btn-secondary btn-hero"
+              (click)="downloadCvEnglish()"
+            >
               <mat-icon>download</mat-icon>
               <span>Download CV (PDF English)</span>
             </button>
@@ -128,14 +135,21 @@
               <!-- Profile Image with Frame -->
               <div class="profile-image-container">
                 <div class="image-frame">
-                  <img [src]="personalInfo.profileImage" [alt]="personalInfo.firstName + ' ' + personalInfo.lastName"
-                    class="profile-image" loading="eager" />
+                  <img
+                    [src]="personalInfo.profileImage"
+                    [alt]="personalInfo.firstName + ' ' + personalInfo.lastName"
+                    class="profile-image"
+                    loading="eager"
+                  />
                 </div>
                 <div class="image-border"></div>
               </div>
 
               <!-- Enhanced Availability Badge -->
-              <div class="availability-badge" *ngIf="personalInfo.isAvailableForWork">
+              <div
+                class="availability-badge"
+                *ngIf="personalInfo.isAvailableForWork"
+              >
                 <div class="badge-dot"></div>
                 <span class="badge-text">Beschikbaar voor werk</span>
                 <mat-icon class="badge-icon">verified</mat-icon>
@@ -151,12 +165,16 @@
                   <mat-icon>work</mat-icon>
                   <span>{{
                     personalInfo.currentRole || "Full-Stack Developer"
-                    }}</span>
+                  }}</span>
                 </div>
               </div>
 
               <!-- Floating Action Button -->
-              <button class="profile-fab" (click)="scrollToContact()" matTooltip="Direct contact">
+              <button
+                class="profile-fab"
+                (click)="scrollToContact()"
+                matTooltip="Direct contact"
+              >
                 <mat-icon>message</mat-icon>
               </button>
             </div>
@@ -170,7 +188,11 @@
 
     <!-- Scroll Indicator -->
     <div class="scroll-indicator animate-bounce">
-      <button class="scroll-button" (click)="scrollToNextSection()" aria-label="Scroll naar volgende sectie">
+      <button
+        class="scroll-button"
+        (click)="scrollToNextSection()"
+        aria-label="Scroll naar volgende sectie"
+      >
         <mat-icon>keyboard_arrow_down</mat-icon>
       </button>
       <span class="scroll-text">Scroll voor meer</span>
@@ -205,7 +227,11 @@
             <h3 class="category-title">Frontend</h3>
             <div class="skills-list">
               <ng-container *ngFor="let skill of highlightedSkills">
-                <span class="skill-chip" *ngIf="skill.category === 'Frontend'">{{ skill.name }}</span>
+                <span
+                  class="skill-chip"
+                  *ngIf="skill.category === 'Frontend'"
+                  >{{ skill.name }}</span
+                >
               </ng-container>
             </div>
           </div>
@@ -214,10 +240,14 @@
             <h3 class="category-title">Backend & Database</h3>
             <div class="skills-list">
               <ng-container *ngFor="let skill of highlightedSkills">
-                <span class="skill-chip" *ngIf="
+                <span
+                  class="skill-chip"
+                  *ngIf="
                     skill.category === 'Backend' ||
                     skill.category === 'Database'
-                  ">{{ skill.name }}</span>
+                  "
+                  >{{ skill.name }}</span
+                >
               </ng-container>
             </div>
           </div>
@@ -228,7 +258,7 @@
               <ng-container *ngFor="let skill of highlightedSkills">
                 <span class="skill-chip" *ngIf="skill.category === 'Tools'">{{
                   skill.name
-                  }}</span>
+                }}</span>
               </ng-container>
             </div>
           </div>
@@ -247,7 +277,10 @@
 
       <div class="projects-grid">
         <!-- Project cards will be populated from API -->
-        <div class="project-card" *ngFor="let project of featuredProjects$ | async">
+        <div
+          class="project-card"
+          *ngFor="let project of featuredProjects$ | async"
+        >
           <div class="project-image">
             <mat-icon>web</mat-icon>
           </div>
@@ -256,10 +289,15 @@
             <div class="project-tech">
               <span class="tech-tag" *ngFor="let tech of project.techStack">{{
                 tech
-                }}</span>
+              }}</span>
             </div>
             <div class="project-links">
-              <a href="{{ project.repoUrl }}" class="project-link" *ngIf="project.repoUrl" target="_blank">
+              <a
+                href="{{ project.repoUrl }}"
+                class="project-link"
+                *ngIf="project.repoUrl"
+                target="_blank"
+              >
                 <mat-icon>code</mat-icon>
                 Code
               </a>
@@ -285,7 +323,11 @@
               <span class="tech-tag">SCSS</span>
             </div>
             <div class="project-links">
-              <a href="{{ personalInfo.github }}" class="project-link" target="_blank">
+              <a
+                href="{{ personalInfo.github }}"
+                class="project-link"
+                target="_blank"
+              >
                 <mat-icon>code</mat-icon>
                 Code
               </a>
@@ -347,7 +389,7 @@
           <div class="contact-value">
             <a href="mailto:{{ personalInfo.email }}">{{
               personalInfo.email
-              }}</a>
+            }}</a>
           </div>
         </div>
 
@@ -365,8 +407,12 @@
           </div>
           <div class="contact-label">Beschikbaarheid</div>
           <div class="contact-value">
-            <span *ngIf="personalInfo.isAvailableForWork">Beschikbaar voor nieuwe uitdagingen</span>
-            <span *ngIf="!personalInfo.isAvailableForWork">Momenteel niet beschikbaar</span>
+            <span *ngIf="personalInfo.isAvailableForWork"
+              >Beschikbaar voor nieuwe uitdagingen</span
+            >
+            <span *ngIf="!personalInfo.isAvailableForWork"
+              >Momenteel niet beschikbaar</span
+            >
           </div>
         </div>
       </div>
