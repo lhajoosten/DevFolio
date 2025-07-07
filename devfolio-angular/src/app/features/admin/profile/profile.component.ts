@@ -1,34 +1,122 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ProfileService } from '../../../core/services/profile.service';
+import { AuthService } from '../../../core/services/auth.service';
+import { UserProfile, User } from '../../../core/models';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule],
-  template: `
-    <div class="px-4 sm:px-6 lg:px-8">
-      <div class="sm:flex sm:items-center">
-        <div class="sm:flex-auto">
-          <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">Profiel</h1>
-          <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
-            Beheer je profiel informatie
-          </p>
-        </div>
-      </div>
-
-      <div class="mt-8 bg-white dark:bg-gray-800 shadow rounded-lg p-6">
-        <div class="text-center">
-          <svg class="h-24 w-24 text-gray-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-          </svg>
-          <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">Profiel Beheer</h3>
-          <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">
-            Deze functie komt binnenkort beschikbaar. Hier kun je je persoonlijke informatie, bio, sociale media links en meer beheren.
-          </p>
-        </div>
-      </div>
-    </div>
-  `,
-  styles: []
+  imports: [CommonModule, ReactiveFormsModule],
+  templateUrl: './profile.component.html',
 })
-export class ProfileComponent {}
+export class ProfileComponent implements OnInit {
+  profileForm: FormGroup;
+  currentUser: User | null = null;
+  isLoading = false;
+  isSaving = false;
+  errorMessage = '';
+  successMessage = '';
+
+  constructor(
+    private fb: FormBuilder,
+    private profileService: ProfileService,
+    private authService: AuthService
+  ) {
+    this.profileForm = this.fb.group({
+      firstName: ['', [Validators.required, Validators.minLength(2)]],
+      lastName: ['', [Validators.required, Validators.minLength(2)]],
+      bio: ['', [Validators.maxLength(500)]],
+      location: ['', [Validators.maxLength(100)]],
+      website: ['', [Validators.pattern('https?://.+')]],
+      githubUrl: ['', [Validators.pattern('https?://github.com/.+')]],
+      linkedInUrl: ['', [Validators.pattern('https?://linkedin.com/.+')]],
+      phone: ['', [Validators.pattern('^[+]?[0-9\\s\\-\\(\\)]+$')]],
+      isAvailableForWork: [false]
+    });
+  }
+
+  ngOnInit(): void {
+    this.loadProfile();
+  }
+
+  private loadProfile(): void {
+    this.isLoading = true;
+
+    // Get current user from auth service
+    this.authService.currentUser$.subscribe(user => {
+      this.currentUser = user;
+      if (user?.profile) {
+        this.populateForm(user.profile);
+      }
+    });
+
+    this.isLoading = false;
+  }
+
+  private populateForm(profile: any): void {
+    this.profileForm.patchValue({
+      firstName: profile.firstName || '',
+      lastName: profile.lastName || '',
+      bio: profile.bio || '',
+      location: profile.location || '',
+      website: profile.website || '',
+      githubUrl: profile.githubUrl || '',
+      linkedInUrl: profile.linkedInUrl || '',
+      phone: profile.phone || '',
+      isAvailableForWork: profile.isAvailableForWork || false
+    });
+  }
+
+  onSubmit(): void {
+    if (this.profileForm.invalid) {
+      this.markFormGroupTouched();
+      return;
+    }
+
+    this.isSaving = true;
+    this.errorMessage = '';
+    this.successMessage = '';
+
+    const profileData = this.profileForm.value;
+
+    this.profileService.updateProfile(profileData).subscribe({
+      next: (updatedProfile) => {
+        this.successMessage = 'Profiel succesvol bijgewerkt!';
+        this.isSaving = false;
+
+        // Refresh current user data
+        this.authService.getCurrentUser().subscribe();
+      },
+      error: (error) => {
+        console.error('Error updating profile:', error);
+        this.errorMessage = 'Er is een fout opgetreden bij het bijwerken van je profiel.';
+        this.isSaving = false;
+      }
+    });
+  }
+
+  private markFormGroupTouched(): void {
+    Object.keys(this.profileForm.controls).forEach(key => {
+      const control = this.profileForm.get(key);
+      control?.markAsTouched();
+    });
+  }
+
+  getFieldError(fieldName: string): string {
+    const field = this.profileForm.get(fieldName);
+    if (field?.errors && field.touched) {
+      if (field.errors['required']) return `${fieldName} is verplicht`;
+      if (field.errors['minlength']) return `${fieldName} is te kort`;
+      if (field.errors['maxlength']) return `${fieldName} is te lang`;
+      if (field.errors['pattern']) return `${fieldName} heeft een ongeldig formaat`;
+    }
+    return '';
+  }
+
+  clearMessages(): void {
+    this.errorMessage = '';
+    this.successMessage = '';
+  }
+}

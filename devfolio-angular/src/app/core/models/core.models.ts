@@ -49,18 +49,37 @@ export interface Project {
   id: number;
   title: string;
   description: string;
-  shortDescription: string;
-  techStack: string[];
   repoUrl: string;
-  demoUrl?: string;
+  techStack: string[];
   imageUrl?: string;
-  status: ProjectStatus;
   startDate: Date;
   endDate?: Date;
-  isPublic: boolean;
-  sortOrder: number;
-  createdAt: Date;
-  updatedAt: Date;
+  status: ProjectStatus;
+  isCompleted: boolean;
+  isActive?: boolean;
+  duration?: string;
+  durationInDays: number;
+}
+
+export interface CreateProjectDto {
+  title: string;
+  description: string;
+  repoUrl: string;
+  techStack: string[];
+  imageUrl?: string;
+  startDate?: Date;
+  endDate?: Date;
+}
+
+export interface UpdateProjectDto {
+  id: number;
+  title: string;
+  description: string;
+  repoUrl: string;
+  techStack: string[];
+  imageUrl?: string;
+  startDate: Date;
+  endDate?: Date;
 }
 
 export enum UserRole {
@@ -93,4 +112,14 @@ export interface RegisterRequest {
   confirmPassword: string;
   firstName: string;
   lastName: string;
+}
+
+export interface PaginatedResponse<T> {
+  data: T[];
+  currentPage: number;
+  totalPages: number;
+  totalCount: number;
+  pageSize: number;
+  hasNext: boolean;
+  hasPrevious: boolean;
 }

@@ -20,6 +20,44 @@
     </div>
   </div>
 
+  <!-- Search and Filters -->
+  <div class="mt-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+    <div class="px-4 py-5 sm:p-6">
+      <div class="sm:flex sm:items-center sm:justify-between">
+        <div class="sm:flex sm:items-center space-x-4">
+          <!-- Search -->
+          <div class="relative">
+            <input
+              type="text"
+              placeholder="Zoek projecten..."
+              [(ngModel)]="searchQuery"
+              (input)="onSearch($event)"
+              class="block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            />
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+          </div>
+
+          <!-- Status Filter -->
+          <select
+            [(ngModel)]="selectedStatus"
+            (change)="onStatusFilter($event)"
+            class="block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+          >
+            <option value="">Alle statussen</option>
+            <option [value]="ProjectStatus.Planned">Gepland</option>
+            <option [value]="ProjectStatus.InProgress">Bezig</option>
+            <option [value]="ProjectStatus.Completed">Afgerond</option>
+            <option [value]="ProjectStatus.OnHold">Gepauzeerd</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Projects Table -->
   <div class="mt-8 flex flex-col">
     <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -54,13 +92,7 @@
                   scope="col"
                   class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
                 >
-                  Zichtbaarheid
-                </th>
-                <th
-                  scope="col"
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
-                >
-                  Laatst Bijgewerkt
+                  Startdatum
                 </th>
                 <th scope="col" class="relative px-6 py-3">
                   <span class="sr-only">Acties</span>
@@ -71,7 +103,7 @@
               class="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700"
             >
               <tr
-                *ngFor="let project of projects"
+                *ngFor="let project of filteredProjects"
                 class="hover:bg-gray-50 dark:hover:bg-gray-800"
               >
                 <td class="px-6 py-4 whitespace-nowrap">
@@ -102,7 +134,7 @@
                         {{ project.title }}
                       </div>
                       <div class="text-sm text-gray-500 dark:text-gray-400">
-                        {{ project.shortDescription }}
+                        {{ project.description.length > 100 ? (project.description | slice:0:100) + '...' : project.description }}
                       </div>
                     </div>
                   </div>
@@ -110,16 +142,7 @@
                 <td class="px-6 py-4 whitespace-nowrap">
                   <span
                     class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
-                    [ngClass]="{
-                      'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200':
-                        project.status === 'Completed',
-                      'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200':
-                        project.status === 'InProgress',
-                      'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200':
-                        project.status === 'Planned',
-                      'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200':
-                        project.status === 'OnHold'
-                    }"
+                    [ngClass]="getStatusClass(project.status)"
                   >
                     {{ getStatusLabel(project.status) }}
                   </span>
@@ -140,23 +163,10 @@
                     </span>
                   </div>
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span
-                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
-                    [ngClass]="{
-                      'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200':
-                        project.isPublic,
-                      'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200':
-                        !project.isPublic
-                    }"
-                  >
-                    {{ project.isPublic ? "Publiek" : "Privé" }}
-                  </span>
-                </td>
                 <td
                   class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400"
                 >
-                  {{ formatDate(project.updatedAt) }}
+                  {{ formatDate(project.startDate) }}
                 </td>
                 <td
                   class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
@@ -173,7 +183,7 @@
                       Bewerken
                     </button>
                     <button
-                      (click)="deleteProject(project.id)"
+                      (click)="deleteProject(project)"
                       class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
                     >
                       Verwijderen

@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, throwError } from 'rxjs';
-import { map, catchError, tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { ApiResponse, User, LoginRequest, RegisterRequest, AuthTokens } from '../models/core.models';
+import { User, LoginRequest, RegisterRequest, AuthTokens } from '../models/core.models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly API_URL = 'https://localhost:7175/api/v1/auth'; // Backend API URL
+  private readonly API_URL = 'https://localhost:7175/api/v1/auth';
   private readonly TOKEN_KEY = 'devfolio_token';
 
   private currentUserSubject = new BehaviorSubject<User | null>(null);
@@ -18,12 +18,17 @@ export class AuthService {
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
+  private initialLoadCompleteSubject = new BehaviorSubject<boolean>(false);
+  public initialLoadComplete$ = this.initialLoadCompleteSubject.asObservable();
+
   constructor(
     private http: HttpClient,
     private router: Router
   ) {
+    console.log('AuthService: Constructor called');
     // Delay token loading to avoid circular dependency
     setTimeout(() => {
+      console.log('AuthService: Loading tokens from storage...');
       this.loadTokensFromStorage();
     }, 0);
   }
@@ -42,17 +47,18 @@ export class AuthService {
               email: response.email,
               username: response.username,
               role: response.role,
-              isEmailConfirmed: true, // Assuming logged in users are confirmed
+              isEmailConfirmed: true,
               lastLoginAt: new Date()
             };
 
             const tokenData: AuthTokens = {
               accessToken: response.token,
-              refreshToken: '', // Backend might not provide refresh token yet
+              refreshToken: '',
               expiresAt: new Date(response.expiresAt)
             };
 
             this.setAuthData(userData, tokenData);
+            this.initialLoadCompleteSubject.next(true); // Mark initial load as complete after login
           }
         }),
         catchError(this.handleError)
@@ -84,19 +90,21 @@ export class AuthService {
             };
 
             this.setAuthData(userData, tokenData);
+            this.initialLoadCompleteSubject.next(true); // Mark initial load as complete after login
           }
         }),
         catchError(this.handleError)
       );
   }
-
   /**
    * Logout gebruiker
    */
   logout(): void {
+    console.log('AuthService: Logging out user');
     localStorage.removeItem(this.TOKEN_KEY);
     this.currentUserSubject.next(null);
     this.isAuthenticatedSubject.next(false);
+    this.initialLoadCompleteSubject.next(true); // Mark as complete for immediate navigation
     // Only navigate if not already on auth pages
     if (!this.router.url.includes('/auth/')) {
       this.router.navigate(['/auth/login']);
@@ -107,18 +115,14 @@ export class AuthService {
    * Get current user info
    */
   getCurrentUser(): Observable<any> {
-    console.log('getCurrentUser called, token:', this.getAccessToken());
     return this.http.get<any>(`${this.API_URL}/me`)
       .pipe(
         tap(response => {
-          console.log('getCurrentUser response:', response);
           if (response) {
-            // Backend returns GetCurrentUserDto directly (not wrapped in ApiResponse)
             this.currentUserSubject.next(response);
           }
         }),
         catchError(error => {
-          console.error('getCurrentUser error:', error);
           return this.handleError(error);
         })
       );
@@ -186,19 +190,23 @@ export class AuthService {
   private loadTokensFromStorage(): void {
     const tokens = this.getStoredTokens();
     if (tokens && new Date(tokens.expiresAt) > new Date()) {
-      this.isAuthenticatedSubject.next(true);
-      // Load user data
+      // Don't set isAuthenticated to true yet - wait for user data validation
+      console.log('AuthService: Valid token found, loading user data...');
       this.getCurrentUser().subscribe({
         next: (user) => {
-          console.log('User loaded from token:', user);
+          console.log('AuthService: User data loaded successfully', user);
+          this.isAuthenticatedSubject.next(true);
+          this.initialLoadCompleteSubject.next(true);
         },
         error: (error) => {
-          console.error('Failed to load user, clearing tokens:', error);
+          console.log('AuthService: Failed to load user data, logging out', error);
           this.logout();
         }
       });
     } else {
-      console.log('No valid tokens found in storage');
+      console.log('AuthService: No valid token found');
+      this.isAuthenticatedSubject.next(false);
+      this.initialLoadCompleteSubject.next(true);
     }
   }
 

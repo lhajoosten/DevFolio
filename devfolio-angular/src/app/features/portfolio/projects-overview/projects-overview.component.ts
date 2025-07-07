@@ -55,11 +55,10 @@ export class ProjectsOverviewComponent implements OnInit, OnDestroy {
   availableTechnologies: string[] = [];
   projectStatuses = [
     { value: 'all', label: 'Alle statussen' },
-    { value: ProjectStatus.IN_PROGRESS, label: 'In ontwikkeling' },
-    { value: ProjectStatus.COMPLETED, label: 'Voltooid' },
-    { value: ProjectStatus.ON_HOLD, label: 'On hold' },
-    { value: ProjectStatus.CANCELLED, label: 'Geannuleerd' }
-  ];
+    { value: ProjectStatus.InProgress, label: 'In ontwikkeling' },
+    { value: ProjectStatus.Completed, label: 'Voltooid' },
+    { value: ProjectStatus.OnHold, label: 'On hold' },
+    { value: ProjectStatus.Planned, label: 'Gepland' }];
 
   constructor(private projectsService: ProjectsService) {
     // Load all projects
@@ -164,29 +163,27 @@ export class ProjectsOverviewComponent implements OnInit, OnDestroy {
 
   getStatusLabel(status: ProjectStatus): string {
     const statusMap: Record<ProjectStatus, string> = {
-      [ProjectStatus.PLANNED]: 'Gepland',
-      [ProjectStatus.IN_PROGRESS]: 'In ontwikkeling',
-      [ProjectStatus.COMPLETED]: 'Voltooid',
-      [ProjectStatus.ON_HOLD]: 'On hold',
-      [ProjectStatus.CANCELLED]: 'Geannuleerd'
+      [ProjectStatus.Planned]: 'Gepland',
+      [ProjectStatus.InProgress]: 'In ontwikkeling',
+      [ProjectStatus.Completed]: 'Voltooid',
+      [ProjectStatus.OnHold]: 'On hold',
     };
     return statusMap[status] || status;
   }
 
   getStatusClass(status: ProjectStatus): string {
     const statusClasses: Record<ProjectStatus, string> = {
-      [ProjectStatus.PLANNED]: 'status-planned',
-      [ProjectStatus.IN_PROGRESS]: 'status-in-progress',
-      [ProjectStatus.COMPLETED]: 'status-completed',
-      [ProjectStatus.ON_HOLD]: 'status-on-hold',
-      [ProjectStatus.CANCELLED]: 'status-cancelled'
+      [ProjectStatus.Planned]: 'status-planned',
+      [ProjectStatus.InProgress]: 'status-in-progress',
+      [ProjectStatus.Completed]: 'status-completed',
+      [ProjectStatus.OnHold]: 'status-on-hold',
     };
     return statusClasses[status] || '';
   }
 
   openProject(project: Project): void {
-    if (project.demoUrl) {
-      window.open(project.demoUrl, '_blank', 'noopener,noreferrer');
+    if (project.repoUrl) {
+      window.open(project.repoUrl, '_blank', 'noopener,noreferrer');
     }
   }
 

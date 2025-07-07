@@ -94,7 +94,7 @@ export class PortfolioHomeComponent implements OnInit, OnDestroy {
   private currentTextIndex = 0;
 
   constructor(private projectsService: ProjectsService) {
-    this.featuredProjects$ = this.projectsService.getFeaturedProjects().pipe(
+    this.featuredProjects$ = this.projectsService.getProjects().pipe(
       map(projects => projects.slice(0, 6)),
       startWith([]),
       takeUntil(this.destroy$)

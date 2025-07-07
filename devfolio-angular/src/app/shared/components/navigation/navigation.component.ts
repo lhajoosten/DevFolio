@@ -110,4 +110,8 @@ export class NavigationComponent implements OnInit {
   protected scrollToTop(): void {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+
+  protected logout(): void {
+    this.authService.logout();
+  }
 }

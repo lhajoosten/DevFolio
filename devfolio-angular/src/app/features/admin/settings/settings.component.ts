@@ -1,35 +1,138 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-settings',
   standalone: true,
-  imports: [CommonModule],
-  template: `
-    <div class="px-4 sm:px-6 lg:px-8">
-      <div class="sm:flex sm:items-center">
-        <div class="sm:flex-auto">
-          <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">Instellingen</h1>
-          <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
-            Beheer je account instellingen en voorkeuren
-          </p>
-        </div>
-      </div>
-
-      <div class="mt-8 bg-white dark:bg-gray-800 shadow rounded-lg p-6">
-        <div class="text-center">
-          <svg class="h-24 w-24 text-gray-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-          </svg>
-          <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">Instellingen</h3>
-          <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">
-            Deze functie komt binnenkort beschikbaar. Hier kun je je account instellingen, wachtwoord, notificaties en andere voorkeuren beheren.
-          </p>
-        </div>
-      </div>
-    </div>
-  `,
-  styles: []
+  imports: [CommonModule, ReactiveFormsModule],
+  templateUrl: './settings.component.html',
 })
-export class SettingsComponent {}
+export class SettingsComponent implements OnInit {
+  passwordForm: FormGroup;
+  preferencesForm: FormGroup;
+  isChangingPassword = false;
+  isSavingPreferences = false;
+  passwordError = '';
+  passwordSuccess = '';
+  preferencesError = '';
+  preferencesSuccess = '';
+
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService
+  ) {
+    this.passwordForm = this.fb.group({
+      currentPassword: ['', [Validators.required]],
+      newPassword: ['', [Validators.required, Validators.minLength(8)]],
+      confirmPassword: ['', [Validators.required]]
+    }, {
+      validators: this.passwordMatchValidator
+    });
+
+    this.preferencesForm = this.fb.group({
+      emailNotifications: [true],
+      projectUpdates: [true],
+      darkMode: [false],
+      language: ['nl']
+    });
+  }
+
+  ngOnInit(): void {
+    this.loadPreferences();
+  }
+
+  private loadPreferences(): void {
+    // Load user preferences from localStorage or API
+    const savedPreferences = localStorage.getItem('user-preferences');
+    if (savedPreferences) {
+      const preferences = JSON.parse(savedPreferences);
+      this.preferencesForm.patchValue(preferences);
+    }
+  }
+
+  private passwordMatchValidator(group: FormGroup) {
+    const newPassword = group.get('newPassword')?.value;
+    const confirmPassword = group.get('confirmPassword')?.value;
+    return newPassword === confirmPassword ? null : { passwordMismatch: true };
+  }
+
+  onChangePassword(): void {
+    if (this.passwordForm.invalid) {
+      this.markFormGroupTouched(this.passwordForm);
+      return;
+    }
+
+    this.isChangingPassword = true;
+    this.passwordError = '';
+    this.passwordSuccess = '';
+
+    const { currentPassword, newPassword } = this.passwordForm.value;
+
+    // TODO: Implement password change API call
+    setTimeout(() => {
+      this.passwordSuccess = 'Wachtwoord succesvol gewijzigd!';
+      this.isChangingPassword = false;
+      this.passwordForm.reset();
+    }, 1000);
+  }
+
+  onSavePreferences(): void {
+    this.isSavingPreferences = true;
+    this.preferencesError = '';
+    this.preferencesSuccess = '';
+
+    const preferences = this.preferencesForm.value;
+
+    // Save to localStorage
+    localStorage.setItem('user-preferences', JSON.stringify(preferences));
+
+    // Apply dark mode immediately
+    if (preferences.darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+
+    setTimeout(() => {
+      this.preferencesSuccess = 'Voorkeuren succesvol opgeslagen!';
+      this.isSavingPreferences = false;
+    }, 500);
+  }
+
+  private markFormGroupTouched(formGroup: FormGroup): void {
+    Object.keys(formGroup.controls).forEach(key => {
+      const control = formGroup.get(key);
+      control?.markAsTouched();
+    });
+  }
+
+  getPasswordFieldError(fieldName: string): string {
+    const field = this.passwordForm.get(fieldName);
+    if (field?.errors && field.touched) {
+      if (field.errors['required']) return `${fieldName} is verplicht`;
+      if (field.errors['minlength']) return `Wachtwoord moet minimaal 8 karakters lang zijn`;
+    }
+
+    if (fieldName === 'confirmPassword' && this.passwordForm.errors?.['passwordMismatch'] && field?.touched) {
+      return 'Wachtwoorden komen niet overeen';
+    }
+
+    return '';
+  }
+
+  clearPasswordMessages(): void {
+    this.passwordError = '';
+    this.passwordSuccess = '';
+  }
+
+  clearPreferencesMessages(): void {
+    this.preferencesError = '';
+    this.preferencesSuccess = '';
+  }
+
+  onLogout(): void {
+    this.authService.logout();
+  }
+}
