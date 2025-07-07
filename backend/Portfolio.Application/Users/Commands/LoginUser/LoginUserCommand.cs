@@ -2,7 +2,6 @@
 using MediatR;
 using Portfolio.Application.Common;
 using Portfolio.Application.Common.Services;
-using Portfolio.Application.Users.Commands.Login;
 using Portfolio.Domain.Base.Interfaces;
 using Portfolio.Domain.Entities;
 

@@ -7,7 +7,7 @@ export type Theme = 'light' | 'dark';
   providedIn: 'root'
 })
 export class ThemeService {
-  private readonly THEME_KEY = 'lh_portfolio_theme';
+  private readonly THEME_KEY = 'devfolio_theme';
   private themeSubject = new BehaviorSubject<Theme>('light');
 
   public theme$ = this.themeSubject.asObservable();
@@ -53,7 +53,18 @@ export class ThemeService {
 
   private applyTheme(theme: Theme): void {
     const body = document.body;
+    const html = document.documentElement;
+
+    // Remove old theme classes
     body.classList.remove('light-theme', 'dark-theme');
+    html.classList.remove('dark');
+
+    // Add new theme classes
     body.classList.add(`${theme}-theme`);
+
+    // Add Tailwind CSS dark mode class
+    if (theme === 'dark') {
+      html.classList.add('dark');
+    }
   }
 }

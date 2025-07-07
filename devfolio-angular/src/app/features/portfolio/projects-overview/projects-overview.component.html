@@ -1,6 +1,6 @@
 <!-- DevFolio - Projects Overview -->
 <div class="projects-overview">
-  
+
   <!-- Header Section -->
   <section class="projects-header">
     <div class="container mx-auto px-6">
@@ -17,12 +17,12 @@
   <section class="filters-section">
     <div class="container mx-auto px-6">
       <div class="filters-container">
-        
+
         <!-- Search Input -->
         <mat-form-field appearance="outline" class="search-field">
           <mat-label>Zoeken in projecten...</mat-label>
-          <input matInput 
-                 type="text" 
+          <input matInput
+                 type="text"
                  [value]="(filter$ | async)?.searchTerm || ''"
                  (input)="onSearchChange($any($event.target).value)"
                  placeholder="Zoek op naam, beschrijving of technologie">
@@ -53,7 +53,7 @@
         </mat-form-field>
 
         <!-- Clear Filters Button -->
-        <button mat-stroked-button 
+        <button mat-stroked-button
                 class="clear-filters-btn"
                 (click)="clearFilters()">
           <mat-icon>clear</mat-icon>
@@ -66,7 +66,7 @@
   <!-- Projects Grid -->
   <section class="projects-grid-section">
     <div class="container mx-auto px-6">
-      
+
       <!-- Loading State -->
       <div *ngIf="isLoading$ | async" class="loading-container">
         <div class="loading-spinner">
@@ -77,14 +77,14 @@
 
       <!-- Projects Grid -->
       <div *ngIf="!(isLoading$ | async)" class="projects-grid">
-        <div *ngFor="let project of (filteredProjects$ | async); trackBy: trackByProjectId" 
+        <div *ngFor="let project of (filteredProjects$ | async); trackBy: trackByProjectId"
              class="project-card"
-             [class.highlighted]="project.isHighlighted">
-          
+             [class.highlighted]="project.isActive">
+
           <!-- Project Image -->
           <div class="project-image-container">
-            <img *ngIf="project.imageUrl; else defaultImage" 
-                 [src]="project.imageUrl" 
+            <img *ngIf="project.imageUrl; else defaultImage"
+                 [src]="project.imageUrl"
                  [alt]="project.title"
                  class="project-image">
             <ng-template #defaultImage>
@@ -92,15 +92,15 @@
                 <mat-icon>web</mat-icon>
               </div>
             </ng-template>
-            
+
             <!-- Status Badge -->
-            <div class="status-badge" 
+            <div class="status-badge"
                  [ngClass]="getStatusClass(project.status)">
               {{ getStatusLabel(project.status) }}
             </div>
 
             <!-- Highlighted Badge -->
-            <div *ngIf="project.isHighlighted" class="highlighted-badge">
+            <div *ngIf="project.isActive" class="highlighted-badge">
               <mat-icon>star</mat-icon>
               Featured
             </div>
@@ -125,7 +125,7 @@
             <!-- Technologies -->
             <div class="project-technologies">
               <mat-chip-listbox class="tech-chips">
-                <mat-chip-option *ngFor="let tech of project.techStack" 
+                <mat-chip-option *ngFor="let tech of project.techStack"
                                 disabled
                                 class="tech-chip">
                   {{ tech }}
@@ -135,17 +135,17 @@
 
             <!-- Project Actions -->
             <div class="project-actions">
-              <button *ngIf="project.demoUrl" 
-                      mat-raised-button 
+              <button *ngIf="project.repoUrl"
+                      mat-raised-button
                       color="primary"
                       class="action-btn primary"
                       (click)="openProject(project)">
                 <mat-icon>open_in_new</mat-icon>
                 Live Demo
               </button>
-              
-              <button *ngIf="project.repoUrl" 
-                      mat-stroked-button 
+
+              <button *ngIf="project.repoUrl"
+                      mat-stroked-button
                       class="action-btn secondary"
                       (click)="openGithub(project)">
                 <mat-icon>code</mat-icon>
@@ -157,7 +157,7 @@
       </div>
 
       <!-- No Results State -->
-      <div *ngIf="!(isLoading$ | async) && (filteredProjects$ | async)?.length === 0" 
+      <div *ngIf="!(isLoading$ | async) && (filteredProjects$ | async)?.length === 0"
            class="no-results">
         <div class="no-results-content">
           <mat-icon class="no-results-icon">search_off</mat-icon>

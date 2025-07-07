@@ -26,19 +26,19 @@ export const routes: Routes = [
   },
 
   // Auth routes
-  // {
-  //   path: 'auth',
-  //   loadChildren: () => import('./features/auth/auth.routes')
-  //     .then(m => m.AUTH_ROUTES)
-  // },
+  {
+    path: 'auth',
+    loadChildren: () => import('./features/auth/auth.routes')
+      .then(m => m.AUTH_ROUTES)
+  },
 
   // Admin dashboard routes (protected)
-  // {
-  //   path: 'admin',
-  //   canActivate: [AuthGuard, AdminGuard],
-  //   loadChildren: () => import('./features/admin/admin.routes')
-  //     .then(m => m.ADMIN_ROUTES)
-  // },
+  {
+    path: 'admin',
+    canActivate: [AuthGuard, AdminGuard],
+    loadChildren: () => import('./features/admin/admin.routes')
+      .then(m => m.ADMIN_ROUTES)
+  },
 
   // Fallback route
   {

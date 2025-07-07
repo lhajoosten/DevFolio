@@ -38,7 +38,7 @@ export class HttpHelperService {
   }
 
   private getStoredTokens(): any {
-    const tokenString = localStorage.getItem('lh_portfolio_tokens');
+    const tokenString = localStorage.getItem('devfolio_token');
     if (tokenString) {
       try {
         return JSON.parse(tokenString);

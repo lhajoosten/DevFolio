@@ -1,7 +1,7 @@
 ﻿using Portfolio.Application.Common.Interfaces;
 using Portfolio.Domain.Entities;
 
-namespace Portfolio.Application.Users.Commands.Login;
+namespace Portfolio.Application.Users.Commands.LoginUser;
 
 public class LoginResponseDto : IMapFrom<User>
 {

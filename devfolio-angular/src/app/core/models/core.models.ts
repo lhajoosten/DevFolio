@@ -10,9 +10,24 @@ export interface User {
   id: number;
   email: string;
   username: string;
-  role: UserRole;
-  createdAt: Date;
-  updatedAt: Date;
+  role: string;
+  isEmailConfirmed: boolean;
+  lastLoginAt?: Date;
+  profile?: UserProfileData;
+}
+
+export interface UserProfileData {
+  firstName: string;
+  lastName: string;
+  fullName: string;
+  bio?: string;
+  profilePictureUrl?: string;
+  location?: string;
+  dateOfBirth?: Date;
+  age?: number;
+  websiteUrl?: string;
+  linkedInUrl?: string;
+  gitHubUrl?: string;
 }
 
 export interface UserProfile {
@@ -34,18 +49,37 @@ export interface Project {
   id: number;
   title: string;
   description: string;
-  shortDescription: string;
-  techStack: string[];
   repoUrl: string;
-  demoUrl?: string;
+  techStack: string[];
   imageUrl?: string;
-  status: ProjectStatus;
   startDate: Date;
   endDate?: Date;
-  isPublic: boolean;
-  sortOrder: number;
-  createdAt: Date;
-  updatedAt: Date;
+  status: ProjectStatus;
+  isCompleted: boolean;
+  isActive?: boolean;
+  duration?: string;
+  durationInDays: number;
+}
+
+export interface CreateProjectDto {
+  title: string;
+  description: string;
+  repoUrl: string;
+  techStack: string[];
+  imageUrl?: string;
+  startDate?: Date;
+  endDate?: Date;
+}
+
+export interface UpdateProjectDto {
+  id: number;
+  title: string;
+  description: string;
+  repoUrl: string;
+  techStack: string[];
+  imageUrl?: string;
+  startDate: Date;
+  endDate?: Date;
 }
 
 export enum UserRole {
@@ -55,7 +89,7 @@ export enum UserRole {
 
 export enum ProjectStatus {
   Planned = 'Planned',
-  InProgress = 'InProgress', 
+  InProgress = 'InProgress',
   Completed = 'Completed',
   OnHold = 'OnHold'
 }
@@ -67,7 +101,7 @@ export interface AuthTokens {
 }
 
 export interface LoginRequest {
-  email: string;
+  emailOrUsername: string;
   password: string;
 }
 
@@ -76,4 +110,16 @@ export interface RegisterRequest {
   username: string;
   password: string;
   confirmPassword: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface PaginatedResponse<T> {
+  data: T[];
+  currentPage: number;
+  totalPages: number;
+  totalCount: number;
+  pageSize: number;
+  hasNext: boolean;
+  hasPrevious: boolean;
 }

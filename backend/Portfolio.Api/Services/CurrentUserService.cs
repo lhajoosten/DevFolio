@@ -6,10 +6,12 @@ namespace Portfolio.Api.Services
     public class CurrentUserService : ICurrentUserService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ILogger<CurrentUserService> _logger;
 
-        public CurrentUserService(IHttpContextAccessor httpContextAccessor)
+        public CurrentUserService(IHttpContextAccessor httpContextAccessor, ILogger<CurrentUserService> logger)
         {
             _httpContextAccessor = httpContextAccessor;
+            _logger = logger;
         }
 
         public int? UserId
@@ -55,7 +57,9 @@ namespace Portfolio.Api.Services
         {
             get
             {
-                return _httpContextAccessor.HttpContext?.User?.Identity?.IsAuthenticated ?? false;
+                var isAuth = _httpContextAccessor.HttpContext?.User?.Identity?.IsAuthenticated ?? false;
+                _logger.LogDebug("CurrentUserService.IsAuthenticated: {IsAuthenticated}", isAuth);
+                return isAuth;
             }
         }
 
