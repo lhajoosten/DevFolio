@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { ThemeService } from '../../../core/services/theme.service';
+import { CurrentUser } from '../../../core';
 
 @Component({
   selector: 'app-admin-layout',
@@ -18,7 +19,7 @@ export class AdminLayoutComponent implements OnInit {
 
   protected showUserMenu = false;
   protected showMobileMenu = false;
-  protected currentUser: unknown = null;
+  protected currentUser: CurrentUser | null = null;
 
   public ngOnInit(): void {
     // Get current user info
